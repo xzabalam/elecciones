@@ -1,0 +1,29 @@
+version: '3'
+services:
+  redis:
+    container_name: redis
+    image: 'redis'
+    hostname: redis
+    ports:
+      - "6379:6379"
+    deploy:
+      resources:
+        limits:
+          cpus: 1
+          memory: 256M
+        reservations:
+          cpus: 1
+          memory: 128M
+    networks:
+      - ${GLOBAL_NETWORK:-redis}
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
+    networks:
+      - ${GLOBAL_NETWORK:-redis-commander}
