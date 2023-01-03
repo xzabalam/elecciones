@@ -1,3 +1,4 @@
+import 'package:elecciones_app_movil/businness/providers/ubicacion/ubicacion_provider.dart';
 import 'package:elecciones_app_movil/client/screens/estadisticas/estadisticas_screen.dart';
 import 'package:elecciones_app_movil/client/screens/registro_votos/registro_votos_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,13 +22,14 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
       ),
     ),
-    RegistroVotos(),
+    const RegistroVotosWidget(),
     EstadisticasPage(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      ref.read(ubicacionProvider.notifier).resetState();
     });
   }
 
@@ -40,6 +42,8 @@ class _HomePageState extends ConsumerState<HomePage> {
       ),
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
+        iconSize: 20,
+        elevation: 16,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

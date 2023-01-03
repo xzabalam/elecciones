@@ -17,23 +17,28 @@ class ParroquiaDropdownButtonWidget extends ConsumerWidget {
 
     return parroquiaNotifier.when(
         data: (parroquias) {
-          return Center(
-            child: DropdownButton<Parroquia>(
-              isExpanded: true,
-              value: ubicacionNotifier.parroquiaSeleccionada,
-              hint: const Text('Seleccione una parroquia.'),
-              onChanged: (parroquia) {
-                ref
-                    .read(ubicacionProvider.notifier)
-                    .changeParroquiaSeleccionadaSatate(parroquia!);
-              },
-              items: parroquias
-                  .map((canton) => DropdownMenuItem(
-                        value: canton,
-                        child: Text(canton.nombre),
-                      ))
-                  .toList(),
+          return DropdownButton<Parroquia>(
+            itemHeight: null,
+            isExpanded: true,
+            elevation: 16,
+            style: TextStyle(color: Colors.black, fontSize: 14),
+            underline: Container(
+              height: 1,
+              color: Colors.blue,
             ),
+            value: ubicacionNotifier.parroquiaSeleccionada,
+            hint: const Text('Seleccione una parroquia.'),
+            onChanged: (parroquia) {
+              ref
+                  .read(ubicacionProvider.notifier)
+                  .changeParroquiaSeleccionadaSatate(parroquia!);
+            },
+            items: parroquias
+                .map((canton) => DropdownMenuItem(
+                      value: canton,
+                      child: Text(canton.nombre),
+                    ))
+                .toList(),
           );
         },
         error: (error, stack) => Text('Error: $error'),

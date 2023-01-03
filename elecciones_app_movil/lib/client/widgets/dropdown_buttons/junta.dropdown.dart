@@ -17,24 +17,29 @@ class JuntaDropdownButtonWidget extends ConsumerWidget {
 
     return juntaNotifier.when(
         data: (juntas) {
-          return Center(
-            child: DropdownButton<Junta>(
-              isExpanded: true,
-              value: ubicacionNotifier.juntaSeleccionada,
-              hint: const Text('Seleccione una junta.'),
-              onChanged: (junta) {
-                ref
-                    .read(ubicacionProvider.notifier)
-                    .changeJuntaSeleccionadaSatate(junta!);
-              },
-              items: juntas
-                  .map((junta) => DropdownMenuItem(
-                        value: junta,
-                        child: Text(
-                            ' ${junta.numero.toString()} - ${junta.sexo!.nombre}'),
-                      ))
-                  .toList(),
+          return DropdownButton<Junta>(
+            itemHeight: null,
+            isExpanded: true,
+            elevation: 16,
+            style: TextStyle(color: Colors.black, fontSize: 14),
+            underline: Container(
+              height: 1,
+              color: Colors.blue,
             ),
+            value: ubicacionNotifier.juntaSeleccionada,
+            hint: const Text('Seleccione una junta.'),
+            onChanged: (junta) {
+              ref
+                  .read(ubicacionProvider.notifier)
+                  .changeJuntaSeleccionadaSatate(junta!);
+            },
+            items: juntas
+                .map((junta) => DropdownMenuItem(
+                      value: junta,
+                      child: Text(
+                          ' ${junta.numero.toString()} - ${junta.sexo!.nombre}'),
+                    ))
+                .toList(),
           );
         },
         error: (error, stack) => Text('Error: $error'),

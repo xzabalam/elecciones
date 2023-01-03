@@ -17,23 +17,28 @@ class CantonDropdownButtonWidget extends ConsumerWidget {
 
     return cantonNotifier.when(
         data: (cantones) {
-          return Center(
-            child: DropdownButton<Canton>(
-              isExpanded: true,
-              value: ubicacionNotifier.cantonSeleccionado,
-              hint: const Text('Seleccione un cantón.'),
-              onChanged: (canton) {
-                ref
-                    .read(ubicacionProvider.notifier)
-                    .changeCantonSeleccionadoSatate(canton!);
-              },
-              items: cantones
-                  .map((canton) => DropdownMenuItem(
-                        value: canton,
-                        child: Text(canton.nombre),
-                      ))
-                  .toList(),
+          return DropdownButton<Canton>(
+            itemHeight: null,
+            isExpanded: true,
+            elevation: 16,
+            style: TextStyle(color: Colors.black, fontSize: 14),
+            underline: Container(
+              height: 1,
+              color: Colors.blue,
             ),
+            value: ubicacionNotifier.cantonSeleccionado,
+            hint: const Text('Seleccione un cantón.'),
+            onChanged: (canton) {
+              ref
+                  .read(ubicacionProvider.notifier)
+                  .changeCantonSeleccionadoSatate(canton!);
+            },
+            items: cantones
+                .map((canton) => DropdownMenuItem(
+                      value: canton,
+                      child: Text(canton.nombre),
+                    ))
+                .toList(),
           );
         },
         error: (error, stack) => Text('Error: $error'),

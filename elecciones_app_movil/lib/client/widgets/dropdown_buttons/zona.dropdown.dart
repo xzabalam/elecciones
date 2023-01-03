@@ -17,23 +17,28 @@ class ZonaDropdownButtonWidget extends ConsumerWidget {
 
     return zonaNotifier.when(
         data: (zonas) {
-          return Center(
-            child: DropdownButton<Zona>(
-              isExpanded: true,
-              value: ubicacionNotifier.zonaSeleccionada,
-              hint: const Text('Seleccione una zona.'),
-              onChanged: (zona) {
-                ref
-                    .read(ubicacionProvider.notifier)
-                    .changeZonaSeleccionadaSatate(zona!);
-              },
-              items: zonas
-                  .map((zona) => DropdownMenuItem(
-                        value: zona,
-                        child: Text(zona.nombre),
-                      ))
-                  .toList(),
+          return DropdownButton<Zona>(
+            itemHeight: null,
+            isExpanded: true,
+            elevation: 16,
+            style: TextStyle(color: Colors.black, fontSize: 14),
+            underline: Container(
+              height: 1,
+              color: Colors.blue,
             ),
+            value: ubicacionNotifier.zonaSeleccionada,
+            hint: const Text('Seleccione una zona.'),
+            onChanged: (zona) {
+              ref
+                  .read(ubicacionProvider.notifier)
+                  .changeZonaSeleccionadaSatate(zona!);
+            },
+            items: zonas
+                .map((zona) => DropdownMenuItem(
+                      value: zona,
+                      child: Text(zona.nombre),
+                    ))
+                .toList(),
           );
         },
         error: (error, stack) => Text('Error: $error'),

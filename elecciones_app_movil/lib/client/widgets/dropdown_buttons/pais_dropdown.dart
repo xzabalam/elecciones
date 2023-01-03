@@ -16,24 +16,31 @@ class PaisDropdownButtonWidget extends ConsumerWidget {
 
     return paisNotifier.when(
         data: (paises) {
-          return Center(
-            child: DropdownButton<Pais>(
-              isExpanded: true,
-              value: ubicacionNotifier.paisSeleccionado,
-              hint: const Text('Seleccione un país.'),
-              elevation: 16,
-              onChanged: (pais) {
-                ref
-                    .read(ubicacionProvider.notifier)
-                    .changePaisSeleccionadoSatate(pais!);
-              },
-              items: paises
-                  .map((pais) => DropdownMenuItem(
-                        value: pais,
-                        child: Text(pais.nombre),
-                      ))
-                  .toList(),
+          return DropdownButton<Pais>(
+            itemHeight: null,
+            isExpanded: true,
+            elevation: 16,
+            style: TextStyle(color: Colors.black, fontSize: 14),
+            underline: Container(
+              height: 1,
+              color: Colors.blue,
             ),
+            value: ubicacionNotifier.paisSeleccionado,
+            hint: const Text('Seleccione un país.'),
+            onChanged: (pais) {
+              ref
+                  .read(ubicacionProvider.notifier)
+                  .changePaisSeleccionadoSatate(pais!);
+            },
+            items: paises
+                .map((pais) => DropdownMenuItem(
+                      value: pais,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Text(pais.nombre),
+                      ),
+                    ))
+                .toList(),
           );
         },
         error: (error, stack) => Text('Error: $error'),

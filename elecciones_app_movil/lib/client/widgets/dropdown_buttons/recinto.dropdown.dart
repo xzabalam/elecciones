@@ -17,23 +17,31 @@ class RecintoDropdownButtonWidget extends ConsumerWidget {
 
     return recintoNotifier.when(
         data: (recintos) {
-          return Center(
-            child: DropdownButton<Recinto>(
-              isExpanded: true,
-              value: ubicacionNotifier.recintoSeleccionado,
-              hint: const Text('Seleccione un recinto.'),
-              onChanged: (recinto) {
-                ref
-                    .read(ubicacionProvider.notifier)
-                    .changeRecintoSeleccionadoSatate(recinto!);
-              },
-              items: recintos
-                  .map((recinto) => DropdownMenuItem(
-                        value: recinto,
-                        child: Text(recinto.nombre),
-                      ))
-                  .toList(),
+          return DropdownButton<Recinto>(
+            itemHeight: null,
+            isExpanded: true,
+            elevation: 16,
+            style: const TextStyle(color: Colors.black, fontSize: 14),
+            underline: Container(
+              height: 1,
+              color: Colors.blue,
             ),
+            value: ubicacionNotifier.recintoSeleccionado,
+            hint: const Text('Seleccione un recinto.'),
+            onChanged: (recinto) {
+              ref
+                  .read(ubicacionProvider.notifier)
+                  .changeRecintoSeleccionadoSatate(recinto!);
+            },
+            items: recintos
+                .map((recinto) => DropdownMenuItem(
+                      value: recinto,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                        child: Text(recinto.nombre),
+                      ),
+                    ))
+                .toList(),
           );
         },
         error: (error, stack) => Text('Error: $error'),

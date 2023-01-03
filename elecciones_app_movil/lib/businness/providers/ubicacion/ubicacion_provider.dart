@@ -6,6 +6,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 class UbicacionNotifier extends StateNotifier<UbicacionModel> {
   UbicacionNotifier() : super(UbicacionModel());
 
+  void resetState() {
+    state = UbicacionModel();
+  }
+
   void changePaisSeleccionadoSatate(Pais pais) {
     state = UbicacionModel(paisSeleccionado: pais);
   }
