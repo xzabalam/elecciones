@@ -1,5 +1,7 @@
+import 'package:elecciones_app_movil/businness/providers/candidatos/acta_dignidad_provider.dart';
 import 'package:elecciones_app_movil/businness/providers/ubicacion/junta_provider.dart';
 import 'package:elecciones_app_movil/businness/providers/ubicacion/ubicacion_provider.dart';
+import 'package:elecciones_app_movil/client/widgets/commons/circular_progress_indicator_widget.dart';
 import 'package:elecciones_app_movil/data/model/ubicacion/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,19 +34,21 @@ class JuntaDropdownButtonWidget extends ConsumerWidget {
               ref
                   .read(ubicacionProvider.notifier)
                   .changeJuntaSeleccionadaSatate(junta!);
+
+              // Reseteamos el estado de la pesta;a 3 "Candidatos"
+              ref.read(actaDignidadProvider.notifier).resetState();
             },
             items: juntas
-                .map((junta) => DropdownMenuItem(
-                      value: junta,
-                      child: Text(
-                          ' ${junta.numero.toString()} - ${junta.sexo!.nombre}'),
-                    ))
+                .map((junta) =>
+                DropdownMenuItem(
+                  value: junta,
+                  child: Text(
+                      ' ${junta.numero.toString()} - ${junta.sexo!.nombre}'),
+                ))
                 .toList(),
           );
         },
         error: (error, stack) => Text('Error: $error'),
-        loading: () => const Center(
-              child: CircularProgressIndicator.adaptive(),
-            ));
+        loading: () => const CircularProgessIndicatorCustomWidget());
   }
 }

@@ -22,11 +22,8 @@ class FirstStepUbicacionWidget extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Dropdown para pais
-                  const PaisDropdownButtonWidget(),
                   // Dropdown para provincia
-                  if (ubicacionNotifier.paisSeleccionado != null)
-                    const ProvinciaDropdownButtonWidget(),
+                  const ProvinciaDropdownButtonWidget(),
                   // Dropdown para canton
                   if (ubicacionNotifier.provinciaSeleccionada != null)
                     const CantonDropdownButtonWidget(),

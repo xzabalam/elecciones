@@ -6,15 +6,15 @@ import com.eleccciones.cliente.data.entities.ubicacion.Junta;
 import com.eleccciones.cliente.data.entities.ubicacion.Recinto;
 import com.eleccciones.cliente.data.repositories.ubicacion.JuntaRepository;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 public class JuntaService {
     private final RecintoService recintoService;
     private final JuntaRepository juntaRepository;
@@ -26,7 +26,7 @@ public class JuntaService {
 
     @Secured({"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})
     @Cacheable(value = "JUNTA", key = "#idJunta")
-    public Junta getById(Integer idJunta) {
+    public Junta findById(Integer idJunta) {
         Optional<Junta> junta = juntaRepository.findById(idJunta);
 
         if (junta.isEmpty()) {

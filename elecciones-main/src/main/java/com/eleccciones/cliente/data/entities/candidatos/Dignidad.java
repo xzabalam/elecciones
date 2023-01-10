@@ -13,15 +13,16 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class Dignidad extends AbstractNamed {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_proceso", referencedColumnName = "id")
     private Proceso proceso;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_tipo_grupo", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "id_tipo_grupo", referencedColumnName = "id")
     private TipoGrupo tipoGrupo;
 
     @NotNull
     @Column(name = "numero")
     private Integer numero;
+
 }

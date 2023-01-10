@@ -1,5 +1,6 @@
 import 'package:elecciones_app_movil/businness/providers/ubicacion/canton_provider.dart';
 import 'package:elecciones_app_movil/businness/providers/ubicacion/ubicacion_provider.dart';
+import 'package:elecciones_app_movil/client/widgets/commons/circular_progress_indicator_widget.dart';
 import 'package:elecciones_app_movil/data/model/ubicacion/canton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,8 +43,6 @@ class CantonDropdownButtonWidget extends ConsumerWidget {
           );
         },
         error: (error, stack) => Text('Error: $error'),
-        loading: () => const Center(
-              child: CircularProgressIndicator.adaptive(),
-            ));
+        loading: () => const CircularProgessIndicatorCustomWidget());
   }
 }

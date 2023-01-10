@@ -28,6 +28,7 @@ import java.util.Optional;
  */
 @Slf4j
 @Service
+@Transactional(readOnly = true)
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;

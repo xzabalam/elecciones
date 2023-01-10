@@ -21,10 +21,7 @@ class EleccionesApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       initialRoute: '/',
-      routes: {
-        '/': (context) => LoginPage(),
-        '/home': (context) => HomePage()
-      },
+      routes: {'/': (context) => LoginPage(), '/home': (context) => HomePage()},
     );
   }
 }

@@ -68,6 +68,6 @@ class UbicacionNotifier extends StateNotifier<UbicacionModel> {
 
 @riverpod
 final ubicacionProvider =
-    StateNotifierProvider<UbicacionNotifier, UbicacionModel>((ref) {
+StateNotifierProvider<UbicacionNotifier, UbicacionModel>((ref) {
   return UbicacionNotifier();
 });

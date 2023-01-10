@@ -1,6 +1,7 @@
 package com.eleccciones.cliente.data.entities.candidatos;
 
 import com.eleccciones.cliente.data.entities.core.impl.AbstractNamed;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
@@ -15,13 +16,15 @@ import javax.validation.constraints.NotNull;
 public class Candidato extends AbstractNamed {
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_grupo_candidato", referencedColumnName = "id")
+    @JsonIgnore
     private GrupoCandidato grupoCandidato;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_entidad", referencedColumnName = "id")
+    @JsonIgnore
     private Entidad entidad;
 
     @Column(name = "tipo")

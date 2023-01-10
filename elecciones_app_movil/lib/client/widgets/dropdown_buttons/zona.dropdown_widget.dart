@@ -1,5 +1,6 @@
 import 'package:elecciones_app_movil/businness/providers/ubicacion/ubicacion_provider.dart';
 import 'package:elecciones_app_movil/businness/providers/ubicacion/zona_provider.dart';
+import 'package:elecciones_app_movil/client/widgets/commons/circular_progress_indicator_widget.dart';
 import 'package:elecciones_app_movil/data/model/ubicacion/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,14 +37,12 @@ class ZonaDropdownButtonWidget extends ConsumerWidget {
             items: zonas
                 .map((zona) => DropdownMenuItem(
                       value: zona,
-                      child: Text(zona.nombre),
+                      child: Text(zona.nombre == '' ? 'SIN ZONA' : zona.nombre),
                     ))
                 .toList(),
           );
         },
         error: (error, stack) => Text('Error: $error'),
-        loading: () => const Center(
-              child: CircularProgressIndicator.adaptive(),
-            ));
+        loading: () => const CircularProgessIndicatorCustomWidget());
   }
 }

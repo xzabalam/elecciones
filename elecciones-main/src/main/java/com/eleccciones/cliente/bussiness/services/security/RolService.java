@@ -20,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
  *
  */
 @Service
+@Transactional(readOnly = true)
 public class RolService {
 
 	@Autowired

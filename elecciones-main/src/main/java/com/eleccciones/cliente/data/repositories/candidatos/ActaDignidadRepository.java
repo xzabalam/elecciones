@@ -11,12 +11,13 @@ import java.util.List;
 @Repository
 public interface ActaDignidadRepository extends JpaRepository<ActaDignidad, Integer> {
 
-    @Query("select d from ActaDignidad d " +
-            "join fetch d.dignidadUbicacion du " +
+    @Query("select distinct ad from ActaDignidad ad " +
+            "join fetch ad.junta j " +
+            "join fetch ad.dignidadUbicacion du " +
             "join fetch du.tipoUbicacion tu " +
-            "join fetch du.dignidad dignidad " +
-            "join fetch dignidad.proceso " +
-            "join fetch  dignidad.tipoGrupo " +
-            "where d.junta.id = :idJunta and d.estado = :estado")
+            "join fetch du.dignidad d " +
+            "join fetch d.tipoGrupo tg " +
+            "join fetch d.proceso p " +
+            "where j.id = :idJunta and ad.estado = :estado")
     List<ActaDignidad> findAllByJuntaAndEstado(@Param("idJunta") Integer idJunta, @Param("estado") String estado);
 }

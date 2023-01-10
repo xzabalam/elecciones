@@ -15,7 +15,7 @@ class LoginPage extends ConsumerWidget {
     final passwordController = TextEditingController();
 
     return Scaffold(
-      appBar: AppBar(title: Text('Login')),
+      appBar: AppBar(title: const Text('Iniciar sesión')),
       body: Padding(
         padding: const EdgeInsets.all(40.0),
         child: Form(
@@ -48,6 +48,7 @@ class LoginPage extends ConsumerWidget {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
+                  ref.read(authTokenProvider.notifier).resetState();
                   if (formKey.currentState!.validate()) {
                     final authResponse = ref.read(authFutureProvider(AuthModel(
                             username: usernameController.text,
@@ -60,12 +61,15 @@ class LoginPage extends ConsumerWidget {
                           .changeAuthTokenSatate(value);
                       Navigator.pushNamed(context, '/home');
                     }).onError((error, stackTrace) {
-                      const Text('Nombre de usuario y contraseña incorrectos');
+                      ref.read(authTokenProvider.notifier).changeAuthErrorState(
+                          'Nombre de usuario y contraseña incorrectos');
                     });
                   }
                 },
-                child: Text('Login'),
+                child: const Text('Iniciar sesión'),
               ),
+              if (ref.read(authTokenProvider).error != null)
+                Text(ref.read(authTokenProvider).error!)
             ],
           ),
         ),

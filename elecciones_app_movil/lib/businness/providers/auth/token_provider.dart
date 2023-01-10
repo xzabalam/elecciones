@@ -7,9 +7,17 @@ class AuthTokenNotifier extends StateNotifier<AuthTokenModel> {
   void changeAuthTokenSatate(String token) {
     state = state.copyWith(basicToken: token);
   }
+
+  void changeAuthErrorState(String error) {
+    state = state.copyWith(error: error);
+  }
+
+  void resetState() {
+    state = AuthTokenModel(basicToken: '');
+  }
 }
 
 final authTokenProvider =
-    StateNotifierProvider<AuthTokenNotifier, AuthTokenModel>((ref) {
+StateNotifierProvider<AuthTokenNotifier, AuthTokenModel>((ref) {
   return AuthTokenNotifier();
 });

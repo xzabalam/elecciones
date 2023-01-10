@@ -22,6 +22,7 @@ class _RegistroVotosWidgetState extends ConsumerState<RegistroVotosWidget> {
     return Stepper(
       type: StepperType.horizontal,
       physics: const ScrollPhysics(),
+      elevation: 2,
       currentStep: _currentStep,
       onStepTapped: (step) => tapped(step),
       controlsBuilder: (context, _) {
@@ -33,8 +34,8 @@ class _RegistroVotosWidgetState extends ConsumerState<RegistroVotosWidget> {
                 if (ubicacionNotifier.juntaSeleccionada != null) {
                   continued();
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: const Text(
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text(
                           "Primero debe seleccionar una ubicación completa.")));
                 }
               },

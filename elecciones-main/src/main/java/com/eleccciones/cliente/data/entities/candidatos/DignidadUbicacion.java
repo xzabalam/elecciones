@@ -14,12 +14,12 @@ import javax.validation.constraints.NotNull;
 public class DignidadUbicacion extends AbstractEntity {
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_dignidad", referencedColumnName = "id")
     private Dignidad dignidad;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_tipo_ubicacion", referencedColumnName = "id")
     private TipoUbicacion tipoUbicacion;
 

@@ -3,12 +3,16 @@ package com.eleccciones.cliente.data.entities.candidatos;
 import com.eleccciones.cliente.data.entities.core.impl.AbstractEntity;
 import com.eleccciones.cliente.data.entities.ubicacion.Junta;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Table(name = "acta_dignidad")
@@ -23,7 +27,7 @@ public class ActaDignidad extends AbstractEntity {
     private Junta junta;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_dignidad_ubicacion", referencedColumnName = "id")
     private DignidadUbicacion dignidadUbicacion;
 
@@ -31,7 +35,7 @@ public class ActaDignidad extends AbstractEntity {
     private String identificacion;
 
     @Lob
-    @Type(type="org.hibernate.type.ImageType")
+    @Type(type = "org.hibernate.type.ImageType")
     @Column(name = "acta_archivo")
     private byte[] actaArchivo;
 

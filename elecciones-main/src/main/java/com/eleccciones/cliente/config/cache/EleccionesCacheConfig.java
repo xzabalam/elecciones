@@ -63,6 +63,7 @@ public class EleccionesCacheConfig {
         config.put(CandidatosCacheNameEnum.ENTIDAD.name(), new CacheConfig());
         config.put(CandidatosCacheNameEnum.TIPO_IDENTIFICACION.name(), new CacheConfig());
         config.put(CandidatosCacheNameEnum.SEXO.name(), new CacheConfig());
+        config.put(CandidatosCacheNameEnum.VOTO.name(), new CacheConfig());
 
         return new RedissonSpringCacheManager(redissonClient, config);
     }
