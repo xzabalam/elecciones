@@ -145,19 +145,36 @@ class _CandidatosStatefullWidgetState
                     setState(() {
                       seGuardoVotoLista[posicion] = true;
                     });
-                    print(seGuardoVotoLista);
                   },
                 ),
                 const SizedBox(height: 3),
                 if (seGuardoVotoLista[posicion])
-                  BotonGuardar(
-                      votoSeleccionadoModel: VotoSeleccionadoModel(
-                          cantidadVoto:
-                              int.parse(textControllers[posicion].text),
-                          idJunta:
-                              ref.read(ubicacionProvider).juntaSeleccionada!.id,
-                          idActaDignidad: voto.actaDignidad!.id,
-                          idVoto: voto.id)),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 5),
+                      fixedSize: const Size(90, 20),
+                    ),
+                    onPressed: () {
+                      VotoSeleccionadoModel votoSeleccionadoModel =
+                          VotoSeleccionadoModel(
+                              cantidadVoto:
+                                  int.parse(textControllers[posicion].text),
+                              idJunta: ref
+                                  .read(ubicacionProvider)
+                                  .juntaSeleccionada!
+                                  .id,
+                              idActaDignidad: voto.actaDignidad!.id,
+                              idVoto: voto.id);
+
+                      ref
+                          .read(cambiarCantidadVotoFutureProvider
+                              .call(votoSeleccionadoModel))
+                          .whenData((value) => {print(value)});
+                    },
+                    child: const Text('Guardar',
+                        style: TextStyle(fontSize: 10, color: Colors.white)),
+                  )
               ]),
         ),
       ),
