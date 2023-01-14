@@ -1,7 +1,6 @@
 import 'package:elecciones_app_movil/businness/providers/model/ubicacion/ubicacion_model.dart';
 import 'package:elecciones_app_movil/data/model/ubicacion/index.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 class UbicacionNotifier extends StateNotifier<UbicacionModel> {
   UbicacionNotifier() : super(UbicacionModel());
@@ -66,8 +65,7 @@ class UbicacionNotifier extends StateNotifier<UbicacionModel> {
   }
 }
 
-@riverpod
 final ubicacionProvider =
-StateNotifierProvider<UbicacionNotifier, UbicacionModel>((ref) {
+    StateNotifierProvider<UbicacionNotifier, UbicacionModel>((ref) {
   return UbicacionNotifier();
 });

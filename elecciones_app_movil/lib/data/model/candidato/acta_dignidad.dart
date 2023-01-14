@@ -36,8 +36,7 @@ class ActaDignidad {
 
   factory ActaDignidad.fromMap(Map<String, dynamic> json) => ActaDignidad(
         id: json["id"],
-        dignidadUbicacion:
-            DignidadUbicacion?.fromMap(json["dignidadUbicacion"]),
+        dignidadUbicacion: DignidadUbicacion?.fromMap(json["dignidadUbicacion"]),
         identificacion: json["identificacion"],
         actaArchivo: json["actaArchivo"],
         actaNombre: json["actaNombre"],
@@ -52,4 +51,9 @@ class ActaDignidad {
         "actaNombre": actaNombre,
         "actaDescripcion": actaDescripcion,
       };
+
+  @override
+  String toString() {
+    return 'ActaDignidad{id: $id, dignidadUbicacion: $dignidadUbicacion, identificacion: $identificacion, actaArchivo: $actaArchivo, actaNombre: $actaNombre, actaDescripcion: $actaDescripcion}';
+  }
 }

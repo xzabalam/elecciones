@@ -20,12 +20,6 @@ class PaisDropdownButtonWidget extends ConsumerWidget {
           return DropdownButton<Pais>(
             itemHeight: null,
             isExpanded: true,
-            elevation: 16,
-            style: TextStyle(color: Colors.black, fontSize: 14),
-            underline: Container(
-              height: 1,
-              color: Colors.blue,
-            ),
             value: ubicacionNotifier.paisSeleccionado,
             hint: const Text('Seleccione un país.'),
             onChanged: (pais) {

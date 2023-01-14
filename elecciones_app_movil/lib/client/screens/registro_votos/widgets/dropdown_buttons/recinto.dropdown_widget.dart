@@ -21,12 +21,6 @@ class RecintoDropdownButtonWidget extends ConsumerWidget {
           return DropdownButton<Recinto>(
             itemHeight: null,
             isExpanded: true,
-            elevation: 16,
-            style: const TextStyle(color: Colors.black, fontSize: 14),
-            underline: Container(
-              height: 1,
-              color: Colors.blue,
-            ),
             value: ubicacionNotifier.recintoSeleccionado,
             hint: const Text('Seleccione un recinto.'),
             onChanged: (recinto) {

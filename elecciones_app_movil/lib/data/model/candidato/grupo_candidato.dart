@@ -45,8 +45,7 @@ class GrupoCandidato {
             ? []
             : json["candidatos"] == null
                 ? []
-                : List<Candidato?>.from(
-                    json["candidatos"]!.map((x) => Candidato.fromMap(x))),
+                : List<Candidato?>.from(json["candidatos"]!.map((x) => Candidato.fromMap(x))),
       );
 
   Map<String, dynamic> toMap() => {
@@ -61,4 +60,9 @@ class GrupoCandidato {
                 ? []
                 : List<dynamic>.from(candidatos!.map((x) => x!.toMap())),
       };
+
+  @override
+  String toString() {
+    return 'GrupoCandidato{id: $id, nombre: $nombre, movimiento: $movimiento, fotoArchivo: $fotoArchivo, fotoNombre: $fotoNombre, candidatos: $candidatos}';
+  }
 }

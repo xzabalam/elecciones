@@ -1,10 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:elecciones_app_movil/businness/providers/auth/token_provider.dart';
-import 'package:elecciones_app_movil/config/env/env.dart';
 import 'package:elecciones_app_movil/data/model/ubicacion/provincia.dart';
+import 'package:elecciones_app_movil/env/env.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-@riverpod
 final provinciaFutureProvider = FutureProvider.autoDispose
     .family<List<Provincia>, int>((ref, idPais) async {
   String token = ref.read(authTokenProvider).basicToken;

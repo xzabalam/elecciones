@@ -49,4 +49,9 @@ class Candidato {
         "fotoArchivo": fotoArchivo,
         "fotoNombre": fotoNombre,
       };
+
+  @override
+  String toString() {
+    return 'Candidato{id: $id, nombre: $nombre, tipo: $tipo, orden: $orden, fotoArchivo: $fotoArchivo, fotoNombre: $fotoNombre}';
+  }
 }

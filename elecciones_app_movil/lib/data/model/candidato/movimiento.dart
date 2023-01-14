@@ -49,4 +49,9 @@ class Movimiento {
         "fotoArchivo": fotoArchivo,
         "fotoNombre": fotoNombre,
       };
+
+  @override
+  String toString() {
+    return 'Movimiento{id: $id, nombre: $nombre, siglas: $siglas, numero: $numero, fotoArchivo: $fotoArchivo, fotoNombre: $fotoNombre}';
+  }
 }

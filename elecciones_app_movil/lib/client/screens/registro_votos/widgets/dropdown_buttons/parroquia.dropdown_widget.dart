@@ -21,12 +21,6 @@ class ParroquiaDropdownButtonWidget extends ConsumerWidget {
           return DropdownButton<Parroquia>(
             itemHeight: null,
             isExpanded: true,
-            elevation: 16,
-            style: TextStyle(color: Colors.black, fontSize: 14),
-            underline: Container(
-              height: 1,
-              color: Colors.blue,
-            ),
             value: ubicacionNotifier.parroquiaSeleccionada,
             hint: const Text('Seleccione una parroquia.'),
             onChanged: (parroquia) {

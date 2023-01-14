@@ -22,12 +22,6 @@ class JuntaDropdownButtonWidget extends ConsumerWidget {
           return DropdownButton<Junta>(
             itemHeight: null,
             isExpanded: true,
-            elevation: 16,
-            style: TextStyle(color: Colors.black, fontSize: 14),
-            underline: Container(
-              height: 1,
-              color: Colors.blue,
-            ),
             value: ubicacionNotifier.juntaSeleccionada,
             hint: const Text('Seleccione una junta.'),
             onChanged: (junta) {
@@ -39,12 +33,11 @@ class JuntaDropdownButtonWidget extends ConsumerWidget {
               ref.read(actaDignidadProvider.notifier).resetState();
             },
             items: juntas
-                .map((junta) =>
-                DropdownMenuItem(
-                  value: junta,
-                  child: Text(
-                      ' ${junta.numero.toString()} - ${junta.sexo!.nombre}'),
-                ))
+                .map((junta) => DropdownMenuItem(
+                      value: junta,
+                      child: Text(
+                          ' ${junta.numero.toString()} - ${junta.sexo!.nombre}'),
+                    ))
                 .toList(),
           );
         },

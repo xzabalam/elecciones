@@ -24,4 +24,9 @@ class Proceso extends AbstractEntity {
         "id": id,
         "nombre": nombre,
       };
+
+  @override
+  String toString() {
+    return 'Proceso{id: $id, nombre: $nombre}';
+  }
 }

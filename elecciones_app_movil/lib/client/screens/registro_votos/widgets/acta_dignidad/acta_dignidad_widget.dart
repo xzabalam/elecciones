@@ -14,17 +14,15 @@ class ActaDignidadWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ubicacionNotifier = ref.watch(ubicacionProvider);
-    final posicion =
-        ref.watch(actaDignidadProvider).posicionDignidadSeleccionada ?? -1;
-    final votosFutureProvider =
-        ref.watch(votoFutureProvider(ubicacionNotifier.juntaSeleccionada!));
+    final posicion = ref
+        .watch(actaDignidadProvider)
+        .posicionDignidadSeleccionada ?? -1;
+    final votosFutureProvider = ref.watch(votoFutureProvider(ubicacionNotifier.juntaSeleccionada!));
 
     return votosFutureProvider.when(
         data: (votos) {
-          List<DignidadUbicacion?> dignidadUbicaciones = votos
-              .map((voto) => voto.actaDignidad!.dignidadUbicacion)
-              .toSet()
-              .toList();
+          List<DignidadUbicacion?> dignidadUbicaciones =
+          votos.map((voto) => voto.actaDignidad!.dignidadUbicacion).toSet().toList();
 
           return ListView.builder(
               physics: const BouncingScrollPhysics(),
@@ -34,24 +32,26 @@ class ActaDignidadWidget extends ConsumerWidget {
               itemCount: dignidadUbicaciones.length,
               itemBuilder: (context, index) {
                 String? titulo = dignidadUbicaciones[index]!.dignidad.nombre;
-                String icono =
-                    dignidadUbicaciones[index]!.dignidad!.tipoGrupo!.nombre;
+                String icono = dignidadUbicaciones[index]!.dignidad!.tipoGrupo!.nombre;
                 return Card(
                   child: ListTile(
-                    tileColor: posicion == index ? Colors.blueGrey : null,
+                    tileColor: posicion == index ? Theme
+                        .of(context)
+                        .highlightColor : null,
                     leading: icono == 'INDIVIDUAL'
                         ? const Icon(Icons.person_2_outlined)
                         : const Icon(Icons.people_alt_outlined),
                     title: Text(titulo!, style: const TextStyle(fontSize: 16)),
                     onTap: () {
-                      ref
-                          .read(actaDignidadProvider.notifier)
-                          .changePosicionDignidadSeleccionadaState(index);
+                      var actaDignidadNotifierProvider = ref.read(actaDignidadProvider.notifier);
+                      actaDignidadNotifierProvider.changePosicionDignidadSeleccionadaState(index);
+                      actaDignidadNotifierProvider
+                          .changeDignidadUbicacionSeleccionadaState(dignidadUbicaciones[index]!);
 
-                      ref
-                          .read(actaDignidadProvider.notifier)
-                          .changeDignidadUbicacionSeleccionadaState(
-                              dignidadUbicaciones[index]!);
+                      ref.read(votoProvider.notifier).changeListadoVotosFiltradosPorDignidadState(
+                          votos.where((voto) => voto.actaDignidad!.dignidadUbicacion == dignidadUbicaciones[index]!)
+                              .toList());
+                      ref.read(votoProvider.notifier).resetVotosModificadosState();
                     },
                   ),
                 );

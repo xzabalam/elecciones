@@ -24,12 +24,6 @@ class ProvinciaDropdownButtonWidget extends ConsumerWidget {
                 DropdownButton<Provincia>(
                   itemHeight: null,
                   isExpanded: true,
-                  elevation: 16,
-                  style: TextStyle(color: Colors.black, fontSize: 14),
-                  underline: Container(
-                    height: 1,
-                    color: Colors.blue,
-                  ),
                   value: ubicacionNotifier.provinciaSeleccionada,
                   hint: const Text('Seleccione una provincia.'),
                   onChanged: (provincia) {
@@ -38,11 +32,10 @@ class ProvinciaDropdownButtonWidget extends ConsumerWidget {
                         .changeProvinciaSeleccionadaSatate(provincia!);
                   },
                   items: provincias
-                      .map((provincia) =>
-                      DropdownMenuItem(
-                        value: provincia,
-                        child: Text(provincia.nombre),
-                      ))
+                      .map((provincia) => DropdownMenuItem(
+                            value: provincia,
+                            child: Text(provincia.nombre),
+                          ))
                       .toList(),
                 )
               ]);

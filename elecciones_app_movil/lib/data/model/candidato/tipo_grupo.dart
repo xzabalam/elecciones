@@ -15,13 +15,21 @@ class TipoGrupo extends AbstractEntity {
         nombre: nombre ?? this.nombre,
       );
 
-  factory TipoGrupo.fromMap(Map<String, dynamic> json) => TipoGrupo(
+  factory TipoGrupo.fromMap(Map<String, dynamic> json) =>
+      TipoGrupo(
         id: json["id"],
         nombre: json["nombre"],
       );
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toMap() =>
+      {
         "id": id,
         "nombre": nombre,
       };
+
+  @override
+  String toString() {
+    return 'Proceso{id: $id, nombre: $nombre}';
+  }
+
 }

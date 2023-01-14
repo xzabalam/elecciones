@@ -36,4 +36,9 @@ class TipoUbicacion extends Equatable {
 
   @override
   List<Object?> get props => [id, nombre];
+
+  @override
+  String toString() {
+    return 'TipoUbicacion{id: $id, nombre: $nombre, tablaUbicacion: $tablaUbicacion}';
+  }
 }

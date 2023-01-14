@@ -1,5 +1,6 @@
+import 'package:elecciones_app_movil/businness/providers/candidatos/acta_dignidad_provider.dart';
 import 'package:elecciones_app_movil/businness/providers/ubicacion/ubicacion_provider.dart';
-import 'package:elecciones_app_movil/client/widgets/stepper/index_steps.dart';
+import 'package:elecciones_app_movil/client/screens/registro_votos/widgets/stepper/index_steps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,6 +19,7 @@ class _RegistroVotosWidgetState extends ConsumerState<RegistroVotosWidget> {
   @override
   Widget build(BuildContext context) {
     final ubicacionNotifier = ref.watch(ubicacionProvider);
+    final actaDignidadNotifier = ref.watch(actaDignidadProvider);
 
     return Stepper(
       type: StepperType.horizontal,
@@ -29,22 +31,42 @@ class _RegistroVotosWidgetState extends ConsumerState<RegistroVotosWidget> {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                if (ubicacionNotifier.juntaSeleccionada != null) {
-                  continued();
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text(
-                          "Primero debe seleccionar una ubicación completa.")));
-                }
-              },
-              child: const Text('Siguiente'),
-            ),
-            TextButton(
-              onPressed: cancel,
-              child: const Text('Anterior'),
-            ),
+            if (_currentStep >= 1)
+              ElevatedButton.icon(
+                onPressed: cancel,
+                icon: Icon(Icons.arrow_back_outlined),
+                label: const Text('Anterior'),
+              ),
+            if (_currentStep <= 1)
+              Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      // Si en la primera pestaña no se ha seleccionado la ubicación, se debe mostrar un mensaje de error.
+                      if (_currentStep == 0 &&
+                          ubicacionNotifier.juntaSeleccionada == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text(
+                                "Primero debe seleccionar una ubicación completa.")));
+                        return;
+                      }
+
+                      // Si en la segunda pestaña no se ha seleccionado una dignidad, se debe mostrar un mensaje de error.
+                      if (_currentStep == 1 &&
+                          actaDignidadNotifier.posicionDignidadSeleccionada ==
+                              null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text(
+                                    "Primero debe seleccionar una dignidad.")));
+                        return;
+                      }
+
+                      continued();
+                    },
+                    icon: Icon(Icons.arrow_back_outlined),
+                    label: const Text('Siguiente'),
+                  )),
           ],
         );
       },

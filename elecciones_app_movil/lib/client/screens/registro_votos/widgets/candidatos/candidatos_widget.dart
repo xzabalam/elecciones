@@ -1,222 +1,177 @@
 import 'package:elecciones_app_movil/businness/providers/candidatos/acta_dignidad_provider.dart';
 import 'package:elecciones_app_movil/businness/providers/candidatos/voto_provider.dart';
 import 'package:elecciones_app_movil/businness/providers/model/voto/voto_seleccionado_model.dart';
-import 'package:elecciones_app_movil/client/widgets/commons/circular_progress_indicator_widget.dart';
-import 'package:elecciones_app_movil/data/model/candidato/grupo_candidato.dart';
+import 'package:elecciones_app_movil/businness/providers/ubicacion/ubicacion_provider.dart';
+import 'package:elecciones_app_movil/client/screens/registro_votos/widgets/candidatos/widgets/escribir_texto_widget.dart';
 import 'package:elecciones_app_movil/data/model/candidato/voto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CandidatosStatefullWidget extends ConsumerStatefulWidget {
-  const CandidatosStatefullWidget({
+class CandidatoWidget extends ConsumerWidget {
+  const CandidatoWidget({
     Key? key,
   }) : super(key: key);
 
   @override
-  ConsumerState createState() => _CandidatosStatefullWidgetState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ScrollController _scrollController = ScrollController();
 
-class _CandidatosStatefullWidgetState
-    extends ConsumerState<CandidatosStatefullWidget> {
-  final ScrollController _scrollControllerListView = ScrollController();
-  final ScrollController _scrollController = ScrollController();
-  List<TextEditingController> textControllers = [];
-  List<bool> seGuardoVotoLista = [];
-
-  @override
-  void dispose() {
-    for (var controller in textControllers) {
-      controller.dispose();
-    }
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final votoNotifier = ref.watch(votoProvider);
     final dignidadNotifier = ref.watch(actaDignidadProvider);
+    final ubicacionNotifier = ref.watch(ubicacionProvider);
+    final votoNotifier = ref.watch(votoProvider);
 
-    List<Voto> votos = votoNotifier.votos!
-        .where((voto) =>
-            voto.actaDignidad!.dignidadUbicacion ==
-            dignidadNotifier.dignidadUbicacionSeleccionada)
-        .toList();
+    int idJunta = ubicacionNotifier.juntaSeleccionada!.id;
+    List<Voto> votos = votoNotifier.votosFiltradosPorDignidad!;
+
+    print('pagina candidatos $votos');
 
     return Column(
       children: [
         Text(dignidadNotifier.dignidadUbicacionSeleccionada!.dignidad!.nombre,
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         const SizedBox(height: 20),
-        movimientoListViewWidget(votos),
+        ListView.builder(
+            controller: _scrollController,
+            scrollDirection: Axis.vertical,
+            physics: const BouncingScrollPhysics(),
+            shrinkWrap: true,
+            padding: const EdgeInsets.all(5),
+            itemCount: votos.length,
+            itemBuilder: (context, index) {
+              String? titulo = votos[index]!.grupoCandidato!.movimiento!.nombre;
+              String? subtitulo = votos[index]!.grupoCandidato!.movimiento!.numero;
+              return Card(
+                  elevation: 1,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // -----------------------------------
+                      // Para registrar el numero de votos por el grupo de candidatos
+                      // -----------------------------------
+                      Container(
+                        color: Theme.of(context).colorScheme.inversePrimary,
+                        child: SizedBox(
+                          width: 110,
+                          height: 170,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text('VOTOS'),
+                                  const SizedBox(height: 20),
+                                  TextFormField(
+                                    controller: null,
+                                    textAlign: TextAlign.center,
+                                    decoration: const InputDecoration(counterText: '', contentPadding: EdgeInsets.zero),
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                                      FilteringTextInputFormatter.digitsOnly
+                                    ],
+                                    minLines: 1,
+                                    maxLength: 4,
+                                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                                    initialValue:
+                                        votos[index].cantidad == null ? '0' : votos[index].cantidad!.toString(),
+                                    onChanged: (text) {
+                                      if (text.isNotEmpty) {
+                                        ref.read(votoProvider.notifier).addVotoModificadoToState({
+                                          ...votoNotifier.votosModificados!,
+                                          ...{
+                                            votos[index].id!: VotoModificadoModel(
+                                                idVoto: votos[index].id!,
+                                                idActaDignidad: votos[index].actaDignidad!.id!,
+                                                idJunta: idJunta,
+                                                cantidadVoto: int.parse(text))
+                                          }
+                                        });
+                                      }
+                                    },
+                                  ),
+                                  const SizedBox(height: 3),
+                                ]),
+                          ),
+                        ),
+                      ),
+                      // -----------------------------------
+                      // Datos del movimiento y de la lista
+                      // -----------------------------------
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // N[umero de la lista
+                            if (titulo! != 'BLANCO' && titulo! != 'NULO')
+                              EscribirTextoWidget(texto: 'Lista ${subtitulo!}'),
+
+                            // Nombre del movimiento
+                            EscribirTextoWidget(texto: titulo!),
+
+                            // Listado de candidatos
+                            SizedBox(
+                              width: 210,
+                              height: 80,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Scrollbar(
+                                  controller: _scrollController,
+                                  thumbVisibility: true,
+                                  child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      physics: const BouncingScrollPhysics(),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: votos[index]!
+                                            .grupoCandidato!
+                                            .candidatos!
+                                            .where((candidato) =>
+                                                candidato!.nombre! != 'BLANCO' && candidato!.nombre! != 'NULO')
+                                            .map((candidato) {
+                                          return SizedBox(
+                                            width: 100,
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                const Icon(Icons.person_2_rounded, size: 20),
+                                                Padding(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                                                  child: Text(
+                                                      textAlign: TextAlign.center,
+                                                      candidato!.nombre!,
+                                                      style: const TextStyle(
+                                                        fontSize: 10,
+                                                      )),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }).toList(),
+                                      )),
+                                ),
+                              ),
+                            ),
+                          ])
+                    ],
+                  ));
+            }),
+        // -----------------------------------
+        // Boton para guardar los cambios en los votos
+        // -----------------------------------
+        ElevatedButton.icon(
+            onPressed: votoNotifier.votosModificados!.isEmpty
+                ? null
+                : () {
+                    print(votoNotifier.votosModificados!.length);
+                    print(votoNotifier.votosModificados!);
+                  },
+            icon: const Icon(Icons.save_outlined),
+            label: const Text('Guardar'))
       ],
     );
-  }
-
-  ListView movimientoListViewWidget(List<Voto> votos) {
-    List<GrupoCandidato> grupoCandidatos = votos.map((voto) {
-      seGuardoVotoLista.add(false);
-      textControllers
-          .add(TextEditingController(text: voto.cantidad.toString()));
-      return voto.grupoCandidato!;
-    }).toList();
-
-    return ListView.builder(
-        controller: _scrollControllerListView,
-        scrollDirection: Axis.vertical,
-        physics: const BouncingScrollPhysics(),
-        shrinkWrap: true,
-        padding: const EdgeInsets.all(5),
-        itemCount: grupoCandidatos.length,
-        itemBuilder: (context, index) {
-          String? titulo = grupoCandidatos[index]!.movimiento!.nombre;
-          String? subtitulo = grupoCandidatos[index]!.movimiento!.numero;
-          // Crear una lista de widgets
-          List<Widget> candidatosWidget =
-              generarCandidatosWidgets(grupoCandidatos, index);
-          return Card(
-              elevation: 1,
-              shadowColor: Colors.black87,
-              color: Colors.white70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Para registrar el numero de votos por el grupo de candidatos
-                  registroNumeroVotos(votos![index], index),
-                  Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // Titulo de la tarjeta
-                        tituloTarjeta('Lista ${subtitulo!}'),
-                        tituloTarjeta(titulo!),
-                        // Listado de candidatos
-                        candidatosScrollViewWidget(candidatosWidget)
-                      ])
-                ],
-              ));
-        });
-  }
-
-  SizedBox tituloTarjeta(String titulo) {
-    return SizedBox(
-      width: 216,
-      child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Text(
-            textAlign: TextAlign.center,
-            titulo!,
-            softWrap: true,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-          )),
-    );
-  }
-
-  Widget registroNumeroVotos(Voto voto, int posicion) {
-    return Container(
-      color: Colors.cyan,
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: SizedBox(
-          width: 90,
-          height: 145,
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'VOTOS',
-                  style: TextStyle(color: Colors.white),
-                ),
-                TextFormField(
-                  controller: textControllers[posicion],
-                  textAlign: TextAlign.center,
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.zero,
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
-                  minLines: 1,
-                  onTapOutside: (event) {
-                    setState(() {
-                      seGuardoVotoLista[posicion] = true;
-                    });
-                  },
-                ),
-                const SizedBox(height: 3),
-              ]),
-        ),
-      ),
-    );
-  }
-
-  SizedBox candidatosScrollViewWidget(List<Widget> candidatosWidget) {
-    return SizedBox(
-      width: 210,
-      child: Scrollbar(
-        controller: _scrollController,
-        thumbVisibility: true,
-        child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: candidatosWidget,
-            )),
-      ),
-    );
-  }
-
-  List<SizedBox> generarCandidatosWidgets(
-      List<GrupoCandidato> grupoCandidatos, int index) {
-    return grupoCandidatos[index]!
-        .candidatos!
-        .where((candidato) =>
-            candidato!.nombre! != 'BLANCO' && candidato!.nombre! != 'NULO')
-        .map((candidato) {
-      return SizedBox(
-        width: 100,
-        height: 70,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.person_2_rounded,
-                size: 20, color: Colors.blueGrey),
-            Text(
-                textAlign: TextAlign.center,
-                candidato!.nombre!,
-                style: const TextStyle(fontSize: 10, color: Colors.blueGrey))
-          ],
-        ),
-      );
-    }).toList();
-  }
-}
-
-class BotonGuardar extends ConsumerWidget {
-  VotoSeleccionadoModel votoSeleccionadoModel;
-
-  BotonGuardar({Key? key, required this.votoSeleccionadoModel})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final cambiarCantidadVotoProvider =
-        ref.watch(cambiarCantidadVotoFutureProvider(votoSeleccionadoModel));
-    return cambiarCantidadVotoProvider.when(
-        data: (data) {
-          print(data);
-          return Text('ok');
-        },
-        error: (error, stackTrace) {
-          print(error);
-          return Text('error');
-        },
-        loading: () => const CircularProgessIndicatorCustomWidget());
   }
 }

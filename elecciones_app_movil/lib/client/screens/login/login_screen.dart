@@ -1,6 +1,5 @@
 import 'package:elecciones_app_movil/businness/providers/auth/auth_provider.dart';
 import 'package:elecciones_app_movil/businness/providers/auth/token_provider.dart';
-import 'package:elecciones_app_movil/businness/providers/model/auth/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -50,26 +49,36 @@ class LoginPage extends ConsumerWidget {
                 onPressed: () async {
                   ref.read(authTokenProvider.notifier).resetState();
                   if (formKey.currentState!.validate()) {
-                    final authResponse = ref.read(authFutureProvider(AuthModel(
-                            username: usernameController.text,
-                            password: passwordController.text))
-                        .future);
+                    if (usernameController.text.isEmpty ||
+                        passwordController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text(
+                              "Ingrese un nombre de usuario y una contraseña.")));
+                      return;
+                    }
 
-                    authResponse.then((value) {
+                    try {
+                      final token = await ref.read(loginProvider(UsuarioTo(
+                          username: usernameController.text,
+                          password: passwordController.text))
+                          .future);
                       ref
                           .read(authTokenProvider.notifier)
-                          .changeAuthTokenSatate(value);
+                          .changeAuthTokenSatate(token!);
                       Navigator.pushNamed(context, '/home');
-                    }).onError((error, stackTrace) {
-                      ref.read(authTokenProvider.notifier).changeAuthErrorState(
-                          'Nombre de usuario y contraseña incorrectos');
-                    });
+                    } catch (e) {
+                      Navigator.pushNamed(context, '/failure');
+                    }
                   }
                 },
                 child: const Text('Iniciar sesión'),
               ),
-              if (ref.read(authTokenProvider).error != null)
-                Text(ref.read(authTokenProvider).error!)
+              if (ref
+                  .read(authTokenProvider)
+                  .error != null)
+                Text(ref
+                    .read(authTokenProvider)
+                    .error!)
             ],
           ),
         ),

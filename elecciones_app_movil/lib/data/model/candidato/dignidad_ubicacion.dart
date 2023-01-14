@@ -40,8 +40,7 @@ class DignidadUbicacion extends Equatable {
         siglaCircunscripcion: siglaCircunscripcion ?? this.siglaCircunscripcion,
       );
 
-  factory DignidadUbicacion.fromMap(Map<String, dynamic> json) =>
-      DignidadUbicacion(
+  factory DignidadUbicacion.fromMap(Map<String, dynamic> json) => DignidadUbicacion(
         id: json["id"],
         dignidad: Dignidad.fromMap(json["dignidad"]),
         tipoUbicacion: TipoUbicacion.fromMap(json["tipoUbicacion"]),
@@ -63,4 +62,9 @@ class DignidadUbicacion extends Equatable {
 
   @override
   List<Object?> get props => [id, dignidad, tipoUbicacion, cargo];
+
+  @override
+  String toString() {
+    return 'DignidadUbicacion{id: $id, dignidad: $dignidad, tipoUbicacion: $tipoUbicacion, tablaUbicacion: $tablaUbicacion, idTablaUbicacion: $idTablaUbicacion, cargo: $cargo, siglaCircunscripcion: $siglaCircunscripcion}';
+  }
 }

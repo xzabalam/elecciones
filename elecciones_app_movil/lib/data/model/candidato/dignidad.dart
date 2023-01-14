@@ -50,4 +50,9 @@ class Dignidad extends Equatable {
 
   @override
   List<Object?> get props => [id, nombre];
+
+  @override
+  String toString() {
+    return 'Dignidad{id: $id, nombre: $nombre, proceso: $proceso, tipoGrupo: $tipoGrupo, numero: $numero}';
+  }
 }

@@ -40,4 +40,9 @@ class Voto {
         "grupoCandidato": grupoCandidato,
         "cantidad": cantidad,
       };
+
+  @override
+  String toString() {
+    return 'Voto{id: $id, actaDignidad: $actaDignidad, grupoCandidato: $grupoCandidato, cantidad: $cantidad}';
+  }
 }
