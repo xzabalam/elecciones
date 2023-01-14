@@ -46,7 +46,7 @@ public class Usuario extends AbstractEntity implements Serializable {
     private String activo;
 
     @Column(name = "habilitado_movil")
-    private Integer habilitadoMovil;
+    private String habilitadoMovil;
 
     @Column(name = "sesion_movil")
     private Integer sessionMovil;
@@ -55,7 +55,7 @@ public class Usuario extends AbstractEntity implements Serializable {
     private String macMovil;
 
     @Column(name = "habilitado_web")
-    private Integer habilitadoWeb;
+    private String habilitadoWeb;
 
     @Column(name = "sesion_web")
     private Integer sessionWeb;

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -23,22 +25,11 @@ public class VotoController {
         this.votoServicio = votoServicio;
     }
 
-    @GetMapping("/dignidad/{idDignidad}/junta/{idJunta}")
-    @Operation(summary = "Permite obtener los votos de una junta y acta dignidad.")
-    public ResponseEntity<List<Voto>> findByActaDignidadAndJunta(@PathVariable("idDignidad") Integer idDignidad,
-                                                                 @PathVariable("idJunta") Integer idJunta) {
-        RestPreconditions.checkNull(idDignidad);
-        RestPreconditions.checkNull(idJunta);
-        List<Voto> votos = votoServicio.findByActaDignidadAndJunta(idDignidad, idJunta);
-        return new ResponseEntity<>(votos, HttpStatus.OK);
-
-    }
-
     @GetMapping("/junta/{idJunta}")
     @Operation(summary = "Permite obtener los votos de una junta.")
-    public ResponseEntity<List<Voto>> findByJunta(@PathVariable("idJunta") Integer idJunta) {
+    public ResponseEntity<List<Voto>> findByJunta(@Valid @NotNull @PathVariable("idJunta") Integer idJunta) {
         RestPreconditions.checkNull(idJunta);
-        List<Voto> votos = votoServicio.findByJunta(idJunta);
+        List<Voto> votos = votoServicio.findByJuntaYCandidatoPrincipal(idJunta);
         return new ResponseEntity<>(votos, HttpStatus.OK);
 
     }

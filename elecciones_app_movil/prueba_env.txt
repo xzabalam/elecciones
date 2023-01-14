@@ -1,0 +1,6 @@
+# LOGIN API
+# API_MAIN=https://desa-eleccion.bosmarth.com
+API_MAIN=http://localhost:8082
+# URL API UBICACIONES
+# API_CLIENTE=https://desa-eleccion.bosmarth.com
+API_CLIENTE=http://localhost:8082

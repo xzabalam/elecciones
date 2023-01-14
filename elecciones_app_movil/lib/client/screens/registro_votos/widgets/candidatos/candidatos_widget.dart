@@ -1,7 +1,6 @@
 import 'package:elecciones_app_movil/businness/providers/candidatos/acta_dignidad_provider.dart';
 import 'package:elecciones_app_movil/businness/providers/candidatos/voto_provider.dart';
 import 'package:elecciones_app_movil/businness/providers/model/voto/voto_seleccionado_model.dart';
-import 'package:elecciones_app_movil/businness/providers/ubicacion/ubicacion_provider.dart';
 import 'package:elecciones_app_movil/client/widgets/commons/circular_progress_indicator_widget.dart';
 import 'package:elecciones_app_movil/data/model/candidato/grupo_candidato.dart';
 import 'package:elecciones_app_movil/data/model/candidato/voto.dart';
@@ -71,6 +70,7 @@ class _CandidatosStatefullWidgetState
         itemCount: grupoCandidatos.length,
         itemBuilder: (context, index) {
           String? titulo = grupoCandidatos[index]!.movimiento!.nombre;
+          String? subtitulo = grupoCandidatos[index]!.movimiento!.numero;
           // Crear una lista de widgets
           List<Widget> candidatosWidget =
               generarCandidatosWidgets(grupoCandidatos, index);
@@ -89,8 +89,8 @@ class _CandidatosStatefullWidgetState
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         // Titulo de la tarjeta
+                        tituloTarjeta('Lista ${subtitulo!}'),
                         tituloTarjeta(titulo!),
-                        const SizedBox(height: 15),
                         // Listado de candidatos
                         candidatosScrollViewWidget(candidatosWidget)
                       ])
@@ -103,7 +103,7 @@ class _CandidatosStatefullWidgetState
     return SizedBox(
       width: 216,
       child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Text(
             textAlign: TextAlign.center,
             titulo!,
@@ -115,12 +115,12 @@ class _CandidatosStatefullWidgetState
 
   Widget registroNumeroVotos(Voto voto, int posicion) {
     return Container(
-      color: Colors.blueGrey,
+      color: Colors.cyan,
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: SizedBox(
           width: 90,
-          height: 115,
+          height: 145,
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -141,40 +141,13 @@ class _CandidatosStatefullWidgetState
                     FilteringTextInputFormatter.digitsOnly
                   ],
                   minLines: 1,
-                  onEditingComplete: () {
+                  onTapOutside: (event) {
                     setState(() {
                       seGuardoVotoLista[posicion] = true;
                     });
                   },
                 ),
                 const SizedBox(height: 3),
-                if (seGuardoVotoLista[posicion])
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 5),
-                      fixedSize: const Size(90, 20),
-                    ),
-                    onPressed: () {
-                      VotoSeleccionadoModel votoSeleccionadoModel =
-                          VotoSeleccionadoModel(
-                              cantidadVoto:
-                                  int.parse(textControllers[posicion].text),
-                              idJunta: ref
-                                  .read(ubicacionProvider)
-                                  .juntaSeleccionada!
-                                  .id,
-                              idActaDignidad: voto.actaDignidad!.id,
-                              idVoto: voto.id);
-
-                      ref
-                          .read(cambiarCantidadVotoFutureProvider
-                              .call(votoSeleccionadoModel))
-                          .whenData((value) => {print(value)});
-                    },
-                    child: const Text('Guardar',
-                        style: TextStyle(fontSize: 10, color: Colors.white)),
-                  )
               ]),
         ),
       ),
@@ -183,7 +156,7 @@ class _CandidatosStatefullWidgetState
 
   SizedBox candidatosScrollViewWidget(List<Widget> candidatosWidget) {
     return SizedBox(
-      width: 200,
+      width: 210,
       child: Scrollbar(
         controller: _scrollController,
         thumbVisibility: true,

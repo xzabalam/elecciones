@@ -1,8 +1,6 @@
 package com.eleccciones.cliente.bussiness.services.candidatos;
 
 import com.eleccciones.cliente.bussiness.services.ubicacion.JuntaService;
-import com.eleccciones.cliente.data.entities.candidatos.ActaDignidad;
-import com.eleccciones.cliente.data.entities.candidatos.Dignidad;
 import com.eleccciones.cliente.data.entities.candidatos.Voto;
 import com.eleccciones.cliente.data.entities.ubicacion.Junta;
 import com.eleccciones.cliente.data.repositories.candidatos.VotoRepository;
@@ -28,17 +26,8 @@ public class VotoServicio {
 
     @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})
     @Cacheable(value = "VOTO")
-    public List<Voto> findByActaDignidadAndJunta(Integer idDignidad, Integer idJunta) {
-        Dignidad dignidad = dignidadServicio.findById(idDignidad);
+    public List<Voto> findByJuntaYCandidatoPrincipal(Integer idJunta) {
         Junta junta = juntaService.findById(idJunta);
-
-        return votoRepository.findByActaDignidadAndJunta(dignidad.getId(), junta.getId());
-    }
-
-    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})
-    @Cacheable(value = "VOTO")
-    public List<Voto> findByJunta(Integer idJunta) {
-        Junta junta = juntaService.findById(idJunta);
-        return votoRepository.findByJunta(junta.getId());
+        return votoRepository.findByJunta(junta.getId(), "PRINCIPAL");
     }
 }
