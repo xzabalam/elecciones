@@ -49,6 +49,6 @@ public class ZonaService {
     @Cacheable(value = "ZONA_LIST", key = "#idParroquia")
     public List<Zona> findByParroquiaAndEstado(Integer idParroquia) {
         Parroquia parroquia = parroquiaService.findById(idParroquia);
-        return zonaRepository.findByParroquiaAndEstado(parroquia, EstadoEnum.CREADO.getEstado());
+        return zonaRepository.findByParroquiaAndEstadoOrderByNombre(parroquia, EstadoEnum.CREADO.getEstado());
     }
 }

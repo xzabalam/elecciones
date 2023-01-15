@@ -1,8 +1,6 @@
 package com.eleccciones.cliente.data.repositories.ubicacion;
 
 import com.eleccciones.cliente.data.entities.ubicacion.Junta;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,6 +19,6 @@ public interface JuntaRepository extends JpaRepository<Junta, Integer> {
 
     @Query("select junta from Junta junta " +
             "join fetch junta.sexo s " +
-            "where junta.recinto.id = :idRecinto and junta.estado = :estado")
+            "where junta.recinto.id = :idRecinto and junta.estado = :estado order by junta.numero asc")
     List<Junta> getAllByRecintoAndEstado(@Param("idRecinto") Integer idRecinto, @Param("estado") String estado);
 }

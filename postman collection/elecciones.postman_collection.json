@@ -1,0 +1,805 @@
+{
+	"info": {
+		"_postman_id": "aaa94de9-56bb-4306-b3ed-be750b7f2f1b",
+		"name": "elecciones",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18061"
+	},
+	"item": [
+		{
+			"name": "Ubicacion",
+			"item": [
+				{
+					"name": "Paises por id",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/pais/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"pais",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Paises sin paginacion",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/pais/all",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"pais",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Paises con paginacion",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/pais?page=0&size=100",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"pais"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Provincias por id",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/provincia/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"provincia",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Provincias sin paginacion",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/provincia/pais/1/all",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"provincia",
+								"pais",
+								"1",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Provincias con paginacion",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/provincia/pais/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"provincia",
+								"pais",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Canton por id",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/canton/110",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"canton",
+								"110"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Canton con paginacion",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/canton/provincia/5",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"canton",
+								"provincia",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Canton  sin paginacion",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/canton/provincia/2/all",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"canton",
+								"provincia",
+								"2",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Circunscripcion por id",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/circunscripcion/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"circunscripcion",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Circunscripcion por sigla",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/circunscripcion/sigla/U",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"circunscripcion",
+								"sigla",
+								"U"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Parroquia por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/parroquia/100",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"parroquia",
+								"100"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Parroquia con paginacion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/parroquia/canton/100",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"parroquia",
+								"canton",
+								"100"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Parroquia sin paginacion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/parroquia/canton/180/all",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"parroquia",
+								"canton",
+								"180",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Zona por id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/zona/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"zona",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Zona con paginacion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/zona/parroquia/100",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"zona",
+								"parroquia",
+								"100"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Zona sin paginacion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/zona/parroquia/3500/all",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"zona",
+								"parroquia",
+								"3500",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recinto con id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/recinto/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"recinto",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recinto con paginacion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/recinto/zona/4",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"recinto",
+								"zona",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Recinto sin paginacion",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/recinto/zona/1321/all",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"recinto",
+								"zona",
+								"1321",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Junta con id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/junta/2274",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"junta",
+								"2274"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Junta sin paginacion",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/junta/recinto/1489/all",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"junta",
+								"recinto",
+								"1489",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Candidatos",
+			"item": [
+				{
+					"name": "ActaDignidad por junta",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/acta-dignidad/junta/19073",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"acta-dignidad",
+								"junta",
+								"19073"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Votos por Junta",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/voto/dignidad/2/junta/19073",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"voto",
+								"dignidad",
+								"2",
+								"junta",
+								"19073"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "security",
+			"item": [
+				{
+					"name": "Auth",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+								"key": "Authorization",
+								"value": "Basic YWRtaW46YWRtaW4=",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8082/auth",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "remote",
+			"item": [
+				{
+					"name": "Votos por Junta remote server",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8082/voto/dignidad/2/junta/19073",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"voto",
+								"dignidad",
+								"2",
+								"junta",
+								"19073"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

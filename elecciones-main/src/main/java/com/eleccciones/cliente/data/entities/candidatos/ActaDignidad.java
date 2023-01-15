@@ -3,16 +3,13 @@ package com.eleccciones.cliente.data.entities.candidatos;
 import com.eleccciones.cliente.data.entities.core.impl.AbstractEntity;
 import com.eleccciones.cliente.data.entities.ubicacion.Junta;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
+import java.util.concurrent.locks.StampedLock;
 
 @Entity
 @Table(name = "acta_dignidad")
@@ -44,4 +41,14 @@ public class ActaDignidad extends AbstractEntity {
 
     @Column(name = "descripcion")
     private String actaDescripcion;
+
+    @Column(name = "escrutada")
+    private Integer escrutada;
+
+    @Transient
+    private StampedLock lock;
+
+    public ActaDignidad() {
+        this.lock = new StampedLock();
+    }
 }

@@ -13,5 +13,5 @@ import java.util.List;
 public interface ProvinciaRepository extends JpaRepository<Provincia, Integer> {
     Page<Provincia> findAllByPaisAndEstado(Pais pais, String estado, Pageable pageable);
 
-    List<Provincia> findByPaisAndEstado(Pais pais, String estado);
+    List<Provincia> findByPaisAndEstadoOrderByNombre(Pais pais, String estado);
 }

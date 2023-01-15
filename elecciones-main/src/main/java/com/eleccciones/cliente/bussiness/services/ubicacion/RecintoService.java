@@ -2,8 +2,6 @@ package com.eleccciones.cliente.bussiness.services.ubicacion;
 
 import com.eleccciones.cliente.common.exception.UbicacionException;
 import com.eleccciones.cliente.common.util.EstadoEnum;
-import com.eleccciones.cliente.data.entities.ubicacion.Canton;
-import com.eleccciones.cliente.data.entities.ubicacion.Parroquia;
 import com.eleccciones.cliente.data.entities.ubicacion.Recinto;
 import com.eleccciones.cliente.data.entities.ubicacion.Zona;
 import com.eleccciones.cliente.data.repositories.ubicacion.RecintoRepository;
@@ -53,6 +51,6 @@ public class RecintoService {
     @Cacheable(value = "RECINTO_LIST", key = "#idZona")
     public List<Recinto> findByZonaAndEstado(Integer idZona) {
         Zona zona = zonaService.findById(idZona);
-        return recintoRepository.findByZonaAndEstado(zona, EstadoEnum.CREADO.getEstado());
+        return recintoRepository.findByZonaAndEstadoOrderByNombre(zona, EstadoEnum.CREADO.getEstado());
     }
 }

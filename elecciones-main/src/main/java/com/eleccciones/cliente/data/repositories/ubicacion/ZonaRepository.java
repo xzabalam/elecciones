@@ -12,5 +12,6 @@ import java.util.List;
 @Repository
 public interface ZonaRepository extends JpaRepository<Zona, Integer> {
     Page<Zona> findAllByParroquiaAndEstado(Parroquia parroquia, String estado, Pageable pageable);
-    List<Zona> findByParroquiaAndEstado(Parroquia parroquia, String estado);
+
+    List<Zona> findByParroquiaAndEstadoOrderByNombre(Parroquia parroquia, String estado);
 }

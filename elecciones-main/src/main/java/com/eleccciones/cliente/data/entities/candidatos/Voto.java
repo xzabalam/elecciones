@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.concurrent.locks.StampedLock;
 
 @Entity
 @Table(name = "voto")
@@ -27,4 +28,10 @@ public class Voto extends AbstractEntity {
     @Column(name = "cantidad")
     private Integer cantidad;
 
+    @Transient
+    private StampedLock lock;
+
+    public Voto() {
+        this.lock = new StampedLock();
+    }
 }

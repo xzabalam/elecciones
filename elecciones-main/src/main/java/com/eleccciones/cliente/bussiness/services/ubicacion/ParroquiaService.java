@@ -49,6 +49,6 @@ public class ParroquiaService {
     @Cacheable(value = "PARROQUIA_LIST", key = "#idCanton")
     public List<Parroquia> findByCantonAndEstado(Integer idCanton) {
         Canton canton = cantonService.findById(idCanton);
-        return parroquiaRepository.findByCantonAndEstado(canton, EstadoEnum.CREADO.getEstado());
+        return parroquiaRepository.findByCantonAndEstadoOrderByNombre(canton, EstadoEnum.CREADO.getEstado());
     }
 }

@@ -50,6 +50,6 @@ public class ProvinciaService {
     @Cacheable(value = "PROVINCIA_LIST", key = "#idPais")
     public List<Provincia> findByPaisAndEstado(Integer idPais) {
         Pais pais = paisService.findById(idPais);
-        return provinciaRepository.findByPaisAndEstado(pais, EstadoEnum.CREADO.getEstado());
+        return provinciaRepository.findByPaisAndEstadoOrderByNombre(pais, EstadoEnum.CREADO.getEstado());
     }
 }

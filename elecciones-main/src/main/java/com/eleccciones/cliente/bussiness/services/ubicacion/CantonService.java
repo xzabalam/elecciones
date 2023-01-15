@@ -42,7 +42,7 @@ public class CantonService {
     @Cacheable(value = "CANTON_LIST", key = "#idProvincia")
     public List<Canton> findByProvincia(Integer idProvincia) {
         Provincia provincia = provinciaService.findById(idProvincia);
-        return cantonRepository.findByProvinciaAndEstado(provincia, EstadoEnum.CREADO.getEstado());
+        return cantonRepository.findByProvinciaAndEstadoOrderByNombre(provincia, EstadoEnum.CREADO.getEstado());
     }
 
     @Secured({"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})

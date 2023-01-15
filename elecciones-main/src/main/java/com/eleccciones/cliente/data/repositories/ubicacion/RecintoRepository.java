@@ -1,6 +1,5 @@
 package com.eleccciones.cliente.data.repositories.ubicacion;
 
-import com.eleccciones.cliente.data.entities.ubicacion.Circunscripcion;
 import com.eleccciones.cliente.data.entities.ubicacion.Recinto;
 import com.eleccciones.cliente.data.entities.ubicacion.Zona;
 import org.springframework.data.domain.Page;
@@ -14,9 +13,5 @@ import java.util.List;
 public interface RecintoRepository extends JpaRepository<Recinto, Integer> {
     Page<Recinto> findAllByZonaAndEstado(Zona zona, String estado, Pageable pageable);
 
-    List<Recinto> findByZonaAndEstado(Zona zona, String estado);
-
-    Page<Recinto> findAllByZonaAndCircunscripcionAndEstado(Zona zona, Circunscripcion circunscripcion, String estado, Pageable pageable);
-
-    List<Recinto> findByZonaAndCircunscripcionAndEstado(Zona zona, Circunscripcion circunscripcion, String estado);
+    List<Recinto> findByZonaAndEstadoOrderByNombre(Zona zona, String estado);
 }

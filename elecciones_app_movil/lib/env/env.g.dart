@@ -7,5 +7,5 @@ part of 'env.dart';
 // **************************************************************************
 
 class _Env {
-  static const clientApiUrl = 'https://desa-eleccion.bosmarth.com';
+  static const clientApiUrl = 'http://192.168.68.53:8082';
 }

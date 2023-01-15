@@ -1,6 +1,6 @@
-import 'package:elecciones_app_movil/client/screens/home/home_screen.dart';
-import 'package:elecciones_app_movil/client/screens/login/login_failure.dart';
-import 'package:elecciones_app_movil/client/screens/login/login_screen.dart';
+import 'package:elecciones_app_movil/ui/screens/home/home_screen.dart';
+import 'package:elecciones_app_movil/ui/screens/login/login_failure.dart';
+import 'package:elecciones_app_movil/ui/screens/login/login_screen.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

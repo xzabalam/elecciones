@@ -12,5 +12,6 @@ import java.util.List;
 @Repository
 public interface CantonRepository extends JpaRepository<Canton, Integer> {
     Page<Canton> findAllByProvinciaAndEstado(Provincia provincia, String estado, Pageable pageable);
-    List<Canton> findByProvinciaAndEstado(Provincia provincia, String estado);
+
+    List<Canton> findByProvinciaAndEstadoOrderByNombre(Provincia provincia, String estado);
 }
