@@ -1,5 +1,6 @@
 package com.eleccciones.cliente.web.handlers;
 
+import com.eleccciones.cliente.common.exception.EstadisticaException;
 import com.eleccciones.cliente.common.exception.UbicacionException;
 import com.eleccciones.cliente.web.exceptions.MyResourceNotFoundException;
 import org.springframework.core.Ordered;
@@ -7,7 +8,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -47,6 +47,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected ResponseEntity<Object> handleUbicacionException(UbicacionException ex) {
         final ApiError apiError = new ApiError(HttpStatus.NOT_FOUND);
+        apiError.setMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(EstadisticaException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected ResponseEntity<Object> handleEstadisticaException(EstadisticaException ex) {
+        final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST);
         apiError.setMessage(ex.getMessage());
         return buildResponseEntity(apiError);
     }

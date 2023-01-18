@@ -50,9 +50,19 @@ public class SpringConfiguration implements WebMvcConfigurer {
                 .antMatchers(HttpMethod.GET, "/recinto/**").hasAnyAuthority("ROLE_ADMINISTRADOR", "ROLE_USUARIO")
                 // Configurar el acceso al api rest para obtener los datos de zona
                 .antMatchers(HttpMethod.GET, "/zona/**").hasAnyAuthority("ROLE_ADMINISTRADOR", "ROLE_USUARIO")
+                // Configurar el acceso al api rest para obtener los datos de los votos
+                .antMatchers(HttpMethod.GET, "/voto/**").hasAnyAuthority("ROLE_ADMINISTRADOR", "ROLE_USUARIO")
+                // Configurar el acceso al api rest para obtener los datos de las acta dignidades
+                .antMatchers(HttpMethod.GET, "/acta-dignidad/**").hasAnyAuthority("ROLE_ADMINISTRADOR", "ROLE_USUARIO")
+                // Configurar el acceso al api rest para obtener los datos de las estadisticas
+                .antMatchers(HttpMethod.GET, "/estadisticas/**").hasAnyAuthority("ROLE_ADMINISTRADOR", "ROLE_USUARIO")
+                // Configurar el acceso al api rest para obtener los datos de los numero de electores
+                .antMatchers(HttpMethod.GET, "/numero-electores/**").hasAnyAuthority(
+                        "ROLE_ADMINISTRADOR",
+                        "ROLE_USUARIO")
                 // todas las dem[as deben estar autenticadas.
                 .anyRequest().authenticated().and()
-                .httpBasic().and().headers().referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.ORIGIN.ORIGIN);
+                .httpBasic().and().headers().referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.ORIGIN);
         return http.build();
     }
 }

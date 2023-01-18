@@ -14,4 +14,5 @@ public interface ProvinciaRepository extends JpaRepository<Provincia, Integer> {
     Page<Provincia> findAllByPaisAndEstado(Pais pais, String estado, Pageable pageable);
 
     List<Provincia> findByPaisAndEstadoOrderByNombre(Pais pais, String estado);
+
 }
