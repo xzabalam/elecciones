@@ -28,7 +28,7 @@ class SecondStepDignidadesWidget extends ConsumerWidget {
           ),
           const SizedBox(height: 15),
           // Añadir la lista de dignidades a elegir
-          if (ubicacionNotifier.juntaSeleccionada != null) ActaDignidadWidget(),
+          if (ubicacionNotifier.juntaSeleccionada != null) const ActaDignidadWidget(),
           const SizedBox(height: 30)
         ],
       ),

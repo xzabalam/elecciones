@@ -1,5 +1,6 @@
 package com.eleccciones.cliente.web.controllers.security;
 
+import com.eleccciones.cliente.bussiness.services.security.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -10,6 +11,12 @@ import java.util.Collection;
 
 @RestController
 public class AuthController {
+
+    private final UsuarioService usuarioService;
+
+    public AuthController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
 
     /**
      * Permite iniciar sesi[on desde el formulario login de angular y devueelve los roles que el usuario tienen asignado

@@ -4,13 +4,14 @@ import 'package:elecciones_app_movil/data/model/ubicacion/index.dart';
 import 'package:elecciones_app_movil/domain/providers/estadisticas/dto/parametros_consulta_dto.dart';
 import 'package:elecciones_app_movil/domain/providers/estadisticas/dto/voto_movimiento_dto.dart';
 import 'package:elecciones_app_movil/domain/providers/estadisticas/estadisticas_provider.dart';
+import 'package:elecciones_app_movil/ui/screens/estadisticas/widgets/ubicacion/canton_widget.dart';
 import 'package:elecciones_app_movil/ui/screens/estadisticas/widgets/ubicacion/provincia_widget.dart';
 import 'package:elecciones_app_movil/ui/widgets/commons/circular_progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PrefectoUbicacionWidget extends ConsumerWidget {
-  const PrefectoUbicacionWidget({
+class AlcaldeUbicacionWidget extends ConsumerWidget {
+  const AlcaldeUbicacionWidget({
     Key? key,
   }) : super(key: key);
 
@@ -19,7 +20,8 @@ class PrefectoUbicacionWidget extends ConsumerWidget {
     final estadisticaNotifier = ref.watch(estadisticaProvider);
     return Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
       const ProvinciaWidget(),
-      if (estadisticaNotifier.seSeleccionoProvincia!)
+      if (estadisticaNotifier.seSeleccionoProvincia!) const CantonWidget(),
+      if (estadisticaNotifier.seSeleccionoCanton!)
         Center(
           child: AdaptiveButton(
             width: 125,
@@ -35,11 +37,14 @@ class PrefectoUbicacionWidget extends ConsumerWidget {
             ),
             onPressed: () async {
               Provincia provinciaSeleccionada = estadisticaNotifier.provinciaSeleccionada!;
-              ParametrosConsultaDto parametros = ParametrosConsultaDto(idProvincia: provinciaSeleccionada.id);
+              Canton cantonSeleccionado = estadisticaNotifier.cantonSeleccionado!;
+
+              ParametrosConsultaDto parametros =
+                  ParametrosConsultaDto(idProvincia: provinciaSeleccionada.id, idCanton: cantonSeleccionado.id!);
 
               // Se debe obtener la sumatoria de votos por provincia y prefecto
               List<VotosMovimientoDto> respuestaSumatoriaVotosPorMovimiento =
-                  await ref.read(numeroVotosParaPrefectoPorProvinciaFutureProvider(parametros).future);
+                  await ref.read(numeroVotosParaAlcaldesPorProvinciaYCantonFutureProvider(parametros).future);
 
               ref.read(estadisticaProvider.notifier).changeSumatoriaVotos(respuestaSumatoriaVotosPorMovimiento);
 

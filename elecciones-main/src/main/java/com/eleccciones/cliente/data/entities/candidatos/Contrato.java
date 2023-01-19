@@ -1,6 +1,7 @@
 package com.eleccciones.cliente.data.entities.candidatos;
 
 import com.eleccciones.cliente.data.entities.core.impl.AbstractNamed;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
@@ -16,7 +17,7 @@ import java.util.Date;
 public class Contrato extends AbstractNamed {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="id_entidad", referencedColumnName = "id")
+    @JoinColumn(name = "id_entidad", referencedColumnName = "id")
     private Entidad entidad;
 
     @NotNull
@@ -64,14 +65,15 @@ public class Contrato extends AbstractNamed {
     private String url;
 
     @Lob
-    @Type(type="org.hibernate.type.ImageType")
+    @Type(type = "org.hibernate.type.ImageType")
     @Column(name = "foto_archivo")
+    @JsonIgnore
     private byte[] fotoArchivo;
 
 
-	@Column(name = "foto_nombre")
+    @Column(name = "foto_nombre")
     private String fotoNombre;
 
-	@Column(name = "fondo")
+    @Column(name = "fondo")
     private String fondo;
 }

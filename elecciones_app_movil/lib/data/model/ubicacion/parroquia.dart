@@ -1,21 +1,17 @@
-import 'package:elecciones_app_movil/data/model/core/abstract_entity.dart';
+import 'package:equatable/equatable.dart';
 
-class Parroquia extends AbstractEntity {
-  String siglaCircunscripcion;
+class Parroquia extends Equatable {
+  final int id;
+  final String nombre;
+  final String siglaCircunscripcion;
 
-  Parroquia(
-      {required super.id,
-      required super.nombre,
-      required this.siglaCircunscripcion});
+  const Parroquia({required this.id, required this.nombre, required this.siglaCircunscripcion});
 
-  factory Parroquia.fromMap(Map<String, dynamic> json) => Parroquia(
-      id: json["id"],
-      nombre: json["nombre"],
-      siglaCircunscripcion: json["siglaCircunscripcion"]);
+  factory Parroquia.fromMap(Map<String, dynamic> json) =>
+      Parroquia(id: json["id"], nombre: json["nombre"], siglaCircunscripcion: json["siglaCircunscripcion"]);
 
-  Map<String, dynamic> toMap() => {
-        "id": id,
-        "nombre": nombre,
-        "siglaCircunscripcion": siglaCircunscripcion
-      };
+  Map<String, dynamic> toMap() => {"id": id, "nombre": nombre, "siglaCircunscripcion": siglaCircunscripcion};
+
+  @override
+  List<Object?> get props => [id, nombre, siglaCircunscripcion];
 }

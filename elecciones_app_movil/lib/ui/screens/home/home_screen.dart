@@ -15,15 +15,16 @@ class _HomePageState extends ConsumerState<HomePage> {
   int _selectedIndex = 0;
 
   static final List<Widget> _widgetOptions = <Widget>[
-    SafeArea(
-      child: Center(
-        child: Container(
-          child: const Text('¡Bienvenido!', style: TextStyle(fontSize: 18)),
-        ),
-      ),
+    Center(
+      child:
+          Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.center, children: [
+        Image.asset('assets/images/foto_archivo_2.jpg'),
+        SizedBox(height: 50),
+        Text('¡Bienvenido!', style: TextStyle(fontSize: 18)),
+      ]),
     ),
     const RegistroVotosWidget(),
-    EstadisticasPage(),
+    const EstadisticasPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -37,7 +38,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Elecciones'),
+        title: const Text('Elecciones 2023'),
         automaticallyImplyLeading: false,
       ),
       body: _widgetOptions.elementAt(_selectedIndex),

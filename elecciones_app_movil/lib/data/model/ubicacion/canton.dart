@@ -1,7 +1,10 @@
-import 'package:elecciones_app_movil/data/model/core/abstract_entity.dart';
+import 'package:equatable/equatable.dart';
 
-class Canton extends AbstractEntity {
-  Canton({required super.id, required super.nombre});
+class Canton extends Equatable {
+  final int id;
+  final String nombre;
+
+  const Canton({required this.id, required this.nombre});
 
   factory Canton.fromMap(Map<String, dynamic> json) => Canton(
         id: json["id"],
@@ -12,4 +15,12 @@ class Canton extends AbstractEntity {
         "id": id,
         "nombre": nombre,
       };
+
+  @override
+  String toString() {
+    return 'Canton{id: $id, nombre: $nombre}';
+  }
+
+  @override
+  List<Object?> get props => [id, nombre];
 }

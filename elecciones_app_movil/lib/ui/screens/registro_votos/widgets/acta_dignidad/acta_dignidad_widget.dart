@@ -15,15 +15,13 @@ class ActaDignidadWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ubicacionNotifier = ref.watch(ubicacionProvider);
-    final posicion = ref
-        .watch(actaDignidadProvider)
-        .posicionDignidadSeleccionada ?? -1;
+    final posicion = ref.watch(actaDignidadProvider).posicionDignidadSeleccionada ?? -1;
     final votosFutureProvider = ref.watch(votoFutureProvider(ubicacionNotifier.juntaSeleccionada!));
 
     return votosFutureProvider.when(
         data: (votos) {
-          List<DignidadUbicacion?> dignidadUbicaciones =
-          votos.map((voto) => voto.actaDignidad!.dignidadUbicacion).toSet().toList();
+          List<DignidadUbicacion>? dignidadUbicaciones =
+              votos.map((voto) => voto.actaDignidad!.dignidadUbicacion).toSet().toList();
 
           return ListView.builder(
               physics: const BouncingScrollPhysics(),
@@ -36,9 +34,7 @@ class ActaDignidadWidget extends ConsumerWidget {
                 String icono = dignidadUbicaciones[index]!.dignidad!.tipoGrupo!.nombre;
                 return Card(
                   child: ListTile(
-                    tileColor: posicion == index ? Theme
-                        .of(context)
-                        .highlightColor : null,
+                    tileColor: posicion == index ? Theme.of(context).highlightColor : null,
                     leading: icono == 'INDIVIDUAL'
                         ? const Icon(Icons.person_2_outlined)
                         : const Icon(Icons.people_alt_outlined),

@@ -11,16 +11,14 @@ class UsuarioTo {
   UsuarioTo({required this.username, required this.password});
 }
 
-final loginProvider = FutureProvider.autoDispose
-    .family<String, UsuarioTo>((ref, usuarioTo) async {
+final loginProvider = FutureProvider.autoDispose.family<String, UsuarioTo>((ref, usuarioTo) async {
   try {
-    String basicToken =
-        'Basic ${base64.encode(
-        utf8.encode('${usuarioTo.username}:${usuarioTo.password}'))}';
-    Response response = await Dio().get('${Env.clientApiUrl}/auth',
-        options: Options(headers: {'Authorization': basicToken}));
+    String basicToken = 'Basic ${base64.encode(utf8.encode('${usuarioTo.username}:${usuarioTo.password}'))}';
+    Response response =
+        await Dio().get('${Env.clientApiUrl}/auth', options: Options(headers: {'Authorization': basicToken}));
 
     if (response.statusCode == 200) {
+      print(response.data);
       return basicToken;
     } else {
       throw Exception("Usuario no autorizado.");

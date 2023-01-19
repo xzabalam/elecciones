@@ -21,6 +21,10 @@ class ActaDignidadNotifier extends StateNotifier<ActaDignidadModel> {
   void changePosicionDignidadSeleccionadaState(int posicion) {
     state = state.copyWith(posicionDignidadSeleccionada: posicion);
   }
+
+  void changeListaDiginidadesState(List<DignidadUbicacion> dignidades) {
+    state = state.copyWith(dignidadUbicaciones: dignidades);
+  }
 }
 
 final actaDignidadProvider = StateNotifierProvider<ActaDignidadNotifier, ActaDignidadModel>((ref) {
