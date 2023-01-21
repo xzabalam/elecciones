@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:backdrop/backdrop.dart';
 import 'package:elecciones_app_movil/domain/providers/estadisticas/dto/dignidad_dto.dart';
 import 'package:elecciones_app_movil/domain/providers/estadisticas/dto/voto_movimiento_dto.dart';
@@ -36,6 +38,7 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
   @override
   void dispose() {
     ref.read(estadisticaProvider.notifier).resetState();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -50,7 +53,7 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
 
           return BackdropScaffold(
             appBar: BackdropAppBar(
-              title: Text("Filtros"),
+              title: const Text("Filtros"),
             ),
             stickyFrontLayer: false,
             revealBackLayerAtStart: true,
@@ -69,7 +72,7 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                         shrinkWrap: true,
                         itemCount: dignidadesDto.length,
                         itemBuilder: (contextListView, index) {
-                          String? titulo = dignidadesDto[index]!.nombre;
+                          String? titulo = dignidadesDto[index].nombre;
 
                           return Card(
                             child: ListTile(
@@ -81,12 +84,11 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                                 setState(() {
                                   posicionDignidadSeleccionada = index;
                                 });
-                                cambiarDignidadSeleccionada(dignidadesDto[index].id!, ref);
                               },
                             ),
                           );
                         }),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     const Text("Ubicaciones", style: TextStyle(color: Colors.white, fontSize: 20)),
                     if (estadisticasNotifier.seSeleccionoPrefectos!)
                       Card(
@@ -179,96 +181,91 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
 
     int numeroVotos = estadisticasNotifier.respuestaSumatoriaVotosPorMovimiento!
         .fold(0, (int previousValue, VotosMovimientoDto voto) => previousValue + voto.sumatoria!);
+
     return Padding(
       padding: const EdgeInsets.all(20),
-      child: Flex(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        direction: Axis.vertical,
-        children: [
-          Column(
-            children: [
-              Center(
-                  child: Column(
-                children: [
-                  Text(
-                    titulo,
-                    style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
-                  ),
-                  Text(subtitulo, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
-                  Text('Votos totales ${numeroVotos}',
-                      style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold))
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            Center(
+                child: Column(
+              children: [
+                Text(
+                  titulo,
+                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                ),
+                Text(subtitulo, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+                Text('Votos totales $numeroVotos', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold))
+              ],
+            )),
+            if (numeroVotos == 0)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  SizedBox(height: 50),
+                  Center(child: Text("No se han registrado datos para esta dignidad en la ubicación seleccionada.")),
                 ],
-              )),
+              ),
+            if (numeroVotos > 0)
               SizedBox(
-                height: 520,
+                height: 500,
                 child: SfCartesianChart(
                     primaryXAxis: CategoryAxis(
-                        labelPosition: ChartDataLabelPosition.outside,
-                        labelStyle: const TextStyle(fontSize: 9, color: Colors.black),
-                        labelRotation: 270,
-                        labelAlignment: LabelAlignment.start,
-                        majorGridLines: const MajorGridLines(width: 0),
-                        majorTickLines: const MajorTickLines(width: 0),
-                        edgeLabelPlacement: EdgeLabelPlacement.shift),
-                    primaryYAxis: NumericAxis(
-                        minimum: 0,
-                        majorGridLines: const MajorGridLines(
-                          width: 0,
-                        )),
-                    zoomPanBehavior: ZoomPanBehavior(
-                      enablePanning: true,
+                      labelPosition: ChartDataLabelPosition.outside,
+                      labelAlignment: LabelAlignment.center,
+                      edgeLabelPlacement: EdgeLabelPlacement.shift,
+                      labelPlacement: LabelPlacement.betweenTicks,
+                      labelRotation: 270,
+                      labelStyle: const TextStyle(fontSize: 10, color: Colors.black),
+                      majorGridLines: const MajorGridLines(width: 0),
+                      majorTickLines: const MajorTickLines(width: 0),
                     ),
                     isTransposed: true,
-                    series: <ChartSeries<VotosMovimientoDto, String>>[
+                    series: [
                       BarSeries<VotosMovimientoDto, String>(
                           dataSource: estadisticasNotifier.respuestaSumatoriaVotosPorMovimiento!,
-                          xValueMapper: (VotosMovimientoDto dignidades, _) =>
-                              "${dignidades.movimiento!}. Votos:  ${dignidades.sumatoria!}",
+                          xValueMapper: (VotosMovimientoDto dignidades, _) {
+                            String tituloMovimiento;
+
+                            if (dignidades.movimiento == 'NULO' || dignidades.movimiento == 'BLANCO') {
+                              tituloMovimiento = "${dignidades.movimiento}. Votos:  ${dignidades.sumatoria}";
+                            } else {
+                              String numeroMovimiento =
+                                  (dignidades.numeroMovimiento == null) ? 'S/N' : dignidades.numeroMovimiento!;
+                              tituloMovimiento = "Lista $numeroMovimiento. Votos:  ${dignidades.sumatoria}";
+                            }
+
+                            return tituloMovimiento;
+                          },
                           yValueMapper: (VotosMovimientoDto dignidades, _) =>
                               double.parse(((dignidades.sumatoria! * 100) / numeroVotos).toStringAsFixed(2)),
                           isVisibleInLegend: true,
+                          isTrackVisible: false,
+                          sortingOrder: SortingOrder.descending,
+                          sortFieldValueMapper: (VotosMovimientoDto dignidades, _) => dignidades.sumatoria,
+                          pointColorMapper: (VotosMovimientoDto dignidades, _) =>
+                              Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
                           dataLabelSettings: const DataLabelSettings(
                               labelPosition: ChartDataLabelPosition.outside,
-                              overflowMode: OverflowMode.shift,
+                              showCumulativeValues: true,
+                              textStyle: TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.w700),
+                              showZeroValue: true,
+                              angle: 270,
+                              alignment: ChartAlignment.center,
+                              overflowMode: OverflowMode.trim,
                               isVisible: true,
                               labelAlignment: ChartDataLabelAlignment.outer),
                           emptyPointSettings: EmptyPointSettings(
                               // Mode of empty point
-                              mode: EmptyPointMode.average)),
+                              mode: EmptyPointMode.zero)),
                     ]),
               ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
-  }
-
-  void cambiarDignidadSeleccionada(int idDignidad, WidgetRef ref) {
-    // Se selecciono prefecto
-    if (idDignidad == 2) {
-      ref.read(estadisticaProvider.notifier).changeSeSeleccionoPrefectosState(true);
-    }
-
-    // Se selecciono alcaldes
-    if (idDignidad == 3) {
-      ref.read(estadisticaProvider.notifier).changeSeSeleccionoAlcaldesState(true);
-    }
-
-    // Se selecciono concejales urbanos
-    if (idDignidad == 4) {
-      ref.read(estadisticaProvider.notifier).changeSeSeleccionoConcejalesUrbanosState(true);
-    }
-
-    // Se selecciono concejales rurales
-    if (idDignidad == 5) {
-      ref.read(estadisticaProvider.notifier).changeSeSeleccionoConcejalesRuralesState(true);
-    }
-
-    // Se selecciono vocales juntas parroquiales
-    if (idDignidad == 6) {
-      ref.read(estadisticaProvider.notifier).changeSeSeleccionoVocalesJuntasParroquialesState(true);
-    }
   }
 }

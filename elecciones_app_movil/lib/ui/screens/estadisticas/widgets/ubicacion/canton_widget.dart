@@ -13,7 +13,7 @@ class CantonWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final estadisticaNotifier = ref.watch(estadisticaProvider);
-    final cantonNotifier = ref.watch(cantonFutureProvider(estadisticaNotifier.provinciaSeleccionada!.id!));
+    final cantonNotifier = ref.watch(cantonFutureProvider(estadisticaNotifier.provinciaSeleccionada!.id));
 
     return cantonNotifier.when(
         data: (listaCantones) {
@@ -28,7 +28,6 @@ class CantonWidget extends ConsumerWidget {
                   hint: const Text('Seleccione un cantón.'),
                   onChanged: (canton) {
                     ref.read(estadisticaProvider.notifier).changeCantonSeleccionadoState(canton!);
-                    ref.read(estadisticaProvider.notifier).changeSeSeleccionoCanton();
                   },
                   items: listaCantones
                       .map((canton) => DropdownMenuItem(

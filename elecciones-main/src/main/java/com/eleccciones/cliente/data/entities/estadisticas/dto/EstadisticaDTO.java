@@ -12,14 +12,19 @@ import javax.validation.constraints.NotNull;
 public class EstadisticaDTO {
     @NotNull
     private Integer idMovimiento;
+
     @NotNull
     private String movimiento;
 
+    @NotNull
+    private String numeroMovimiento;
+
     private Long sumatoria;
 
-    public EstadisticaDTO(Integer idMovimiento, String movimiento, Long sumatoria) {
+    public EstadisticaDTO(Integer idMovimiento, String movimiento, String numeroMovimiento, Long sumatoria) {
         this.idMovimiento = idMovimiento;
         this.movimiento = movimiento;
+        this.numeroMovimiento = numeroMovimiento;
         this.sumatoria = sumatoria;
     }
 }

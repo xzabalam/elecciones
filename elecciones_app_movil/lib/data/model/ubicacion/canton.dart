@@ -22,5 +22,12 @@ class Canton extends Equatable {
   }
 
   @override
+  bool operator ==(Object other) =>
+      identical(this, other) || super == other && other is Canton && runtimeType == other.runtimeType && id == other.id;
+
+  @override
+  int get hashCode => super.hashCode ^ id.hashCode;
+
+  @override
   List<Object?> get props => [id, nombre];
 }

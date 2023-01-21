@@ -50,6 +50,7 @@ dependencies:
   adaptive_button: ^0.1.8
   syncfusion_flutter_charts: ^20.4.43
   backdrop: ^0.8.1
+  syncfusion_flutter_treemap: ^20.4.44-beta
 
 dev_dependencies:
   flutter_test:

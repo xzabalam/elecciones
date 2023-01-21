@@ -28,7 +28,6 @@ class ProvinciaWidget extends ConsumerWidget {
                   hint: const Text('Seleccione una provincia.'),
                   onChanged: (provincia) {
                     ref.read(estadisticaProvider.notifier).changeProvinciaSeleccionadaState(provincia!);
-                    ref.read(estadisticaProvider.notifier).changeSeSeleccionoProvincia();
                   },
                   items: listaProvincias
                       .map((provincia) => DropdownMenuItem(

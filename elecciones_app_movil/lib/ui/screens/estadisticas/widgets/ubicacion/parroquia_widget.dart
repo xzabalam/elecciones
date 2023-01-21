@@ -24,7 +24,6 @@ class ParroquiaWidget extends ConsumerWidget {
             hint: const Text('Seleccione una parroquia.'),
             onChanged: (parroquia) {
               ref.read(estadisticaProvider.notifier).changeParroquiaSeleccionadaState(parroquia!);
-              ref.read(estadisticaProvider.notifier).changeSeSeleccionoParroquia();
             },
             items: parroquias
                 .map((parroquia) => DropdownMenuItem(

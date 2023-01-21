@@ -6,13 +6,6 @@ import 'package:equatable/equatable.dart';
 
 class EstadisticaModel extends Equatable {
   List<DignidadDto>? dignidadesDto;
-
-  List<Provincia>? provincias;
-  bool? seGuardoListadoProvincia = false;
-
-  Map<int, List<Canton>>? listadoCantonesPorProvincia = {};
-  Map<int, List<Parroquia>>? listadoParroquiasPorCanton = {};
-
   bool? seGuardoEnProviderDignidades = false;
 
   int? posicionDignidadSeleccionada = -1;
@@ -22,7 +15,6 @@ class EstadisticaModel extends Equatable {
   bool? seSeleccionoConcejalesUrbanos = false;
   bool? seSeleccionoConcejalesRurales = false;
   bool? seSeleccionoVocalesJuntasParroquiales = false;
-  bool? seSeleccionoTodosLosFiltros = false;
 
   Provincia? provinciaSeleccionada;
   bool? seSeleccionoProvincia = false;
@@ -40,10 +32,6 @@ class EstadisticaModel extends Equatable {
 
   EstadisticaModel(
       {this.dignidadesDto,
-      this.provincias,
-      this.seGuardoListadoProvincia,
-      this.listadoCantonesPorProvincia,
-      this.listadoParroquiasPorCanton,
       this.seGuardoEnProviderDignidades,
       this.posicionDignidadSeleccionada,
       this.seSeleccionoPrefectos,
@@ -51,7 +39,6 @@ class EstadisticaModel extends Equatable {
       this.seSeleccionoConcejalesUrbanos,
       this.seSeleccionoConcejalesRurales,
       this.seSeleccionoVocalesJuntasParroquiales,
-      this.seSeleccionoTodosLosFiltros,
       this.provinciaSeleccionada,
       this.seSeleccionoProvincia,
       this.cantonSeleccionado,
@@ -64,10 +51,6 @@ class EstadisticaModel extends Equatable {
 
   EstadisticaModel copyWith(
           {List<DignidadDto>? dignidadesDto,
-          List<Provincia>? provincias,
-          bool? seGuardoListadoProvincia,
-          Map<int, List<Canton>>? listadoCantonesPorProvincia,
-          Map<int, List<Parroquia>>? listadoParroquiasPorCanton,
           bool? seGuardoEnProviderDignidades,
           int? posicionDignidadSeleccionada,
           bool? seSeleccionoPrefectos,
@@ -75,7 +58,6 @@ class EstadisticaModel extends Equatable {
           bool? seSeleccionoConcejalesUrbanos,
           bool? seSeleccionoConcejalesRurales,
           bool? seSeleccionoVocalesJuntasParroquiales,
-          bool? seSeleccionoTodosLosFiltros,
           Provincia? provinciaSeleccionada,
           bool? seSeleccionoProvincia,
           Canton? cantonSeleccionado,
@@ -87,10 +69,6 @@ class EstadisticaModel extends Equatable {
           List<VotosMovimientoDto>? respuestaSumatoriaVotosPorMovimiento}) =>
       EstadisticaModel(
           dignidadesDto: dignidadesDto ?? this.dignidadesDto,
-          provincias: provincias ?? this.provincias,
-          seGuardoListadoProvincia: seGuardoListadoProvincia ?? this.seGuardoEnProviderDignidades,
-          listadoCantonesPorProvincia: listadoCantonesPorProvincia ?? this.listadoCantonesPorProvincia,
-          listadoParroquiasPorCanton: listadoParroquiasPorCanton ?? this.listadoParroquiasPorCanton,
           seGuardoEnProviderDignidades: seGuardoEnProviderDignidades ?? this.seGuardoEnProviderDignidades,
           posicionDignidadSeleccionada: posicionDignidadSeleccionada ?? this.posicionDignidadSeleccionada,
           seSeleccionoPrefectos: seSeleccionoPrefectos ?? this.seSeleccionoPrefectos,
@@ -99,7 +77,6 @@ class EstadisticaModel extends Equatable {
           seSeleccionoConcejalesRurales: seSeleccionoConcejalesRurales ?? this.seSeleccionoConcejalesRurales,
           seSeleccionoVocalesJuntasParroquiales:
               seSeleccionoVocalesJuntasParroquiales ?? this.seSeleccionoVocalesJuntasParroquiales,
-          seSeleccionoTodosLosFiltros: seSeleccionoTodosLosFiltros ?? this.seSeleccionoTodosLosFiltros,
           provinciaSeleccionada: provinciaSeleccionada ?? this.provinciaSeleccionada,
           seSeleccionoProvincia: seSeleccionoProvincia ?? this.seSeleccionoProvincia,
           cantonSeleccionado: cantonSeleccionado ?? this.cantonSeleccionado,
@@ -112,12 +89,13 @@ class EstadisticaModel extends Equatable {
               respuestaSumatoriaVotosPorMovimiento ?? this.respuestaSumatoriaVotosPorMovimiento);
 
   @override
+  String toString() {
+    return 'EstadisticaModel{dignidadesDto: $dignidadesDto, seGuardoEnProviderDignidades: $seGuardoEnProviderDignidades, posicionDignidadSeleccionada: $posicionDignidadSeleccionada, seSeleccionoPrefectos: $seSeleccionoPrefectos, seSeleccionoAlcaldes: $seSeleccionoAlcaldes, seSeleccionoConcejalesUrbanos: $seSeleccionoConcejalesUrbanos, seSeleccionoConcejalesRurales: $seSeleccionoConcejalesRurales, seSeleccionoVocalesJuntasParroquiales: $seSeleccionoVocalesJuntasParroquiales, provinciaSeleccionada: $provinciaSeleccionada, seSeleccionoProvincia: $seSeleccionoProvincia, cantonSeleccionado: $cantonSeleccionado, seSeleccionoCanton: $seSeleccionoCanton, parroquiaSeleccionada: $parroquiaSeleccionada, seSeleccionoParroquia: $seSeleccionoParroquia, cantidadTotalElectores: $cantidadTotalElectores, numeroElectoresDto: $numeroElectoresDto, respuestaSumatoriaVotosPorMovimiento: $respuestaSumatoriaVotosPorMovimiento}';
+  }
+
+  @override
   List<Object?> get props => [
         dignidadesDto,
-        provincias,
-        seGuardoListadoProvincia,
-        listadoCantonesPorProvincia,
-        listadoParroquiasPorCanton,
         seGuardoEnProviderDignidades,
         posicionDignidadSeleccionada,
         seSeleccionoPrefectos,
@@ -125,7 +103,6 @@ class EstadisticaModel extends Equatable {
         seSeleccionoConcejalesUrbanos,
         seSeleccionoConcejalesRurales,
         seSeleccionoVocalesJuntasParroquiales,
-        seSeleccionoTodosLosFiltros,
         provinciaSeleccionada,
         seSeleccionoProvincia,
         cantonSeleccionado,

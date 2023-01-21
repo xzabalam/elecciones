@@ -15,9 +15,6 @@ class EstadisticaNotifier extends StateNotifier<EstadisticaModel> {
       : super(EstadisticaModel(
           numeroElectoresDto: NumeroElectoresDto(idUbicacion: -1, nombreUbicacion: "", cantidadElectores: 0),
           respuestaSumatoriaVotosPorMovimiento: const [],
-          seGuardoListadoProvincia: false,
-          listadoCantonesPorProvincia: const {},
-          listadoParroquiasPorCanton: const {},
           seGuardoEnProviderDignidades: false,
           posicionDignidadSeleccionada: -1,
           seSeleccionoPrefectos: false,
@@ -25,7 +22,6 @@ class EstadisticaNotifier extends StateNotifier<EstadisticaModel> {
           seSeleccionoConcejalesUrbanos: false,
           seSeleccionoConcejalesRurales: false,
           seSeleccionoVocalesJuntasParroquiales: false,
-          seSeleccionoTodosLosFiltros: false,
           seSeleccionoProvincia: false,
           seSeleccionoCanton: false,
           seSeleccionoParroquia: false,
@@ -38,9 +34,6 @@ class EstadisticaNotifier extends StateNotifier<EstadisticaModel> {
     state = EstadisticaModel(
       numeroElectoresDto: NumeroElectoresDto(idUbicacion: -1, nombreUbicacion: "", cantidadElectores: 0),
       respuestaSumatoriaVotosPorMovimiento: const [],
-      seGuardoListadoProvincia: false,
-      listadoCantonesPorProvincia: const {},
-      listadoParroquiasPorCanton: const {},
       seGuardoEnProviderDignidades: false,
       posicionDignidadSeleccionada: -1,
       seSeleccionoPrefectos: false,
@@ -48,7 +41,6 @@ class EstadisticaNotifier extends StateNotifier<EstadisticaModel> {
       seSeleccionoConcejalesUrbanos: false,
       seSeleccionoConcejalesRurales: false,
       seSeleccionoVocalesJuntasParroquiales: false,
-      seSeleccionoTodosLosFiltros: false,
       seSeleccionoProvincia: false,
       seSeleccionoCanton: false,
       seSeleccionoParroquia: false,
@@ -62,24 +54,6 @@ class EstadisticaNotifier extends StateNotifier<EstadisticaModel> {
     state = state.copyWith(dignidadesDto: dignidadesDto);
   }
 
-  void changeListadoProvinciaState(List<Provincia> provincia) {
-    state = state.copyWith(provincias: provincia, seGuardoListadoProvincia: true);
-  }
-
-  void addListadoCantonesPorProvincia(int idProvincia, List<Canton> listadoCantones) {
-    state = state.copyWith(listadoCantonesPorProvincia: {
-      ...state.listadoCantonesPorProvincia!,
-      ...{idProvincia: listadoCantones}
-    });
-  }
-
-  void addListadoParroquiasPorCanton(int idCanton, List<Parroquia> listadoParroquia) {
-    state = state.copyWith(listadoParroquiasPorCanton: {
-      ...state.listadoParroquiasPorCanton!,
-      ...{idCanton: listadoParroquia}
-    });
-  }
-
   void changeSeGuardoEnProviderDignidades(bool seGuardoEnProviderDignidades) {
     state = state.copyWith(seGuardoEnProviderDignidades: seGuardoEnProviderDignidades);
   }
@@ -87,89 +61,84 @@ class EstadisticaNotifier extends StateNotifier<EstadisticaModel> {
   void changePosicionDignidadSeleccionadaState(int posicionDignidadSeleccionada) {
     resetState();
     state = state.copyWith(posicionDignidadSeleccionada: posicionDignidadSeleccionada);
-  }
 
-  void changeSeSeleccionoPrefectosState(bool seSeleccionoPrefectos) {
-    state = state.copyWith(
-        seSeleccionoPrefectos: seSeleccionoPrefectos,
-        seSeleccionoAlcaldes: false,
-        seSeleccionoConcejalesRurales: false,
-        seSeleccionoConcejalesUrbanos: false,
-        seSeleccionoVocalesJuntasParroquiales: false);
-  }
+    if (posicionDignidadSeleccionada == 0) {
+      state = state.copyWith(seSeleccionoPrefectos: true);
+    }
 
-  void changeSeSeleccionoAlcaldesState(bool seSeleccionoAlcaldes) {
-    state = state.copyWith(
-        seSeleccionoPrefectos: false,
-        seSeleccionoAlcaldes: seSeleccionoAlcaldes,
-        seSeleccionoConcejalesRurales: false,
-        seSeleccionoConcejalesUrbanos: false,
-        seSeleccionoVocalesJuntasParroquiales: false);
-  }
+    // Se selecciono alcaldes
+    if (posicionDignidadSeleccionada == 1) {
+      state = state.copyWith(seSeleccionoAlcaldes: true);
+    }
 
-  void changeSeSeleccionoConcejalesUrbanosState(bool seSeleccionoConcejalesUrbanos) {
-    state = state.copyWith(
-        seSeleccionoPrefectos: false,
-        seSeleccionoAlcaldes: false,
-        seSeleccionoConcejalesRurales: seSeleccionoConcejalesUrbanos,
-        seSeleccionoConcejalesUrbanos: false,
-        seSeleccionoVocalesJuntasParroquiales: false);
-  }
+    // Se selecciono concejales urbanos
+    if (posicionDignidadSeleccionada == 2) {
+      state = state.copyWith(seSeleccionoConcejalesUrbanos: true);
+    }
 
-  void changeSeSeleccionoConcejalesRuralesState(bool seSeleccionoConcejalesRurales) {
-    state = state.copyWith(
-        seSeleccionoPrefectos: false,
-        seSeleccionoAlcaldes: false,
-        seSeleccionoConcejalesRurales: false,
-        seSeleccionoConcejalesUrbanos: seSeleccionoConcejalesRurales,
-        seSeleccionoVocalesJuntasParroquiales: false);
-  }
+    // Se selecciono concejales rurales
+    if (posicionDignidadSeleccionada == 3) {
+      state = state.copyWith(seSeleccionoConcejalesRurales: true);
+    }
 
-  void changeSeSeleccionoVocalesJuntasParroquialesState(bool seSeleccionoVocalesJuntasParroquiales) {
-    state = state.copyWith(
-        seSeleccionoPrefectos: false,
-        seSeleccionoAlcaldes: false,
-        seSeleccionoConcejalesRurales: false,
-        seSeleccionoConcejalesUrbanos: false,
-        seSeleccionoVocalesJuntasParroquiales: seSeleccionoVocalesJuntasParroquiales);
-  }
-
-  void changeSeSeleccionoTodosLosFiltrosState(bool seSeleccionoTodosLosFiltros) {
-    state = state.copyWith(seSeleccionoTodosLosFiltros: seSeleccionoTodosLosFiltros);
-  }
-
-  void changeProvinciaSeleccionadaState(Provincia provinciaSeleccionada) {
-    state = state.copyWith(
-        provinciaSeleccionada: provinciaSeleccionada, cantonSeleccionado: null, parroquiaSeleccionada: null);
-  }
-
-  void changeCantonSeleccionadoState(Canton cantonSeleccionado) {
-    state = state.copyWith(cantonSeleccionado: cantonSeleccionado, parroquiaSeleccionada: null);
-  }
-
-  void changeParroquiaSeleccionadaState(Parroquia parroquiaSeleccionada) {
-    state = state.copyWith(parroquiaSeleccionada: parroquiaSeleccionada);
+    // Se selecciono vocales juntas parroquiales
+    if (posicionDignidadSeleccionada == 4) {
+      state = state.copyWith(seSeleccionoVocalesJuntasParroquiales: true);
+    }
   }
 
   void changeCantidadTotalElectoresState(int cantidadTotalElectores) {
     state = state.copyWith(cantidadTotalElectores: cantidadTotalElectores);
   }
 
-  void changeSeSeleccionoProvincia() {
+  void changeProvinciaSeleccionadaState(Provincia provinciaSeleccionada) {
+    int posicionDignidadSeleccionada = state.posicionDignidadSeleccionada!;
+    bool seSeleccionoPrefectos = state.seSeleccionoPrefectos!;
+    bool seSeleccionoAlcaldes = state.seSeleccionoAlcaldes!;
+    bool seSeleccionoConcejalesUrbanos = state.seSeleccionoConcejalesUrbanos!;
+    bool seSeleccionoConcejalesRurales = state.seSeleccionoConcejalesRurales!;
+    bool seSeleccionoVocalesJuntasParroquiales = state.seSeleccionoVocalesJuntasParroquiales!;
+
+    resetState();
+
     state = state.copyWith(
+        posicionDignidadSeleccionada: posicionDignidadSeleccionada,
+        seSeleccionoPrefectos: seSeleccionoPrefectos,
+        seSeleccionoAlcaldes: seSeleccionoAlcaldes,
+        seSeleccionoConcejalesUrbanos: seSeleccionoConcejalesUrbanos,
+        seSeleccionoConcejalesRurales: seSeleccionoConcejalesRurales,
+        seSeleccionoVocalesJuntasParroquiales: seSeleccionoVocalesJuntasParroquiales,
         seSeleccionoProvincia: true,
-        seSeleccionoCanton: false,
-        seSeleccionoParroquia: false,
-        listadoCantonesPorProvincia: {},
-        listadoParroquiasPorCanton: {});
+        provinciaSeleccionada: provinciaSeleccionada);
   }
 
-  void changeSeSeleccionoCanton() {
-    state = state.copyWith(seSeleccionoCanton: true, seSeleccionoParroquia: false, listadoParroquiasPorCanton: {});
+  void changeCantonSeleccionadoState(Canton cantonSeleccionado) {
+    int posicionDignidadSeleccionada = state.posicionDignidadSeleccionada!;
+    bool seSeleccionoPrefectos = state.seSeleccionoPrefectos!;
+    bool seSeleccionoAlcaldes = state.seSeleccionoAlcaldes!;
+    bool seSeleccionoConcejalesUrbanos = state.seSeleccionoConcejalesUrbanos!;
+    bool seSeleccionoConcejalesRurales = state.seSeleccionoConcejalesRurales!;
+    bool seSeleccionoVocalesJuntasParroquiales = state.seSeleccionoVocalesJuntasParroquiales!;
+    bool seSeleccionoProvincia = state.seSeleccionoProvincia!;
+    Provincia provinciaSeleccionada = state.provinciaSeleccionada!;
+
+    resetState();
+
+    state = state.copyWith(
+        posicionDignidadSeleccionada: posicionDignidadSeleccionada,
+        seSeleccionoPrefectos: seSeleccionoPrefectos,
+        seSeleccionoAlcaldes: seSeleccionoAlcaldes,
+        seSeleccionoConcejalesUrbanos: seSeleccionoConcejalesUrbanos,
+        seSeleccionoConcejalesRurales: seSeleccionoConcejalesRurales,
+        seSeleccionoVocalesJuntasParroquiales: seSeleccionoVocalesJuntasParroquiales,
+        seSeleccionoProvincia: seSeleccionoProvincia,
+        seSeleccionoCanton: true,
+        provinciaSeleccionada: provinciaSeleccionada,
+        cantonSeleccionado: cantonSeleccionado);
   }
 
-  void changeSeSeleccionoParroquia() {
-    state = state.copyWith(seSeleccionoParroquia: true);
+  void changeParroquiaSeleccionadaState(Parroquia parroquiaSeleccionada) {
+    state = state.copyWith(parroquiaSeleccionada: parroquiaSeleccionada, seSeleccionoParroquia: true);
   }
 
   void changeNumeroElectoresState(NumeroElectoresDto numeroElectoresDto) {
@@ -200,10 +169,10 @@ final dignidadesFutureProvider = FutureProvider((ref) async {
 
       return dignidades;
     } else {
-      throw Exception('Error al obtener las dignidades configuradas. ${response.data['error']}');
+      throw Exception('Error al obtener las dignidades configuradas.');
     }
   } catch (e) {
-    throw Exception('Error al obtener las dignidades configuradas. ${e.toString()}');
+    throw Exception('Error al obtener las dignidades configuradas.');
   }
 });
 
@@ -217,13 +186,12 @@ final numeroElectoresPorProvinciaFutureProvider =
         options: Options(headers: {'Authorization': token}));
 
     if (response.statusCode == 200) {
-      print(response.data);
       return NumeroElectoresDto.fromJson(response.data);
     } else {
-      throw Exception('Error al obtener las dignidades configuradas. ${response.data['error']}');
+      throw Exception('Error al obtener las dignidades configuradas.');
     }
   } catch (e) {
-    throw Exception('Error al obtener las dignidades configuradas. ${e.toString()}');
+    throw Exception('Error al obtener las dignidades configuradas.');
   }
 });
 
@@ -238,13 +206,12 @@ final numeroElectoresPorProvinciaYCantonFutureProvider =
         options: Options(headers: {'Authorization': token}));
 
     if (response.statusCode == 200) {
-      print(response);
       return NumeroElectoresDto.fromJson(response.data);
     } else {
-      throw Exception('Error al obtener las dignidades configuradas. ${response.data['error']}');
+      throw Exception('Error al obtener las dignidades configuradas.');
     }
   } catch (e) {
-    throw Exception('Error al obtener las dignidades configuradas. ${e.toString()}');
+    throw Exception('Error al obtener las dignidades configuradas.');
   }
 });
 
@@ -261,10 +228,10 @@ final numeroElectoresPorProvinciaYCantonYParroquiaFutureProvider =
     if (response.statusCode == 200) {
       return NumeroElectoresDto.fromJson(response.data);
     } else {
-      throw Exception('Error al obtener las dignidades configuradas. ${response.data['error']}');
+      throw Exception('Error al obtener las dignidades configuradas.');
     }
   } catch (e) {
-    throw Exception('Error al obtener las dignidades configuradas. ${e.toString()}');
+    throw Exception('Error al obtener las dignidades configuradas.');
   }
 });
 
@@ -357,9 +324,9 @@ Future<List<VotosMovimientoDto>> consumirServicioRest(
 
       return votosMovimientoDto;
     } else {
-      throw Exception('Error al obtener las dignidades configuradas. ${response.data['error']}');
+      throw Exception('Error al obtener las dignidades configuradas.');
     }
   } catch (e) {
-    throw Exception('Error al obtener las dignidades configuradas. ${e.toString()}');
+    throw Exception('Error al obtener las dignidades configuradas.');
   }
 }
