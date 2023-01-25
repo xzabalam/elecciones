@@ -1,0 +1,134 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Elecciones 2023 - Estadísticas</span>
+
+    <span class="spacer"></span>
+
+    <span>{{ datosUsuarioDto.entidad.nombre }}</span>
+
+    <button
+      (click)="logout()"
+      matTooltip="Cerrar sesión"
+      matTooltipPosition="left"
+      mat-icon-button
+      aria-label="Cerrar sesión"
+    >
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="parent">
+  <div class="filtros">
+    <!-- {Dignidades} -->
+    <div class="dignidades">
+      <h2>Dignidades</h2>
+      <div>
+        <mat-selection-list
+          #dignidades
+          [multiple]="false"
+          (selectionChange)="onDignidadChange($event)"
+        >
+          <mat-list-option
+            style="display: inline-block; text-align: center"
+            *ngFor="let dignidad of dignidadesDto"
+            [value]="dignidad"
+          >
+            {{ dignidad.nombre }}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </div>
+    <!-- {Provincia} -->
+    <div
+      class="ubicaciones"
+      *ngIf="seSeleccionoDignidad && provincias.length > 0"
+    >
+      <h2>Ubicaciones</h2>
+
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Provincia</mat-label>
+          <mat-select
+            [(ngModel)]="provinciaSeleccionada"
+            (selectionChange)="onChangeSelectProvincia()"
+          >
+            <mat-option
+              *ngFor="let provincia of provincias"
+              [value]="provincia"
+            >
+              {{ provincia.nombre }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <!-- {Canton} -->
+      <div
+        *ngIf="
+          seSeleccionoProvincia &&
+          cantones.length > 0 &&
+          (seSeleccionoAlcaldes ||
+            seSeleccionoConcejalesUrbanos ||
+            seSeleccionoConcejalesRurales ||
+            seSeleccionoVocalesJuntasParroquiales)
+        "
+      >
+        <mat-form-field appearance="fill">
+          <mat-label>Cantón</mat-label>
+          <mat-select
+            [(ngModel)]="cantonSeleccionado"
+            (selectionChange)="onChangeSelectCanton()"
+          >
+            <mat-option *ngFor="let canton of cantones" [value]="canton">
+              {{ canton.nombre }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- {Parroquia} -->
+      <div
+        *ngIf="
+          seSeleccionoCanton &&
+          parroquias.length > 0 &&
+          seSeleccionoVocalesJuntasParroquiales
+        "
+      >
+        <mat-form-field appearance="fill">
+          <mat-label>Parroquias</mat-label>
+          <mat-select
+            [(ngModel)]="parroquiaSeleccionada"
+            (selectionChange)="onChangeSelectParroquia()"
+          >
+            <mat-option
+              *ngFor="let parroquia of parroquias"
+              [value]="parroquia"
+            >
+              {{ parroquia.nombre }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="grafico">
+    <div *ngIf="seSeleccionoDignidad">
+      <strong>{{ dignidadSeleccionada!.nombre }}</strong>
+    </div>
+    <div *ngIf="seSeleccionoProvincia">
+      <strong>{{ provinciaSeleccionada!.nombre }}</strong>
+    </div>
+    <div *ngIf="seSeleccionoCanton">
+      <strong>{{ cantonSeleccionado!.nombre }}</strong>
+    </div>
+    <div *ngIf="seSeleccionoParroquia">
+      <strong>{{ parroquiaSeleccionada!.nombre }}</strong>
+    </div>
+    <div *ngIf="cantidadTotalElectores > 0">
+      <strong>Votos totales {{ cantidadTotalElectores }}</strong>
+    </div>
+    <div class="chart-container">
+      <canvas height="400" id="MyChart">{{ chart }}</canvas>
+    </div>
+  </div>
+</div>
