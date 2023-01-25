@@ -1,9 +1,9 @@
-package com.eleccciones.cliente.common.util;
+package com.eleccciones.cliente.common.enumeration;
 
 public enum TipoCandidatoEnum {
     PRINCIPAL("PRINCIPAL"), PRINCIPAL_PUNTO("PRINCIPAL.");
 
-    private String nombre;
+    private final String nombre;
 
     TipoCandidatoEnum(String nombre) {
         this.nombre = nombre;

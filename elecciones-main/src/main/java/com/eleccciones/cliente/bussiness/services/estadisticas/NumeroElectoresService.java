@@ -16,20 +16,20 @@ public class NumeroElectoresService {
         this.numeroElectoresRepository = numeroElectoresRepository;
     }
 
-    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})
+    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_ESTADISTICAS"})
     @Cacheable(value = "NUMERO_ELECTORES_PROVINCIA")
     public NumeroElectoresDTO getByProvincia(Integer idProvincia) {
         return numeroElectoresRepository.getByProvincia(idProvincia);
     }
 
-    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})
+    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_ESTADISTICAS"})
     @Cacheable(value = "NUMERO_ELECTORES_CANTON")
     public NumeroElectoresDTO getByProvinciaAndCanton(Integer idProvincia,
                                                       Integer idCanton) {
         return numeroElectoresRepository.getByProvinciaAndCanton(idProvincia, idCanton);
     }
 
-    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})
+    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_ESTADISTICAS"})
     @Cacheable(value = "NUMERO_ELECTORES_PARROQUIA")
     public NumeroElectoresDTO getByProvinciaAndCantonAndParroquia(Integer idProvincia,
                                                                   Integer idCanton,

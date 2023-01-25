@@ -20,11 +20,13 @@ public class DignidadController {
         this.dignidadServicio = dignidadServicio;
     }
 
+
     @GetMapping("/all")
     @Operation(summary = "Obtiene el listado de todas las dignidades configuradas")
     public ResponseEntity<List<DignidadDTO>> getAll() {
-        System.out.println("ingreso");
         List<DignidadDTO> dignidades = dignidadServicio.getAll();
         return new ResponseEntity<>(dignidades, HttpStatus.OK);
     }
 }
+
+

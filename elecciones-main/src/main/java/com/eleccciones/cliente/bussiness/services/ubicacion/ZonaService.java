@@ -1,7 +1,7 @@
 package com.eleccciones.cliente.bussiness.services.ubicacion;
 
+import com.eleccciones.cliente.common.enumeration.EstadoEnum;
 import com.eleccciones.cliente.common.exception.UbicacionException;
-import com.eleccciones.cliente.common.util.EstadoEnum;
 import com.eleccciones.cliente.data.entities.ubicacion.Parroquia;
 import com.eleccciones.cliente.data.entities.ubicacion.Zona;
 import com.eleccciones.cliente.data.repositories.ubicacion.ZonaRepository;

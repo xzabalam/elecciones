@@ -18,65 +18,65 @@ public class EstadisticaVotoDignidadService {
         this.estadisticaVotoDignidadRepository = estadisticaVotoDignidadRepository;
     }
 
-    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})
+    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_ESTADISTICAS"})
     public List<EstadisticaDTO> getPrefectosPorProvincia(Integer idProvincia) {
         ParametroEstadisticaUtil.validarProvincia(idProvincia);
         return estadisticaVotoDignidadRepository.getPrefectosPorProvincia(idProvincia);
     }
 
-    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})
+    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_ESTADISTICAS"})
     public List<EstadisticaDTO> getAlcaldesPorProvincia(Integer idProvincia) {
         ParametroEstadisticaUtil.validarProvincia(idProvincia);
         return estadisticaVotoDignidadRepository.getAlcaldesPorProvincia(idProvincia);
     }
 
-    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})
+    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_ESTADISTICAS"})
     public List<EstadisticaDTO> getAlcaldesPorProvinciaYCanton(Integer idProvincia, Integer idCanton) {
         ParametroEstadisticaUtil.validarProvincia(idProvincia);
         ParametroEstadisticaUtil.validarCanton(idCanton);
         return estadisticaVotoDignidadRepository.getAlcaldesPorProvinciaYCanton(idProvincia, idCanton);
     }
 
-    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})
+    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_ESTADISTICAS"})
     public List<EstadisticaDTO> getConcejalesUrbanosPorProvincia(Integer idProvincia) {
         ParametroEstadisticaUtil.validarProvincia(idProvincia);
         return estadisticaVotoDignidadRepository.getConcejalesUrbanosPorProvincia(idProvincia);
     }
 
-    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})
+    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_ESTADISTICAS"})
     public List<EstadisticaDTO> getConcejalesUrbanosPorProvinciaYCanton(Integer idProvincia, Integer idCanton) {
         ParametroEstadisticaUtil.validarProvincia(idProvincia);
         ParametroEstadisticaUtil.validarCanton(idCanton);
         return estadisticaVotoDignidadRepository.getConcejalesUrbanosPorProvinciaYCanton(idProvincia, idCanton);
     }
 
-    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})
+    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_ESTADISTICAS"})
     public List<EstadisticaDTO> getConcejalesRuralesPorProvincia(Integer idProvincia) {
         ParametroEstadisticaUtil.validarProvincia(idProvincia);
         return estadisticaVotoDignidadRepository.getConcejalesRuralesPorProvincia(idProvincia);
     }
 
-    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})
+    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_ESTADISTICAS"})
     public List<EstadisticaDTO> getConcejalesRuralesPorProvinciaYCanton(Integer idProvincia, Integer idCanton) {
         ParametroEstadisticaUtil.validarProvincia(idProvincia);
         ParametroEstadisticaUtil.validarCanton(idCanton);
         return estadisticaVotoDignidadRepository.getConcejalesRuralesPorProvinciaYCanton(idProvincia, idCanton);
     }
 
-    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})
+    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_ESTADISTICAS"})
     public List<EstadisticaDTO> getVocalesJuntasParroquialesPorProvincia(Integer idProvincia) {
         ParametroEstadisticaUtil.validarProvincia(idProvincia);
         return estadisticaVotoDignidadRepository.getVocalesJuntasParroquialesPorProvincia(idProvincia);
     }
 
-    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})
+    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_ESTADISTICAS"})
     public List<EstadisticaDTO> getVocalesJuntasParroquialesPorProvinciaYCanton(Integer idProvincia, Integer idCanton) {
         ParametroEstadisticaUtil.validarProvincia(idProvincia);
         ParametroEstadisticaUtil.validarCanton(idCanton);
         return estadisticaVotoDignidadRepository.getVocalesJuntasParroquialesPorProvinciaYCanton(idProvincia, idCanton);
     }
 
-    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})
+    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_ESTADISTICAS"})
     public List<EstadisticaDTO> getVocalesJuntasParroquialesPorProvinciaYCantonYParroquia(Integer idProvincia, Integer idCanton, Integer idParroquia) {
         ParametroEstadisticaUtil.validarProvincia(idProvincia);
         ParametroEstadisticaUtil.validarCanton(idCanton);

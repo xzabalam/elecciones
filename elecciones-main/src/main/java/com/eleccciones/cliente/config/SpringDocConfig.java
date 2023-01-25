@@ -6,12 +6,32 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SpringDocConfig {
+    private static final String GRUPO = "controladores";
+    private static final String[] PATHS = {
+            "/acta-dignidad/**",
+            "/dignidad/**",
+            "/movimiento/**",
+            "/voto/**",
+            "/estadisticas/**",
+            "/numero-electores/**",
+            "/usuarios/**",
+            "/canton/**",
+            "/circunscripcion/**",
+            "/junta/**",
+            "/pais/**",
+            "/parroquia/**",
+            "/provincia/**",
+            "/recinto/**",
+            "/zona/**"
+    };
 
-	private static final String GRUPO = "controladores";
-	private static final String REGLA_USUARIOS = "/usuarios/**";
-
-	@Bean
-	public GroupedOpenApi getDocket() {
-		return GroupedOpenApi.builder().group(GRUPO).pathsToMatch(REGLA_USUARIOS).build();
-	}
+    @Bean
+    public GroupedOpenApi getDocket() {
+        return GroupedOpenApi
+                .builder()
+                .packagesToScan("com.eleccciones.cliente.web.controllers")
+                .group(GRUPO)
+                .pathsToMatch(PATHS)
+                .build();
+    }
 }

@@ -1,13 +1,14 @@
 package com.eleccciones.cliente.web.controllers.security;
 
 import com.eleccciones.cliente.bussiness.services.security.UsuarioService;
+import com.eleccciones.cliente.data.entities.security.Usuario;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
+import java.util.stream.Collectors;
 
 @RestController
 public class AuthController {
@@ -25,7 +26,9 @@ public class AuthController {
      * @return
      */
     @GetMapping("/auth")
-    public ResponseEntity<Collection> validateLogin(Authentication authentication) {
-        return new ResponseEntity<>(authentication.getAuthorities(), HttpStatus.OK);
+    public ResponseEntity<Usuario> validateLogin(Authentication authentication) {
+        Usuario usuario = usuarioService.getUserByUsername(authentication.getName());
+        usuario.setRoles(authentication.getAuthorities().stream().map(item -> item.getAuthority()).collect(Collectors.toList()));
+        return new ResponseEntity<>(usuario, HttpStatus.OK);
     }
 }

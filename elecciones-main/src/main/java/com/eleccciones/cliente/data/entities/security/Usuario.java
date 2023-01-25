@@ -12,6 +12,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 
 @Entity
@@ -59,7 +60,10 @@ public class Usuario extends AbstractEntity implements Serializable {
 
     @Column(name = "sesion_web")
     private Integer sessionWeb;
-    
+
+    @Transient
+    private List<String> roles;
+
     @Override
     public String toString() {
         return "Usuario [" + (username != null ? "username=" + username + ", " : "")

@@ -10,44 +10,29 @@ import 'package:elecciones_app_movil/domain/providers/model/estadisticas/estadis
 import 'package:elecciones_app_movil/env/env.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+final EstadisticaModel estadisticaModelInicial = EstadisticaModel(
+  numeroElectoresDto: NumeroElectoresDto(idUbicacion: -1, nombreUbicacion: "", cantidadElectores: 0),
+  respuestaSumatoriaVotosPorMovimiento: const [],
+  seGuardoEnProviderDignidades: false,
+  posicionDignidadSeleccionada: -1,
+  seSeleccionoPrefectos: false,
+  seSeleccionoAlcaldes: false,
+  seSeleccionoConcejalesUrbanos: false,
+  seSeleccionoConcejalesRurales: false,
+  seSeleccionoVocalesJuntasParroquiales: false,
+  seSeleccionoProvincia: false,
+  seSeleccionoCanton: false,
+  seSeleccionoParroquia: false,
+  provinciaSeleccionada: null,
+  cantonSeleccionado: null,
+  parroquiaSeleccionada: null,
+);
+
 class EstadisticaNotifier extends StateNotifier<EstadisticaModel> {
-  EstadisticaNotifier()
-      : super(EstadisticaModel(
-          numeroElectoresDto: NumeroElectoresDto(idUbicacion: -1, nombreUbicacion: "", cantidadElectores: 0),
-          respuestaSumatoriaVotosPorMovimiento: const [],
-          seGuardoEnProviderDignidades: false,
-          posicionDignidadSeleccionada: -1,
-          seSeleccionoPrefectos: false,
-          seSeleccionoAlcaldes: false,
-          seSeleccionoConcejalesUrbanos: false,
-          seSeleccionoConcejalesRurales: false,
-          seSeleccionoVocalesJuntasParroquiales: false,
-          seSeleccionoProvincia: false,
-          seSeleccionoCanton: false,
-          seSeleccionoParroquia: false,
-          provinciaSeleccionada: null,
-          cantonSeleccionado: null,
-          parroquiaSeleccionada: null,
-        ));
+  EstadisticaNotifier() : super(estadisticaModelInicial);
 
   void resetState() {
-    state = EstadisticaModel(
-      numeroElectoresDto: NumeroElectoresDto(idUbicacion: -1, nombreUbicacion: "", cantidadElectores: 0),
-      respuestaSumatoriaVotosPorMovimiento: const [],
-      seGuardoEnProviderDignidades: false,
-      posicionDignidadSeleccionada: -1,
-      seSeleccionoPrefectos: false,
-      seSeleccionoAlcaldes: false,
-      seSeleccionoConcejalesUrbanos: false,
-      seSeleccionoConcejalesRurales: false,
-      seSeleccionoVocalesJuntasParroquiales: false,
-      seSeleccionoProvincia: false,
-      seSeleccionoCanton: false,
-      seSeleccionoParroquia: false,
-      provinciaSeleccionada: null,
-      cantonSeleccionado: null,
-      parroquiaSeleccionada: null,
-    );
+    state = estadisticaModelInicial;
   }
 
   void changeDignidadesDtoState(List<DignidadDto> dignidadesDto) {

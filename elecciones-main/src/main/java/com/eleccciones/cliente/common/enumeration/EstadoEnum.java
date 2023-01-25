@@ -1,9 +1,9 @@
-package com.eleccciones.cliente.common.util;
+package com.eleccciones.cliente.common.enumeration;
 
 public enum EstadoEnum {
     ACTIVO("A"), INACTIVO("I"), CREADO("C");
 
-    private String estado;
+    private final String estado;
 
     EstadoEnum(String estado) {
         this.estado = estado;

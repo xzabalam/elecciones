@@ -2,8 +2,8 @@ package com.eleccciones.cliente.bussiness.services.candidatos;
 
 import com.eleccciones.cliente.bussiness.services.security.UsuarioService;
 import com.eleccciones.cliente.bussiness.services.ubicacion.JuntaService;
+import com.eleccciones.cliente.common.enumeration.EstadoEnum;
 import com.eleccciones.cliente.common.exception.CandidatoException;
-import com.eleccciones.cliente.common.util.EstadoEnum;
 import com.eleccciones.cliente.data.entities.candidatos.ActaDignidad;
 import com.eleccciones.cliente.data.entities.security.Usuario;
 import com.eleccciones.cliente.data.entities.ubicacion.Junta;
