@@ -1,3 +1,4 @@
+import { colors } from './../../../domain/util/color_util';
 import { VotosMovimientoDto } from './../../../domain/model/dto/estaditicas/votos_movimiento_dto';
 import { ListadoVotosMovimientoService } from './../../../domain/services/votos_movimiento/listado-votos-movimiento.service';
 import { ParroquiaDto } from './../../../domain/model/dto/ubicacion/parroquia_dto';
@@ -13,6 +14,7 @@ import { Component, OnInit } from '@angular/core';
 import { DignidadesDto } from 'src/app/domain/model/dto/dignidad/dignidad_dto';
 import { MatSelectionListChange } from '@angular/material/list';
 import Chart from 'chart.js/auto';
+import { Colors } from 'chart.js/dist';
 
 @Component({
   selector: 'app-estadisticas',
@@ -25,32 +27,28 @@ export class EstadisticasComponent {
 
   dignidadesDto: Array<DignidadesDto> = [];
   dignidadSeleccionada: DignidadesDto | undefined;
-  seSeleccionoDignidad = false;
-
   posicionDignidadSeleccionada: number = -1;
-
-  seSeleccionoPrefectos = false;
-  seSeleccionoAlcaldes = false;
-  seSeleccionoConcejalesUrbanos = false;
-  seSeleccionoConcejalesRurales = false;
-  seSeleccionoVocalesJuntasParroquiales = false;
 
   provincias: Array<ProvinciaDto> = [];
   provinciaSeleccionada: ProvinciaDto | undefined;
-  seSeleccionoProvincia = false;
-
   cantones: Array<CantonDto> = [];
   cantonSeleccionado: CantonDto | undefined;
-  seSeleccionoCanton = false;
-
   parroquias: Array<ParroquiaDto> = [];
   parroquiaSeleccionada: ParroquiaDto | undefined;
-  seSeleccionoParroquia = false;
-
   cantidadTotalElectores: number = 0;
   respuestaSumatoriaVotosPorMovimiento: Array<VotosMovimientoDto> = [];
+  chart: any;
 
-  public chart: any;
+  seSeleccionoDignidad: boolean = false;
+  seSeleccionoPrefectos: boolean = false;
+  seSeleccionoAlcaldes: boolean = false;
+  seSeleccionoConcejalesUrbanos: boolean = false;
+  seSeleccionoConcejalesRurales: boolean = false;
+  seSeleccionoVocalesJuntasParroquiales: boolean = false;
+  seSeleccionoTodosLosFiltros: boolean = false;
+  seSeleccionoProvincia: boolean = false;
+  seSeleccionoCanton: boolean = false;
+  seSeleccionoParroquia: boolean = false;
 
   constructor(
     private userService: UsersService,
@@ -81,6 +79,7 @@ export class EstadisticasComponent {
 
   onDignidadChange(change: MatSelectionListChange) {
     this.seSeleccionoDignidad = true;
+    this.seSeleccionoTodosLosFiltros = false;
     this.posicionDignidadSeleccionada = change.options[0].value.id;
     this.dignidadSeleccionada = change.options[0].value;
     this.cantidadTotalElectores = 0;
@@ -131,12 +130,14 @@ export class EstadisticasComponent {
     this.seSeleccionoCanton = false;
     this.seSeleccionoParroquia = false;
     this.cantidadTotalElectores = 0;
+    this.seSeleccionoTodosLosFiltros = false;
 
     if (this.chart) {
       this.chart.destroy();
     }
 
     if (this.seSeleccionoPrefectos) {
+      this.seSeleccionoTodosLosFiltros = true;
       this.obtenerSumatoriaVotosPorPrefectoYProvincia(
         this.provinciaSeleccionada!.id
       );
@@ -149,6 +150,7 @@ export class EstadisticasComponent {
     this.seSeleccionoCanton = true;
     this.seSeleccionoParroquia = false;
     this.cantidadTotalElectores = 0;
+    this.seSeleccionoTodosLosFiltros = false;
     if (this.chart) {
       this.chart.destroy();
     }
@@ -158,6 +160,7 @@ export class EstadisticasComponent {
       this.seSeleccionoConcejalesUrbanos ||
       this.seSeleccionoConcejalesRurales
     ) {
+      this.seSeleccionoTodosLosFiltros = true;
       this.obtenerSumatoriaVotosPorProvinciaYCanton(
         this.provinciaSeleccionada!.id,
         this.cantonSeleccionado!.id
@@ -170,6 +173,7 @@ export class EstadisticasComponent {
   onChangeSelectParroquia() {
     this.seSeleccionoParroquia = true;
     this.cantidadTotalElectores = 0;
+    this.seSeleccionoTodosLosFiltros = true;
     if (this.chart) {
       this.chart.destroy();
     }
@@ -178,6 +182,35 @@ export class EstadisticasComponent {
       this.cantonSeleccionado!.id,
       this.parroquiaSeleccionada!.id
     );
+  }
+
+  onClickActualizarGrafico() {
+    this.cantidadTotalElectores = 0;
+    if (this.chart) {
+      this.chart.destroy();
+    }
+    if (this.seSeleccionoPrefectos) {
+      this.obtenerSumatoriaVotosPorPrefectoYProvincia(
+        this.provinciaSeleccionada!.id
+      );
+    }
+    if (
+      this.seSeleccionoAlcaldes ||
+      this.seSeleccionoConcejalesUrbanos ||
+      this.seSeleccionoConcejalesRurales
+    ) {
+      this.obtenerSumatoriaVotosPorProvinciaYCanton(
+        this.provinciaSeleccionada!.id,
+        this.cantonSeleccionado!.id
+      );
+    }
+    if (this.seSeleccionoVocalesJuntasParroquiales) {
+      this.obtenerSumatoriaVotosPorVocalesJuntasParroquiales(
+        this.provinciaSeleccionada!.id,
+        this.cantonSeleccionado!.id,
+        this.parroquiaSeleccionada!.id
+      );
+    }
   }
 
   private obtenerSumatoriaVotosPorPrefectoYProvincia(idProvincia: number) {
@@ -274,6 +307,9 @@ export class EstadisticasComponent {
       0
     );
 
+    var rgb: string[] = [];
+    for (var i = 0; i < labels.length; i++) rgb.push(colors[i]);
+
     this.chart = new Chart('MyChart', {
       type: 'bar',
       data: {
@@ -281,7 +317,7 @@ export class EstadisticasComponent {
         datasets: [
           {
             data: datos,
-            backgroundColor: '#3f51b5',
+            backgroundColor: rgb,
           },
         ],
       },

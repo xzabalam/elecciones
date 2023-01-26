@@ -20,7 +20,6 @@ export class HttpService {
   get(urlServicio: string, token: string): Observable<any>;
 
   get(urlServicio: string, token?: string): Observable<any> {
-    console.log(urlServicio);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

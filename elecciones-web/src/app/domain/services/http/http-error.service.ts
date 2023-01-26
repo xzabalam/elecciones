@@ -8,8 +8,6 @@ export class HttpErrorService {
   constructor() {}
 
   getServerErrorMessage(error: HttpErrorResponse): string {
-    console.log(error);
-    console.log(error.status);
     switch (error.status) {
       case 401: {
         return 'Usuario no autorizado. Es posible que las credenciales no sean las correctas.';
