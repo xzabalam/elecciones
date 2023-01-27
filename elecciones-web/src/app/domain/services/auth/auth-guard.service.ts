@@ -9,7 +9,11 @@ export class AuthGuardService {
   constructor(public auth: UsersService, public router: Router) {}
 
   canActivate(): boolean {
-    var roles: string[] = this.auth.getDatosUsuario().roles;
+    console.log('auth: ' + this.auth.getDatosUsuario());
+    var roles: string[] =
+      this.auth.getDatosUsuario() == null
+        ? []
+        : this.auth.getDatosUsuario().roles;
 
     if (
       !this.auth.isAuthenticated() &&

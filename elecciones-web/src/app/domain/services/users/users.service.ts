@@ -1,6 +1,5 @@
 import { HttpService } from './../http/http.service';
 import { UsuarioMapper } from './../../../domain/model/mapper/usuario_mapper';
-import { UsuarioDto } from './../../../domain/model/dto/usuario/usuario_dto';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -43,8 +42,11 @@ export class UsersService {
     return localStorage.getItem('token');
   }
 
-  public getDatosUsuario(): UsuarioDto {
+  public getDatosUsuario(): any {
+    console.log(localStorage.getItem('datosUsuario'));
     var jsonDatosUsuario = localStorage.getItem('datosUsuario');
-    return UsuarioMapper.toUsuarioDto(jsonDatosUsuario ?? '');
+    return jsonDatosUsuario == null
+      ? null
+      : UsuarioMapper.toUsuarioDto(jsonDatosUsuario ?? '');
   }
 }
