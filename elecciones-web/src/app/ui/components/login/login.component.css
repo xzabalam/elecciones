@@ -18,6 +18,9 @@
   justify-items: center;
   align-items: center;
   display: flex;
+  background-image: url(https://elvanguardistaonline.com/wp-content/uploads/2022/08/fm.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .div2 {
@@ -29,6 +32,9 @@
   justify-items: center;
   align-items: center;
   display: flex;
+  background-image: url(https://elinformativoecuadordotcom.files.wordpress.com/2022/11/papeleta-elecciones-2023-1.jpeg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .btn-login,
