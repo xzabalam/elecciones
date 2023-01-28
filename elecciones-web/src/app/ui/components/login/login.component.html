@@ -1,101 +1,100 @@
-<div class="parent">
-  <div class="div1"></div>
-  <div class="div2">
-    <div class="login">
-      <form class="login-form" (ngSubmit)="login()">
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>Iniciar sesión</mat-card-title>
-            <mat-card-subtitle
-              >Ingrese sus credenciales para iniciar sesión en el
-              sistema</mat-card-subtitle
-            >
-          </mat-card-header>
+<div class="main">
+  <div class="login">
+    <h1>Elecciones 2023</h1>
+    <h2>Ecuador</h2>
+    <form class="login-form" (ngSubmit)="login()">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Iniciar sesión</mat-card-title>
+          <mat-card-subtitle
+            >Ingrese sus credenciales para iniciar sesión en el
+            sistema</mat-card-subtitle
+          >
+        </mat-card-header>
 
-          <mat-card-content align="center">
-            <p>
-              <mat-form-field class="login-full-width">
-                <mat-label>Usuario</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  [formControl]="usernameFormControl"
-                  [errorStateMatcher]="matcher"
-                  placeholder="Ingrese el usuario"
-                />
-                <mat-hint>Ingrese su nombre de usuario.</mat-hint>
+        <mat-card-content align="center">
+          <p>
+            <mat-form-field class="login-full-width">
+              <mat-label>Usuario</mat-label>
+              <input
+                type="text"
+                matInput
+                [formControl]="usernameFormControl"
+                [errorStateMatcher]="matcher"
+                placeholder="Ingrese el usuario"
+              />
+              <mat-hint>Ingrese su nombre de usuario.</mat-hint>
 
-                <mat-error
-                  *ngIf="
-                    usernameFormControl.hasError('min') &&
-                    !usernameFormControl.hasError('required')
-                  "
-                >
-                  El usuario debe tener una longitud mínima de 3 caracteres.
-                </mat-error>
-                <mat-error
-                  *ngIf="
-                    usernameFormControl.hasError('max') &&
-                    !usernameFormControl.hasError('required')
-                  "
-                >
-                  El usuario debe tener una longitud máxima de 20 caracteres.
-                </mat-error>
-                <mat-error *ngIf="usernameFormControl.hasError('required')">
-                  El nombre de usuario es obligatorio.
-                </mat-error>
-              </mat-form-field>
-            </p>
+              <mat-error
+                *ngIf="
+                  usernameFormControl.hasError('min') &&
+                  !usernameFormControl.hasError('required')
+                "
+              >
+                El usuario debe tener una longitud mínima de 3 caracteres.
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  usernameFormControl.hasError('max') &&
+                  !usernameFormControl.hasError('required')
+                "
+              >
+                El usuario debe tener una longitud máxima de 20 caracteres.
+              </mat-error>
+              <mat-error *ngIf="usernameFormControl.hasError('required')">
+                El nombre de usuario es obligatorio.
+              </mat-error>
+            </mat-form-field>
+          </p>
 
-            <p>
-              <mat-form-field class="login-full-width">
-                <mat-label>Contraseña</mat-label>
-                <input
-                  type="password"
-                  matInput
-                  [formControl]="passwordFormControl"
-                  [errorStateMatcher]="matcher"
-                  placeholder="Ingrese la contraseña"
-                />
-                <mat-hint>Ingrese su contraseña</mat-hint>
+          <p>
+            <mat-form-field class="login-full-width">
+              <mat-label>Contraseña</mat-label>
+              <input
+                type="password"
+                matInput
+                [formControl]="passwordFormControl"
+                [errorStateMatcher]="matcher"
+                placeholder="Ingrese la contraseña"
+              />
+              <mat-hint>Ingrese su contraseña</mat-hint>
 
-                <mat-error
-                  *ngIf="
-                    passwordFormControl.hasError('min') &&
-                    !passwordFormControl.hasError('required')
-                  "
-                >
-                  La contraseña debe tener una longitud mínima de 3 caracteres.
-                </mat-error>
-                <mat-error
-                  *ngIf="
-                    passwordFormControl.hasError('max') &&
-                    !passwordFormControl.hasError('required')
-                  "
-                >
-                  La contraseña debe tener una longitud máxima de 20 caracteres.
-                </mat-error>
-                <mat-error *ngIf="passwordFormControl.hasError('required')">
-                  La contraseña es obligatorio.
-                </mat-error>
-              </mat-form-field>
-            </p>
-          </mat-card-content>
-          <mat-card-actions>
-            <div class="btn-login">
-              <button mat-raised-button type="submit" color="primary">
-                Iniciar sesión
-              </button>
-            </div>
-          </mat-card-actions>
-          <mat-card-footer *ngIf="isLoading">
-            <div class="center">
-              <p>{{ errorMsg }}</p>
-            </div>
-            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-          </mat-card-footer>
-        </mat-card>
-      </form>
-    </div>
+              <mat-error
+                *ngIf="
+                  passwordFormControl.hasError('min') &&
+                  !passwordFormControl.hasError('required')
+                "
+              >
+                La contraseña debe tener una longitud mínima de 3 caracteres.
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  passwordFormControl.hasError('max') &&
+                  !passwordFormControl.hasError('required')
+                "
+              >
+                La contraseña debe tener una longitud máxima de 20 caracteres.
+              </mat-error>
+              <mat-error *ngIf="passwordFormControl.hasError('required')">
+                La contraseña es obligatorio.
+              </mat-error>
+            </mat-form-field>
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <div class="btn-login">
+            <button mat-raised-button type="submit" color="primary">
+              Iniciar sesión
+            </button>
+          </div>
+        </mat-card-actions>
+        <mat-card-footer *ngIf="isLoading">
+          <div class="center">
+            <p>{{ errorMsg }}</p>
+          </div>
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </mat-card-footer>
+      </mat-card>
+    </form>
   </div>
 </div>

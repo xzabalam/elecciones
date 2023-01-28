@@ -37,6 +37,25 @@
   background-size: cover;
 }
 
+.main {
+  height: 100vh;
+  width: 100vw;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  display: flex;
+  background-image: url(https://elinformativoecuadordotcom.files.wordpress.com/2022/11/papeleta-elecciones-2023-1.jpeg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.login {
+  text-align: center;
+  background: linear-gradient(45deg, black, transparent);
+  padding: 1pc;
+  color: whitesmoke;
+}
+
 .btn-login,
 .center {
   display: flex;
