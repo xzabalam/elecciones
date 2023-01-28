@@ -1,7 +1,6 @@
 package com.eleccciones.cliente.data.entities.candidatos;
 
 import com.eleccciones.cliente.data.entities.core.impl.AbstractNamed;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
@@ -67,13 +66,14 @@ public class Contrato extends AbstractNamed {
     @Lob
     @Type(type = "org.hibernate.type.ImageType")
     @Column(name = "foto_archivo")
-    @JsonIgnore
     private byte[] fotoArchivo;
-
 
     @Column(name = "foto_nombre")
     private String fotoNombre;
 
     @Column(name = "fondo")
     private String fondo;
+
+    @Column(name = "color")
+    private String color;
 }

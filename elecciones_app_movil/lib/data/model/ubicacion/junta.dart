@@ -1,4 +1,4 @@
-import 'package:elecciones_app_movil/data/model/ubicacion/sexo.dart';
+import 'package:elecciones_app_movil/data/model/auth/sexo.dart';
 
 class Junta {
   int id;
@@ -31,16 +31,15 @@ class Junta {
 
   factory Junta.fromMap(Map<String, dynamic> json) => Junta(
         id: json["id"] == null ? null : json["id"],
-        sexo: json["sexo"] == null ? null : Sexo.fromMap(json["sexo"]),
+        sexo: json["sexo"] == null ? null : Sexo.fromJson(json["sexo"]),
         numero: json["numero"] == null ? null : json["numero"],
-        numeroElectores:
-            json["numeroElectores"] == null ? null : json["numeroElectores"],
+        numeroElectores: json["numeroElectores"] == null ? null : json["numeroElectores"],
         utilizada: json["utilizada"] == null ? null : json["utilizada"],
       );
 
   Map<String, dynamic> toMap() => {
         "id": id == null ? null : id,
-        "sexo": sexo == null ? null : sexo!.toMap(),
+        "sexo": sexo == null ? null : sexo!.toJson(),
         "numero": numero == null ? null : numero,
         "numeroElectores": numeroElectores == null ? null : numeroElectores,
         "utilizada": utilizada == null ? null : utilizada,

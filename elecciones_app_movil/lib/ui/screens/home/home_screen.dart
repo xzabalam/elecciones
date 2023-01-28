@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:elecciones_app_movil/data/model/auth/usuario.dart';
+import 'package:elecciones_app_movil/domain/providers/auth/token_provider.dart';
 import 'package:elecciones_app_movil/domain/providers/ubicacion/ubicacion_provider.dart';
 import 'package:elecciones_app_movil/ui/screens/estadisticas/estadisticas_screen.dart';
 import 'package:elecciones_app_movil/ui/screens/registro_votos/registro_votos_screen.dart';
@@ -14,19 +18,6 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> {
   int _selectedIndex = 0;
 
-  static final List<Widget> _widgetOptions = <Widget>[
-    Center(
-      child:
-          Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.center, children: [
-        Image.asset('assets/images/foto_archivo_2.jpg'),
-        SizedBox(height: 50),
-        Text('¡Bienvenido!', style: TextStyle(fontSize: 18)),
-      ]),
-    ),
-    const RegistroVotosWidget(),
-    const EstadisticasPage(),
-  ];
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -36,12 +27,31 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Usuario usuario = ref.read(authTokenProvider).usuario!;
+
+    final List<Widget> widgetOptions = <Widget>[
+      Center(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.memory(base64Decode(usuario.contrato!.fotoArchivo)),
+              const SizedBox(height: 50),
+              const Text('¡Bienvenido!', style: TextStyle(fontSize: 18)),
+              Text(usuario.entidad!.nombre!, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              Text(usuario.contrato!.nombre!, style: const TextStyle(fontSize: 16)),
+            ]),
+      ),
+      const RegistroVotosWidget(),
+      const EstadisticasPage(),
+    ];
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Elecciones 2023'),
+        title: Text('Elecciones 2023 - ${usuario.contrato!.nombre!}'),
         automaticallyImplyLeading: false,
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
+      body: widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 20,
         elevation: 16,

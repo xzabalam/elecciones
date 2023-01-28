@@ -19,12 +19,21 @@ public class EstadisticaDTO {
     @NotNull
     private String numeroMovimiento;
 
+    @NotNull
+    private String colorMovimiento;
+
+    @NotNull
+    private String nombreCandidato;
+
     private Long sumatoria;
 
-    public EstadisticaDTO(Integer idMovimiento, String movimiento, String numeroMovimiento, Long sumatoria) {
+    public EstadisticaDTO(Integer idMovimiento, String movimiento, String numeroMovimiento,
+                          String colorMovimiento, String nombreCandidato, Long sumatoria) {
         this.idMovimiento = idMovimiento;
         this.movimiento = movimiento;
         this.numeroMovimiento = numeroMovimiento;
+        this.colorMovimiento = colorMovimiento;
+        this.nombreCandidato = nombreCandidato;
         this.sumatoria = sumatoria;
     }
 }

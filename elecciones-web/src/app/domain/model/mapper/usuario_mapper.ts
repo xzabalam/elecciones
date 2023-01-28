@@ -225,8 +225,10 @@ const typeMap: any = {
       { json: 'fechaFin', js: 'fechaFin', typ: Date },
       { json: 'tiempoRestante', js: 'tiempoRestante', typ: '' },
       { json: 'url', js: 'url', typ: '' },
+      { json: 'fotoArchivo', js: 'fotoArchivo', typ: '' },
       { json: 'fotoNombre', js: 'fotoNombre', typ: '' },
       { json: 'fondo', js: 'fondo', typ: '' },
+      { json: 'color', js: 'color', typ: '' },
       {
         json: 'hibernateLazyInitializer',
         js: 'hibernateLazyInitializer',

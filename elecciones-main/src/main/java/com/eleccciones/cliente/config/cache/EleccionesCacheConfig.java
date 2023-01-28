@@ -91,8 +91,6 @@ public class EleccionesCacheConfig {
     public CacheManager cacheManager() {
         SimpleCacheManager cacheManager = new SimpleCacheManager();
         cacheManager.setCaches(Arrays.asList(
-                new ConcurrentMapCache("directory"),
-                new ConcurrentMapCache("addresses"),
                 // Usuarios
                 new ConcurrentMapCache(UsuariosCacheNameEnum.USUARIOS.name()),
                 new ConcurrentMapCache(UsuariosCacheNameEnum.PERMISOS.name()),

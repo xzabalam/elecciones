@@ -1,6 +1,9 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <span>Elecciones 2023 - Estadísticas</span>
+    <span
+      >Elecciones 2023 - Estadísticas -
+      {{ datosUsuarioDto.contrato.nombre }}</span
+    >
 
     <span class="spacer"></span>
 
@@ -20,6 +23,12 @@
 
 <div class="parent">
   <div class="filtros">
+    <div class="logo">
+      <img
+        src="data:image/png;base64,{{ datosUsuarioDto.contrato.fotoArchivo }}"
+        alt="Imagen contrato"
+      />
+    </div>
     <!-- {Dignidades} -->
     <div class="dignidades">
       <h2>Dignidades</h2>
@@ -112,32 +121,38 @@
     </div>
   </div>
   <div class="grafico" *ngIf="seSeleccionoTodosLosFiltros">
-    <div *ngIf="seSeleccionoDignidad">
-      <strong>{{ dignidadSeleccionada!.nombre }}</strong>
-    </div>
-    <div *ngIf="seSeleccionoProvincia">
-      <strong>{{ provinciaSeleccionada!.nombre }}</strong>
-    </div>
-    <div *ngIf="seSeleccionoCanton">
-      <strong>{{ cantonSeleccionado!.nombre }}</strong>
-    </div>
-    <div *ngIf="seSeleccionoParroquia">
-      <strong>{{ parroquiaSeleccionada!.nombre }}</strong>
-    </div>
-    <div>
-      <strong>Votos totales {{ cantidadTotalElectores }}</strong>
+    <div class="cabecera-grafico">
+      <div>
+        <button
+          (click)="onClickActualizarGrafico()"
+          mat-raised-button
+          color="primary"
+        >
+          Actualizar
+        </button>
+      </div>
+      <div class="ubicacion-detalle">
+        <div>
+          <strong *ngIf="seSeleccionoDignidad">{{
+            dignidadSeleccionada!.nombre
+          }}</strong>
+          <strong *ngIf="seSeleccionoProvincia">
+            / {{ provinciaSeleccionada!.nombre }}</strong
+          >
+          <strong *ngIf="seSeleccionoCanton">
+            / {{ cantonSeleccionado!.nombre }}</strong
+          >
+          <strong *ngIf="seSeleccionoParroquia">
+            / {{ parroquiaSeleccionada!.nombre }}</strong
+          >
+        </div>
+        <div>
+          <strong>Votos totales {{ cantidadTotalElectores }}</strong>
+        </div>
+      </div>
     </div>
     <div class="chart-container">
-      <canvas height="400" id="MyChart">{{ chart }}</canvas>
-    </div>
-    <div>
-      <button
-        (click)="onClickActualizarGrafico()"
-        mat-raised-button
-        color="primary"
-      >
-        Actualizar
-      </button>
+      <canvas id="MyChart">{{ chart }}</canvas>
     </div>
   </div>
 </div>

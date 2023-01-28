@@ -8,7 +8,7 @@
   grid-template-rows: 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-  height: 100vh;
+  height: calc(100vh - 64px);
   align-items: flex-start;
   justify-items: center;
   justify-content: center;
@@ -26,17 +26,7 @@
   border-right: 1px solid grey;
 }
 
-.grafico {
-  grid-area: 1 / 2 / 2 / 3;
-  width: 100%;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  padding: 40px 20px;
-}
-
+.filtros .logo,
 .filtros .dignidades,
 .filtros .ubicaciones {
   padding: 20px 0px;
@@ -48,8 +38,35 @@
   flex-direction: column;
 }
 
+.grafico {
+  grid-area: 1 / 2 / 2 / 3;
+  width: calc(100% - 80px);
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 40px 0px;
+}
+
 .chart-container {
-  width: 800px;
+  height: 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
+}
+
+.cabecera-grafico {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1 1 100%;
+  width: 100%;
+}
+
+.ubicacion-detalle {
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  align-items: flex-end;
 }

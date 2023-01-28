@@ -137,4 +137,12 @@ public class EstadisticaVotoDignidad {
     @Column(name = "estado")
     @JsonIgnore
     private String estado;
+
+    @NotNull
+    @Column(name = "color_movimiento")
+    private String colorMovimiento;
+
+    @NotNull
+    @Column(name = "nombre_candidato")
+    private String nombreCandidato;
 }

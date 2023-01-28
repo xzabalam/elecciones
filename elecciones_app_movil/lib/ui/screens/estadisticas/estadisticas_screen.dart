@@ -1,6 +1,5 @@
-import 'dart:math' as math;
-
 import 'package:backdrop/backdrop.dart';
+import 'package:elecciones_app_movil/domain/extensions/hex_color_extension.dart';
 import 'package:elecciones_app_movil/domain/providers/estadisticas/dto/dignidad_dto.dart';
 import 'package:elecciones_app_movil/domain/providers/estadisticas/dto/voto_movimiento_dto.dart';
 import 'package:elecciones_app_movil/domain/providers/estadisticas/estadisticas_provider.dart';
@@ -57,6 +56,7 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
             ),
             stickyFrontLayer: false,
             revealBackLayerAtStart: true,
+            backLayerBackgroundColor: Colors.white54,
             backLayer: Padding(
               padding: const EdgeInsets.all(10),
               child: SingleChildScrollView(
@@ -64,7 +64,7 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
-                    const Text("Dignidades", style: TextStyle(color: Colors.white, fontSize: 20)),
+                    const Text("Dignidades", style: TextStyle(fontSize: 20)),
                     ListView.builder(
                         controller: _scrollController,
                         physics: const BouncingScrollPhysics(),
@@ -76,7 +76,8 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
 
                           return Card(
                             child: ListTile(
-                              tileColor: posicionDignidadSeleccionada == index ? Colors.amber : null,
+                              tileColor:
+                                  posicionDignidadSeleccionada == index ? Theme.of(context).secondaryHeaderColor : null,
                               leading: const Icon(Icons.people_alt_outlined),
                               title: Text(titulo!, style: const TextStyle(fontSize: 16)),
                               onTap: () {
@@ -89,64 +90,54 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                           );
                         }),
                     const SizedBox(height: 20),
-                    const Text("Ubicaciones", style: TextStyle(color: Colors.white, fontSize: 20)),
+                    const Text("Ubicaciones", style: TextStyle(fontSize: 20)),
                     if (estadisticasNotifier.seSeleccionoPrefectos!)
-                      Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                            children: const [
-                              PrefectoUbicacionWidget(),
-                            ],
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: const [
+                            PrefectoUbicacionWidget(),
+                          ],
                         ),
                       ),
                     if (estadisticasNotifier.seSeleccionoAlcaldes!)
-                      Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                            children: const [
-                              // Dropdown para provincia
-                              AlcaldeUbicacionWidget()
-                            ],
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: const [
+                            // Dropdown para provincia
+                            AlcaldeUbicacionWidget()
+                          ],
                         ),
                       ),
                     if (estadisticasNotifier.seSeleccionoConcejalesUrbanos!)
-                      Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                            children: const [
-                              // Dropdown para provincia
-                              ConcejalesUrbanosUbicacionWidget()
-                            ],
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: const [
+                            // Dropdown para provincia
+                            ConcejalesUrbanosUbicacionWidget()
+                          ],
                         ),
                       ),
                     if (estadisticasNotifier.seSeleccionoConcejalesRurales!)
-                      Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                            children: const [
-                              // Dropdown para provincia
-                              ConcejalesRuralesUbicacionWidget()
-                            ],
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: const [
+                            // Dropdown para provincia
+                            ConcejalesRuralesUbicacionWidget()
+                          ],
                         ),
                       ),
                     if (estadisticasNotifier.seSeleccionoVocalesJuntasParroquiales!)
-                      Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                            children: const [
-                              // Dropdown para provincia
-                              VocalesJuntasParroquialesUbicacionWidget()
-                            ],
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: const [
+                            // Dropdown para provincia
+                            VocalesJuntasParroquialesUbicacionWidget()
+                          ],
                         ),
                       ),
                   ],
@@ -235,7 +226,7 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                             } else {
                               String numeroMovimiento =
                                   (dignidades.numeroMovimiento == null) ? 'S/N' : dignidades.numeroMovimiento!;
-                              tituloMovimiento = "Lista $numeroMovimiento. Votos:  ${dignidades.sumatoria}";
+                              tituloMovimiento = "Lista $numeroMovimiento (${dignidades.sumatoria})";
                             }
 
                             return tituloMovimiento;
@@ -247,7 +238,7 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                           sortingOrder: SortingOrder.descending,
                           sortFieldValueMapper: (VotosMovimientoDto dignidades, _) => dignidades.sumatoria,
                           pointColorMapper: (VotosMovimientoDto dignidades, _) =>
-                              Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                              HexColor.fromHex(dignidades.colorMovimiento!),
                           dataLabelSettings: const DataLabelSettings(
                               labelPosition: ChartDataLabelPosition.outside,
                               showCumulativeValues: true,

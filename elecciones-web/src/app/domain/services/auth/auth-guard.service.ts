@@ -9,7 +9,6 @@ export class AuthGuardService {
   constructor(public auth: UsersService, public router: Router) {}
 
   canActivate(): boolean {
-    console.log('auth: ' + this.auth.getDatosUsuario());
     var roles: string[] =
       this.auth.getDatosUsuario() == null
         ? []

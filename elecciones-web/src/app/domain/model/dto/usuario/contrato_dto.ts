@@ -15,6 +15,8 @@ export interface Contrato {
   fechaFin: Date;
   tiempoRestante: string;
   url: string;
+  fotoArchivo: string;
   fotoNombre: string;
   fondo: string;
+  color: string;
 }

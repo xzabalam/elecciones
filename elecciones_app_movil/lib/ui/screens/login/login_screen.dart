@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:adaptive_button/adaptive_button.dart';
+import 'package:elecciones_app_movil/data/model/auth/usuario.dart';
 import 'package:elecciones_app_movil/domain/providers/auth/auth_provider.dart';
 import 'package:elecciones_app_movil/domain/providers/auth/token_provider.dart';
+import 'package:elecciones_app_movil/main.dart';
 import 'package:elecciones_app_movil/ui/widgets/commons/circular_progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -68,13 +72,22 @@ class LoginPage extends ConsumerWidget {
                     }
 
                     try {
-                      final token = await ref.read(
-                          loginProvider(UsuarioTo(username: usernameController.text, password: passwordController.text))
-                              .future);
-                      print(token);
-                      ref.read(authTokenProvider.notifier).changeAuthTokenSatate(token!);
+                      String basicAuth =
+                          'Basic ${base64.encode(utf8.encode('${usernameController.text}:${passwordController.text}'))}';
+
+                      final Usuario usuario = await ref.read(loginProvider(UsuarioTo(
+                              username: usernameController.text,
+                              password: passwordController.text,
+                              basicAuth: basicAuth))
+                          .future);
+
+                      color.add(usuario.contrato!.color);
+                      ref.read(authTokenProvider.notifier).changeAuthTokenSatate(basicAuth);
+                      ref.read(authTokenProvider.notifier).changeAuthUsuarioState(usuario);
+
                       Navigator.pushNamed(context, '/home');
                     } catch (e) {
+                      print('error en ui: $e');
                       Navigator.pushNamed(context, '/failure');
                     }
                   }

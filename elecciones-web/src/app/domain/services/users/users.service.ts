@@ -43,7 +43,6 @@ export class UsersService {
   }
 
   public getDatosUsuario(): any {
-    console.log(localStorage.getItem('datosUsuario'));
     var jsonDatosUsuario = localStorage.getItem('datosUsuario');
     return jsonDatosUsuario == null
       ? null

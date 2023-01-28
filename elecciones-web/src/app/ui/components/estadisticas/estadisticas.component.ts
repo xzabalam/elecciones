@@ -10,11 +10,10 @@ import { ProvinciaService } from './../../../domain/services/ubicaciones/provinc
 import { DignidadService } from './../../../domain/services/dignidades/dignidad.service';
 import { UsuarioDto } from './../../../domain/model/dto/usuario/usuario_dto';
 import { UsersService } from './../../../domain/services/users/users.service';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { DignidadesDto } from 'src/app/domain/model/dto/dignidad/dignidad_dto';
 import { MatSelectionListChange } from '@angular/material/list';
 import Chart from 'chart.js/auto';
-import { Colors } from 'chart.js/dist';
 
 @Component({
   selector: 'app-estadisticas',
@@ -299,35 +298,78 @@ export class EstadisticasComponent {
   private createChart(votosPorMovimiento: Array<VotosMovimientoDto>) {
     var labels: string[] = votosPorMovimiento.map(
       (votos) =>
-        'Lista ' + votos.numeroMovimiento + '. Votos: ' + votos.sumatoria
+        'Lista ' + votos.numeroMovimiento + ' ( ' + votos.nombreCandidato + ' )'
     );
     var datos: number[] = votosPorMovimiento.map((votos) => votos.sumatoria);
+
+    var colores: string[] = votosPorMovimiento.map(
+      (voto) => voto.colorMovimiento
+    );
+
     this.cantidadTotalElectores = datos.reduce(
       (result, votos) => result + votos,
       0
     );
 
-    var rgb: string[] = [];
-    for (var i = 0; i < labels.length; i++) rgb.push(colors[i]);
+    const innerBarText = {
+      id: 'innerBarText',
+      afterDataSetsDraw(chart: any, args: any, pluginOptions: any) {
+        const {
+          ctx,
+          data,
+          charArea: { left },
+          scales: { x, y },
+        } = chart;
+        ctx.save();
+        data.datasets[0].data.forEach((dataPoint: any, index: any) => {
+          ctx.font = 'bolder 12px sans-serif';
+          (ctx.fillStyle = 'gray'),
+            ctx.fillText(
+              `${data.labels[0]}: ${dataPoint}`,
+              left + 10,
+              y * index
+            );
+        });
+      },
+    };
 
     this.chart = new Chart('MyChart', {
       type: 'bar',
+
       data: {
         labels: labels,
         datasets: [
           {
             data: datos,
-            backgroundColor: rgb,
+            backgroundColor: colores,
           },
         ],
       },
+
       options: {
-        aspectRatio: 1,
-        responsive: true,
+        indexAxis: 'y',
+        maintainAspectRatio: true,
+        scales: {
+          x: {
+            display: true,
+            beginAtZero: true,
+          },
+          y: {
+            display: true,
+            beginAtZero: true,
+          },
+        },
         plugins: {
           legend: {
+            labels: {
+              font: {
+                size: 16,
+                weight: 'bold',
+                family: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+              },
+            },
             display: false,
-            position: 'top',
+            position: 'right',
           },
           title: {
             display: false,

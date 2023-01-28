@@ -34,7 +34,7 @@ class ActaDignidadWidget extends ConsumerWidget {
                 String icono = dignidadUbicaciones[index]!.dignidad!.tipoGrupo!.nombre;
                 return Card(
                   child: ListTile(
-                    tileColor: posicion == index ? Theme.of(context).highlightColor : null,
+                    tileColor: posicion == index ? Theme.of(context).secondaryHeaderColor : null,
                     leading: icono == 'INDIVIDUAL'
                         ? const Icon(Icons.person_2_outlined)
                         : const Icon(Icons.people_alt_outlined),

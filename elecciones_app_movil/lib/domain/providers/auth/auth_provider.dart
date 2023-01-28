@@ -1,31 +1,32 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
+import 'package:elecciones_app_movil/data/model/auth/usuario.dart';
 import 'package:elecciones_app_movil/env/env.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 class UsuarioTo {
   String username;
   String password;
+  String basicAuth;
 
-  UsuarioTo({required this.username, required this.password});
+  UsuarioTo({required this.username, required this.password, required this.basicAuth});
+
+  @override
+  String toString() {
+    return 'UsuarioTo{username: $username, password: $password, basicAuth: $basicAuth}';
+  }
 }
 
-final loginProvider = FutureProvider.autoDispose.family<String, UsuarioTo>((ref, usuarioTo) async {
+final loginProvider = FutureProvider.autoDispose.family<Usuario, UsuarioTo>((ref, usuarioTo) async {
   try {
-    String basicToken = 'Basic ${base64.encode(utf8.encode('${usuarioTo.username}:${usuarioTo.password}'))}';
     Response response =
-        await Dio().get('${Env.clientApiUrl}/auth', options: Options(headers: {'Authorization': basicToken}));
+        await Dio().get('${Env.clientApiUrl}/auth', options: Options(headers: {'Authorization': usuarioTo.basicAuth}));
 
     if (response.statusCode == 200) {
-      print(response.data);
-      return basicToken;
+      return Usuario.fromJson(response.data);
     } else {
       throw Exception("Usuario no autorizado.");
     }
   } on DioError catch (e) {
-    print(e.stackTrace);
-
     if (e.response?.statusCode == 401) {
       throw Exception("Usuario no autorizado.");
     } else if (e.type == DioErrorType.connectTimeout ||

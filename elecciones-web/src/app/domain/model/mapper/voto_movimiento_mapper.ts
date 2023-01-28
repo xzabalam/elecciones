@@ -198,6 +198,8 @@ const typeMap: any = {
       { json: 'idMovimiento', js: 'idMovimiento', typ: 0 },
       { json: 'movimiento', js: 'movimiento', typ: '' },
       { json: 'numeroMovimiento', js: 'numeroMovimiento', typ: '' },
+      { json: 'colorMovimiento', js: 'colorMovimiento', typ: '' },
+      { json: 'nombreCandidato', js: 'nombreCandidato', typ: '' },
       { json: 'sumatoria', js: 'sumatoria', typ: 0 },
     ],
     false
