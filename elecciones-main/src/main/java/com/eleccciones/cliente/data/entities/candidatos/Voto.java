@@ -1,6 +1,7 @@
 package com.eleccciones.cliente.data.entities.candidatos;
 
 import com.eleccciones.cliente.data.entities.core.impl.AbstractEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,6 +30,7 @@ public class Voto extends AbstractEntity {
     private Integer cantidad;
 
     @Transient
+    @JsonIgnore
     private StampedLock lock;
 
     public Voto() {

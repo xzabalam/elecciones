@@ -1,6 +1,7 @@
 package com.eleccciones.cliente.data.entities.candidatos;
 
 import com.eleccciones.cliente.data.entities.core.impl.AbstractEntity;
+import com.eleccciones.cliente.data.entities.ubicacion.Circunscripcion;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,6 +34,11 @@ public class DignidadUbicacion extends AbstractEntity {
 
     @Column(name = "cargo")
     private String cargo;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "id_circunscripcion", referencedColumnName = "id")
+    private Circunscripcion circunscripcion;
 
     @Column(name = "sigla_circunscripcion")
     private String siglaCircunscripcion;

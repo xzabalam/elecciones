@@ -46,6 +46,7 @@ public class ActaDignidad extends AbstractEntity {
     private Integer escrutada;
 
     @Transient
+    @JsonIgnore
     private StampedLock lock;
 
     public ActaDignidad() {

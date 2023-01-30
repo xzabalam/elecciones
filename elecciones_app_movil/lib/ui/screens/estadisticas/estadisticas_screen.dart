@@ -6,6 +6,7 @@ import 'package:elecciones_app_movil/domain/providers/estadisticas/estadisticas_
 import 'package:elecciones_app_movil/domain/providers/model/estadisticas/estadistica_model.dart';
 import 'package:elecciones_app_movil/ui/screens/estadisticas/widgets/alcaldes_ubicaciones_widget.dart';
 import 'package:elecciones_app_movil/ui/screens/estadisticas/widgets/concejales_rurales_ubicaciones_widget.dart';
+import 'package:elecciones_app_movil/ui/screens/estadisticas/widgets/concejales_urbanos_circunscripcion_ubicaciones_widget.dart';
 import 'package:elecciones_app_movil/ui/screens/estadisticas/widgets/concejales_urbanos_ubicaciones_widget.dart';
 import 'package:elecciones_app_movil/ui/screens/estadisticas/widgets/prefectos_ubicaciones_widget.dart';
 import 'package:elecciones_app_movil/ui/screens/estadisticas/widgets/vocales_juntas_parroquiales_ubicaciones_widget.dart';
@@ -81,7 +82,9 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                               leading: const Icon(Icons.people_alt_outlined),
                               title: Text(titulo!, style: const TextStyle(fontSize: 16)),
                               onTap: () {
-                                ref.read(estadisticaProvider.notifier).changePosicionDignidadSeleccionadaState(index);
+                                ref
+                                    .read(estadisticaProvider.notifier)
+                                    .changePosicionDignidadSeleccionadaState(dignidadesDto[index].id!);
                                 setState(() {
                                   posicionDignidadSeleccionada = index;
                                 });
@@ -140,6 +143,16 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                           ],
                         ),
                       ),
+                    if (estadisticasNotifier.seSeleccionoConcejalesUrbanosPorCircunscripcion!)
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: const [
+                            // Dropdown para provincia
+                            ConcejalesUrbanosCircunscripcionUbicacionWidget()
+                          ],
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -153,8 +166,11 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
 
   Padding chartEstadisticas(EstadisticaModel estadisticasNotifier, List<DignidadDto> dignidadesDto) {
     String titulo = '';
+
     if (estadisticasNotifier.posicionDignidadSeleccionada! > -1) {
-      titulo = dignidadesDto[estadisticasNotifier.posicionDignidadSeleccionada!].nombre!;
+      // Se le resta 2 porque se elimino del array la primera posicion y porque se est[a el id
+      // estadisticasNotifier.posicionDignidadSeleccionada es el id de la base de datos que va del 1 al 7
+      titulo = dignidadesDto[estadisticasNotifier.posicionDignidadSeleccionada! - 2].nombre!;
     }
 
     String subtitulo = '';
@@ -204,17 +220,29 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
               SizedBox(
                 height: 500,
                 child: SfCartesianChart(
+                    isTransposed: true,
+                    enableAxisAnimation: true,
                     primaryXAxis: CategoryAxis(
+                      maximumLabels: 20,
                       labelPosition: ChartDataLabelPosition.outside,
                       labelAlignment: LabelAlignment.center,
-                      edgeLabelPlacement: EdgeLabelPlacement.shift,
+                      edgeLabelPlacement: EdgeLabelPlacement.hide,
                       labelPlacement: LabelPlacement.betweenTicks,
                       labelRotation: 270,
-                      labelStyle: const TextStyle(fontSize: 10, color: Colors.black),
+                      labelStyle: const TextStyle(
+                        fontSize: 8,
+                        color: Colors.black,
+                      ),
                       majorGridLines: const MajorGridLines(width: 0),
                       majorTickLines: const MajorTickLines(width: 0),
                     ),
-                    isTransposed: true,
+                    primaryYAxis: NumericAxis(
+                      labelFormat: '{value}%',
+                      labelStyle: const TextStyle(
+                        fontSize: 8,
+                        color: Colors.black,
+                      ),
+                    ),
                     series: [
                       BarSeries<VotosMovimientoDto, String>(
                           dataSource: estadisticasNotifier.respuestaSumatoriaVotosPorMovimiento!,
@@ -222,11 +250,11 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                             String tituloMovimiento;
 
                             if (dignidades.movimiento == 'NULO' || dignidades.movimiento == 'BLANCO') {
-                              tituloMovimiento = "${dignidades.movimiento}. Votos:  ${dignidades.sumatoria}";
+                              tituloMovimiento = "${dignidades.movimiento} (${dignidades.sumatoria})";
                             } else {
                               String numeroMovimiento =
                                   (dignidades.numeroMovimiento == null) ? 'S/N' : dignidades.numeroMovimiento!;
-                              tituloMovimiento = "Lista $numeroMovimiento (${dignidades.sumatoria})";
+                              tituloMovimiento = "Lista $numeroMovimiento, (${dignidades.sumatoria})";
                             }
 
                             return tituloMovimiento;
@@ -240,15 +268,13 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                           pointColorMapper: (VotosMovimientoDto dignidades, _) =>
                               HexColor.fromHex(dignidades.colorMovimiento!),
                           dataLabelSettings: const DataLabelSettings(
-                              labelPosition: ChartDataLabelPosition.outside,
-                              showCumulativeValues: true,
-                              textStyle: TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.w700),
+                              labelPosition: ChartDataLabelPosition.inside,
+                              textStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.w700),
                               showZeroValue: true,
                               angle: 270,
                               alignment: ChartAlignment.center,
-                              overflowMode: OverflowMode.trim,
                               isVisible: true,
-                              labelAlignment: ChartDataLabelAlignment.outer),
+                              labelAlignment: ChartDataLabelAlignment.auto),
                           emptyPointSettings: EmptyPointSettings(
                               // Mode of empty point
                               mode: EmptyPointMode.zero)),

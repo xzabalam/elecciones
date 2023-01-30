@@ -14,14 +14,15 @@ public interface VotoRepository extends JpaRepository<Voto, Integer> {
     @Query(value = "select distinct v from Voto v " +
             "join fetch v.actaDignidad ad " +
             "join fetch ad.dignidadUbicacion du " +
+            "join fetch du.circunscripcion cir " +
             "join fetch du.tipoUbicacion tu " +
             "join fetch du.dignidad d " +
             "join fetch d.proceso p " +
             "join fetch d.tipoGrupo tg " +
-            "join fetch ad.junta j " +
             "join fetch v.grupoCandidato gc " +
-            "join fetch gc.candidatos c " +
             "join fetch gc.movimiento m " +
+            "join fetch gc.candidatos c " +
+            "join ad.junta j " +
             "where j.id = :idJunta and c.tipo = :tipoCandidato")
     List<Voto> findByJunta(@Param("idJunta") Integer idJunta,
                            @Param("tipoCandidato") String tipoCandidato);

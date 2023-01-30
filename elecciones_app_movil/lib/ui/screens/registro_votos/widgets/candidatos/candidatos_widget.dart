@@ -31,7 +31,7 @@ class CandidatoWidget extends ConsumerWidget {
     return Column(children: [
       Text(dignidadNotifier.dignidadUbicacionSeleccionada!.dignidad!.nombre,
           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-      const SizedBox(height: 20),
+      const SizedBox(height: 28),
       ListView.builder(
           controller: _scrollController,
           scrollDirection: Axis.vertical,
@@ -60,7 +60,7 @@ class CandidatoWidget extends ConsumerWidget {
                       color: Theme.of(context).colorScheme.inversePrimary,
                       child: SizedBox(
                         width: 110,
-                        height: 170,
+                        height: 178,
                         child: Padding(
                           padding: const EdgeInsets.all(10),
                           child: Column(
@@ -119,7 +119,7 @@ class CandidatoWidget extends ConsumerWidget {
                           if (candidatos!.isNotEmpty)
                             SizedBox(
                               width: 210,
-                              height: 80,
+                              height: 88,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: SingleChildScrollView(

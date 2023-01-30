@@ -27,6 +27,7 @@ final loginProvider = FutureProvider.autoDispose.family<Usuario, UsuarioTo>((ref
       throw Exception("Usuario no autorizado.");
     }
   } on DioError catch (e) {
+    print(e);
     if (e.response?.statusCode == 401) {
       throw Exception("Usuario no autorizado.");
     } else if (e.type == DioErrorType.connectTimeout ||

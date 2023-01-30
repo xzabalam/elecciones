@@ -15,6 +15,7 @@ class EstadisticaModel extends Equatable {
   bool? seSeleccionoConcejalesUrbanos = false;
   bool? seSeleccionoConcejalesRurales = false;
   bool? seSeleccionoVocalesJuntasParroquiales = false;
+  bool? seSeleccionoConcejalesUrbanosPorCircunscripcion = false;
 
   Provincia? provinciaSeleccionada;
   bool? seSeleccionoProvincia = false;
@@ -39,6 +40,7 @@ class EstadisticaModel extends Equatable {
       this.seSeleccionoConcejalesUrbanos,
       this.seSeleccionoConcejalesRurales,
       this.seSeleccionoVocalesJuntasParroquiales,
+      this.seSeleccionoConcejalesUrbanosPorCircunscripcion,
       this.provinciaSeleccionada,
       this.seSeleccionoProvincia,
       this.cantonSeleccionado,
@@ -58,6 +60,7 @@ class EstadisticaModel extends Equatable {
           bool? seSeleccionoConcejalesUrbanos,
           bool? seSeleccionoConcejalesRurales,
           bool? seSeleccionoVocalesJuntasParroquiales,
+          bool? seSeleccionoConcejalesUrbanosPorCircunscripcion,
           Provincia? provinciaSeleccionada,
           bool? seSeleccionoProvincia,
           Canton? cantonSeleccionado,
@@ -77,6 +80,8 @@ class EstadisticaModel extends Equatable {
           seSeleccionoConcejalesRurales: seSeleccionoConcejalesRurales ?? this.seSeleccionoConcejalesRurales,
           seSeleccionoVocalesJuntasParroquiales:
               seSeleccionoVocalesJuntasParroquiales ?? this.seSeleccionoVocalesJuntasParroquiales,
+          seSeleccionoConcejalesUrbanosPorCircunscripcion:
+              seSeleccionoConcejalesUrbanosPorCircunscripcion ?? this.seSeleccionoConcejalesUrbanosPorCircunscripcion,
           provinciaSeleccionada: provinciaSeleccionada ?? this.provinciaSeleccionada,
           seSeleccionoProvincia: seSeleccionoProvincia ?? this.seSeleccionoProvincia,
           cantonSeleccionado: cantonSeleccionado ?? this.cantonSeleccionado,
@@ -90,7 +95,7 @@ class EstadisticaModel extends Equatable {
 
   @override
   String toString() {
-    return 'EstadisticaModel{dignidadesDto: $dignidadesDto, seGuardoEnProviderDignidades: $seGuardoEnProviderDignidades, posicionDignidadSeleccionada: $posicionDignidadSeleccionada, seSeleccionoPrefectos: $seSeleccionoPrefectos, seSeleccionoAlcaldes: $seSeleccionoAlcaldes, seSeleccionoConcejalesUrbanos: $seSeleccionoConcejalesUrbanos, seSeleccionoConcejalesRurales: $seSeleccionoConcejalesRurales, seSeleccionoVocalesJuntasParroquiales: $seSeleccionoVocalesJuntasParroquiales, provinciaSeleccionada: $provinciaSeleccionada, seSeleccionoProvincia: $seSeleccionoProvincia, cantonSeleccionado: $cantonSeleccionado, seSeleccionoCanton: $seSeleccionoCanton, parroquiaSeleccionada: $parroquiaSeleccionada, seSeleccionoParroquia: $seSeleccionoParroquia, cantidadTotalElectores: $cantidadTotalElectores, numeroElectoresDto: $numeroElectoresDto, respuestaSumatoriaVotosPorMovimiento: $respuestaSumatoriaVotosPorMovimiento}';
+    return 'EstadisticaModel{dignidadesDto: $dignidadesDto, seGuardoEnProviderDignidades: $seGuardoEnProviderDignidades, posicionDignidadSeleccionada: $posicionDignidadSeleccionada, seSeleccionoPrefectos: $seSeleccionoPrefectos, seSeleccionoAlcaldes: $seSeleccionoAlcaldes, seSeleccionoConcejalesUrbanos: $seSeleccionoConcejalesUrbanos, seSeleccionoConcejalesRurales: $seSeleccionoConcejalesRurales, seSeleccionoVocalesJuntasParroquiales: $seSeleccionoVocalesJuntasParroquiales, seSeleccionoConcejalesUrbanosPorCircunscripcion: $seSeleccionoConcejalesUrbanosPorCircunscripcion, provinciaSeleccionada: $provinciaSeleccionada, seSeleccionoProvincia: $seSeleccionoProvincia, cantonSeleccionado: $cantonSeleccionado, seSeleccionoCanton: $seSeleccionoCanton, parroquiaSeleccionada: $parroquiaSeleccionada, seSeleccionoParroquia: $seSeleccionoParroquia, cantidadTotalElectores: $cantidadTotalElectores, numeroElectoresDto: $numeroElectoresDto, respuestaSumatoriaVotosPorMovimiento: $respuestaSumatoriaVotosPorMovimiento}';
   }
 
   @override
@@ -103,6 +108,7 @@ class EstadisticaModel extends Equatable {
         seSeleccionoConcejalesUrbanos,
         seSeleccionoConcejalesRurales,
         seSeleccionoVocalesJuntasParroquiales,
+        seSeleccionoConcejalesUrbanosPorCircunscripcion,
         provinciaSeleccionada,
         seSeleccionoProvincia,
         cantonSeleccionado,

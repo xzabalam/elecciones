@@ -10,29 +10,46 @@ import 'package:elecciones_app_movil/domain/providers/model/estadisticas/estadis
 import 'package:elecciones_app_movil/env/env.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final EstadisticaModel estadisticaModelInicial = EstadisticaModel(
-  numeroElectoresDto: NumeroElectoresDto(idUbicacion: -1, nombreUbicacion: "", cantidadElectores: 0),
-  respuestaSumatoriaVotosPorMovimiento: const [],
-  seGuardoEnProviderDignidades: false,
-  posicionDignidadSeleccionada: -1,
-  seSeleccionoPrefectos: false,
-  seSeleccionoAlcaldes: false,
-  seSeleccionoConcejalesUrbanos: false,
-  seSeleccionoConcejalesRurales: false,
-  seSeleccionoVocalesJuntasParroquiales: false,
-  seSeleccionoProvincia: false,
-  seSeleccionoCanton: false,
-  seSeleccionoParroquia: false,
-  provinciaSeleccionada: null,
-  cantonSeleccionado: null,
-  parroquiaSeleccionada: null,
-);
-
 class EstadisticaNotifier extends StateNotifier<EstadisticaModel> {
-  EstadisticaNotifier() : super(estadisticaModelInicial);
+  EstadisticaNotifier()
+      : super(EstadisticaModel(
+          numeroElectoresDto: NumeroElectoresDto(idUbicacion: -1, nombreUbicacion: "", cantidadElectores: 0),
+          respuestaSumatoriaVotosPorMovimiento: const [],
+          seGuardoEnProviderDignidades: false,
+          posicionDignidadSeleccionada: -1,
+          seSeleccionoPrefectos: false,
+          seSeleccionoAlcaldes: false,
+          seSeleccionoConcejalesUrbanos: false,
+          seSeleccionoConcejalesRurales: false,
+          seSeleccionoVocalesJuntasParroquiales: false,
+          seSeleccionoConcejalesUrbanosPorCircunscripcion: false,
+          seSeleccionoProvincia: false,
+          seSeleccionoCanton: false,
+          seSeleccionoParroquia: false,
+          provinciaSeleccionada: null,
+          cantonSeleccionado: null,
+          parroquiaSeleccionada: null,
+        ));
 
   void resetState() {
-    state = estadisticaModelInicial;
+    state = EstadisticaModel(
+      numeroElectoresDto: NumeroElectoresDto(idUbicacion: -1, nombreUbicacion: "", cantidadElectores: 0),
+      respuestaSumatoriaVotosPorMovimiento: const [],
+      seGuardoEnProviderDignidades: false,
+      posicionDignidadSeleccionada: -1,
+      seSeleccionoPrefectos: false,
+      seSeleccionoAlcaldes: false,
+      seSeleccionoConcejalesUrbanos: false,
+      seSeleccionoConcejalesRurales: false,
+      seSeleccionoVocalesJuntasParroquiales: false,
+      seSeleccionoConcejalesUrbanosPorCircunscripcion: false,
+      seSeleccionoProvincia: false,
+      seSeleccionoCanton: false,
+      seSeleccionoParroquia: false,
+      provinciaSeleccionada: null,
+      cantonSeleccionado: null,
+      parroquiaSeleccionada: null,
+    );
   }
 
   void changeDignidadesDtoState(List<DignidadDto> dignidadesDto) {
@@ -44,31 +61,37 @@ class EstadisticaNotifier extends StateNotifier<EstadisticaModel> {
   }
 
   void changePosicionDignidadSeleccionadaState(int posicionDignidadSeleccionada) {
+    print(posicionDignidadSeleccionada);
     resetState();
     state = state.copyWith(posicionDignidadSeleccionada: posicionDignidadSeleccionada);
 
-    if (posicionDignidadSeleccionada == 0) {
+    if (posicionDignidadSeleccionada == 2) {
       state = state.copyWith(seSeleccionoPrefectos: true);
     }
 
     // Se selecciono alcaldes
-    if (posicionDignidadSeleccionada == 1) {
+    if (posicionDignidadSeleccionada == 3) {
       state = state.copyWith(seSeleccionoAlcaldes: true);
     }
 
     // Se selecciono concejales urbanos
-    if (posicionDignidadSeleccionada == 2) {
+    if (posicionDignidadSeleccionada == 4) {
       state = state.copyWith(seSeleccionoConcejalesUrbanos: true);
     }
 
     // Se selecciono concejales rurales
-    if (posicionDignidadSeleccionada == 3) {
+    if (posicionDignidadSeleccionada == 5) {
       state = state.copyWith(seSeleccionoConcejalesRurales: true);
     }
 
     // Se selecciono vocales juntas parroquiales
-    if (posicionDignidadSeleccionada == 4) {
+    if (posicionDignidadSeleccionada == 6) {
       state = state.copyWith(seSeleccionoVocalesJuntasParroquiales: true);
+    }
+
+    // Se selecciono vocales CONCEJALES URBANOS POR CIRCUNSCRIPCION
+    if (posicionDignidadSeleccionada == 7) {
+      state = state.copyWith(seSeleccionoConcejalesUrbanosPorCircunscripcion: true);
     }
   }
 
@@ -83,6 +106,7 @@ class EstadisticaNotifier extends StateNotifier<EstadisticaModel> {
     bool seSeleccionoConcejalesUrbanos = state.seSeleccionoConcejalesUrbanos!;
     bool seSeleccionoConcejalesRurales = state.seSeleccionoConcejalesRurales!;
     bool seSeleccionoVocalesJuntasParroquiales = state.seSeleccionoVocalesJuntasParroquiales!;
+    bool seSeleccionoConcejalesUrbanosPorCircunscripcion = state.seSeleccionoConcejalesUrbanosPorCircunscripcion!;
 
     resetState();
 
@@ -93,6 +117,7 @@ class EstadisticaNotifier extends StateNotifier<EstadisticaModel> {
         seSeleccionoConcejalesUrbanos: seSeleccionoConcejalesUrbanos,
         seSeleccionoConcejalesRurales: seSeleccionoConcejalesRurales,
         seSeleccionoVocalesJuntasParroquiales: seSeleccionoVocalesJuntasParroquiales,
+        seSeleccionoConcejalesUrbanosPorCircunscripcion: seSeleccionoConcejalesUrbanosPorCircunscripcion,
         seSeleccionoProvincia: true,
         provinciaSeleccionada: provinciaSeleccionada);
   }
@@ -104,6 +129,7 @@ class EstadisticaNotifier extends StateNotifier<EstadisticaModel> {
     bool seSeleccionoConcejalesUrbanos = state.seSeleccionoConcejalesUrbanos!;
     bool seSeleccionoConcejalesRurales = state.seSeleccionoConcejalesRurales!;
     bool seSeleccionoVocalesJuntasParroquiales = state.seSeleccionoVocalesJuntasParroquiales!;
+    bool seSeleccionoConcejalesUrbanosPorCircunscripcion = state.seSeleccionoConcejalesUrbanosPorCircunscripcion!;
     bool seSeleccionoProvincia = state.seSeleccionoProvincia!;
     Provincia provinciaSeleccionada = state.provinciaSeleccionada!;
 
@@ -116,6 +142,7 @@ class EstadisticaNotifier extends StateNotifier<EstadisticaModel> {
         seSeleccionoConcejalesUrbanos: seSeleccionoConcejalesUrbanos,
         seSeleccionoConcejalesRurales: seSeleccionoConcejalesRurales,
         seSeleccionoVocalesJuntasParroquiales: seSeleccionoVocalesJuntasParroquiales,
+        seSeleccionoConcejalesUrbanosPorCircunscripcion: seSeleccionoConcejalesUrbanosPorCircunscripcion,
         seSeleccionoProvincia: seSeleccionoProvincia,
         seSeleccionoCanton: true,
         provinciaSeleccionada: provinciaSeleccionada,
@@ -151,6 +178,8 @@ final dignidadesFutureProvider = FutureProvider((ref) async {
       List<DignidadDto> dignidades = (response.data as List).map((dignidad) {
         return DignidadDto.fromJson(dignidad);
       }).toList();
+
+      print(dignidades);
 
       return dignidades;
     } else {
@@ -254,6 +283,14 @@ final numeroVotosParaConcejalesUrbanosPorProvinciaYCantonFutureProvider =
     FutureProvider.autoDispose.family<List<VotosMovimientoDto>, ParametrosConsultaDto>((ref, parametrosConsulta) async {
   String url =
       '${Env.clientApiUrl}/estadisticas/concejales/urbanos/provincia/${parametrosConsulta.idProvincia}/canton/${parametrosConsulta.idCanton}';
+  return await consumirServicioRest(ref, url);
+});
+
+// Obtener el conteo de votos para concejales urbanos circunscripcion por provincia y canton
+final numeroVotosParaConcejalesUrbanosCircunscripcionPorProvinciaYCantonFutureProvider =
+    FutureProvider.autoDispose.family<List<VotosMovimientoDto>, ParametrosConsultaDto>((ref, parametrosConsulta) async {
+  String url =
+      '${Env.clientApiUrl}/estadisticas/concejales/urbanos/circunscripcion/provincia/${parametrosConsulta.idProvincia}/canton/${parametrosConsulta.idCanton}';
   return await consumirServicioRest(ref, url);
 });
 

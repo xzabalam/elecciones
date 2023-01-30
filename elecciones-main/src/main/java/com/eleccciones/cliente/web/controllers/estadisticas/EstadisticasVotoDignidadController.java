@@ -74,6 +74,17 @@ public class EstadisticasVotoDignidadController {
         return new ResponseEntity<>(resultado, HttpStatus.OK);
     }
 
+    @GetMapping("/concejales/urbanos/circunscripcion/provincia/{idProvincia}/canton/{idCanton}")
+    @Operation(summary = "Obtener concejales urbanos por provincia y canton.")
+    public ResponseEntity<List<EstadisticaDTO>> getConcejalesUrbanosCircunscripcionPorProvinciaYCanton(
+            @Valid @NotNull @Positive @PathVariable("idProvincia") Integer idProvincia,
+            @Valid @NotNull @Positive @PathVariable("idCanton") Integer idCanton) {
+        ParametroEstadisticaUtil.validarProvincia(idProvincia);
+        ParametroEstadisticaUtil.validarCanton(idCanton);
+        List<EstadisticaDTO> resultado = estadisticaVotoDignidadService.getConcejalesUrbanosCircunscripcionPorProvinciaYCanton(idProvincia, idCanton);
+        return new ResponseEntity<>(resultado, HttpStatus.OK);
+    }
+
     @GetMapping("/concejales/rurales/provincia/{idProvincia}")
     @Operation(summary = "Obtener concejales rurales por provincia")
     public ResponseEntity<List<EstadisticaDTO>> getConcejalesRuralesPorProvincia(@Valid @NotNull @Positive @PathVariable(

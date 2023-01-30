@@ -51,6 +51,14 @@ public class EstadisticaVotoDignidadService {
     }
 
     @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_ESTADISTICAS"})
+    public List<EstadisticaDTO> getConcejalesUrbanosCircunscripcionPorProvinciaYCanton(Integer idProvincia,
+                                                                                       Integer idCanton) {
+        ParametroEstadisticaUtil.validarProvincia(idProvincia);
+        ParametroEstadisticaUtil.validarCanton(idCanton);
+        return estadisticaVotoDignidadRepository.getConcejalesUrbanosCircunscripcionPorProvinciaYCanton(idProvincia, idCanton);
+    }
+
+    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_ESTADISTICAS"})
     public List<EstadisticaDTO> getConcejalesRuralesPorProvincia(Integer idProvincia) {
         ParametroEstadisticaUtil.validarProvincia(idProvincia);
         return estadisticaVotoDignidadRepository.getConcejalesRuralesPorProvincia(idProvincia);

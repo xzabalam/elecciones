@@ -335,7 +335,6 @@ export class EstadisticasComponent {
 
     this.chart = new Chart('MyChart', {
       type: 'bar',
-
       data: {
         labels: labels,
         datasets: [
@@ -345,7 +344,6 @@ export class EstadisticasComponent {
           },
         ],
       },
-
       options: {
         indexAxis: 'y',
         maintainAspectRatio: true,
@@ -353,12 +351,17 @@ export class EstadisticasComponent {
           x: {
             display: true,
             beginAtZero: true,
+
+            ticks: {
+              display: false,
+            },
           },
           y: {
             display: true,
             beginAtZero: true,
           },
         },
+
         plugins: {
           legend: {
             labels: {
