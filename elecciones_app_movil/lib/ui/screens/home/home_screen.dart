@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:elecciones_app_movil/data/model/auth/usuario.dart';
 import 'package:elecciones_app_movil/domain/providers/auth/token_provider.dart';
+import 'package:elecciones_app_movil/domain/providers/estadisticas/estadisticas_provider.dart';
 import 'package:elecciones_app_movil/domain/providers/ubicacion/ubicacion_provider.dart';
 import 'package:elecciones_app_movil/ui/screens/estadisticas/estadisticas_screen.dart';
 import 'package:elecciones_app_movil/ui/screens/registro_votos/registro_votos_screen.dart';
@@ -20,8 +21,11 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
-      ref.read(ubicacionProvider.notifier).resetState();
+      if (mounted) {
+        _selectedIndex = index;
+        ref.read(ubicacionProvider.notifier).resetState();
+        ref.read(estadisticaProvider.notifier).resetState();
+      }
     });
   }
 

@@ -220,15 +220,23 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
               SizedBox(
                 height: 500,
                 child: SfCartesianChart(
-                    isTransposed: true,
+                    isTransposed: false,
                     enableAxisAnimation: true,
+                    tooltipBehavior: TooltipBehavior(
+                      animationDuration: 5,
+                      tooltipPosition: TooltipPosition.auto,
+                    ),
                     primaryXAxis: CategoryAxis(
-                      maximumLabels: 20,
+                      maximumLabelWidth: 80,
+                      title: AxisTitle(
+                          text: 'Votos por cada Movimiento',
+                          textStyle: const TextStyle(
+                            fontSize: 8,
+                            color: Colors.black,
+                          )),
                       labelPosition: ChartDataLabelPosition.outside,
                       labelAlignment: LabelAlignment.center,
-                      edgeLabelPlacement: EdgeLabelPlacement.hide,
-                      labelPlacement: LabelPlacement.betweenTicks,
-                      labelRotation: 270,
+                      labelRotation: 0,
                       labelStyle: const TextStyle(
                         fontSize: 8,
                         color: Colors.black,
@@ -237,7 +245,15 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                       majorTickLines: const MajorTickLines(width: 0),
                     ),
                     primaryYAxis: NumericAxis(
+                      autoScrollingMode: AutoScrollingMode.start,
                       labelFormat: '{value}%',
+                      title: AxisTitle(
+                          text: 'Cantidad de votos',
+                          textStyle: const TextStyle(
+                            fontSize: 8,
+                            color: Colors.black,
+                          )),
+                      anchorRangeToVisiblePoints: false,
                       labelStyle: const TextStyle(
                         fontSize: 8,
                         color: Colors.black,
@@ -250,11 +266,12 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                             String tituloMovimiento;
 
                             if (dignidades.movimiento == 'NULO' || dignidades.movimiento == 'BLANCO') {
-                              tituloMovimiento = "${dignidades.movimiento} (${dignidades.sumatoria})";
+                              tituloMovimiento = "${dignidades.movimiento} (Votos: ${dignidades.sumatoria})";
                             } else {
                               String numeroMovimiento =
                                   (dignidades.numeroMovimiento == null) ? 'S/N' : dignidades.numeroMovimiento!;
-                              tituloMovimiento = "Lista $numeroMovimiento, (${dignidades.sumatoria})";
+                              tituloMovimiento =
+                                  "Lista $numeroMovimiento (Votos: ${dignidades.sumatoria}) ${dignidades.movimiento} \n ${dignidades.nombreCandidato}";
                             }
 
                             return tituloMovimiento;
@@ -262,8 +279,8 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                           yValueMapper: (VotosMovimientoDto dignidades, _) =>
                               double.parse(((dignidades.sumatoria! * 100) / numeroVotos).toStringAsFixed(2)),
                           isVisibleInLegend: true,
-                          isTrackVisible: false,
-                          sortingOrder: SortingOrder.descending,
+                          isTrackVisible: true,
+                          sortingOrder: SortingOrder.ascending,
                           sortFieldValueMapper: (VotosMovimientoDto dignidades, _) => dignidades.sumatoria,
                           pointColorMapper: (VotosMovimientoDto dignidades, _) =>
                               HexColor.fromHex(dignidades.colorMovimiento!),
@@ -271,7 +288,7 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                               labelPosition: ChartDataLabelPosition.inside,
                               textStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.w700),
                               showZeroValue: true,
-                              angle: 270,
+                              angle: 0,
                               alignment: ChartAlignment.center,
                               isVisible: true,
                               labelAlignment: ChartDataLabelAlignment.auto),
