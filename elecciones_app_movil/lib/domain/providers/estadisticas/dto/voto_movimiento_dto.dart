@@ -5,6 +5,7 @@ class VotosMovimientoDto extends Equatable {
     required this.idMovimiento,
     required this.movimiento,
     required this.numeroMovimiento,
+    required this.nombreCandidato,
     required this.colorMovimiento,
     required this.sumatoria,
   });
@@ -14,6 +15,7 @@ class VotosMovimientoDto extends Equatable {
   final String? numeroMovimiento;
   final String? colorMovimiento;
   final int? sumatoria;
+  final String? nombreCandidato;
 
   VotosMovimientoDto copyWith({
     int? idMovimiento,
@@ -27,6 +29,7 @@ class VotosMovimientoDto extends Equatable {
         movimiento: movimiento ?? this.movimiento,
         numeroMovimiento: numeroMovimiento ?? this.numeroMovimiento,
         colorMovimiento: colorMovimiento ?? this.colorMovimiento,
+        nombreCandidato: nombreCandidato ?? this.nombreCandidato,
         sumatoria: sumatoria ?? this.sumatoria,
       );
 
@@ -35,6 +38,7 @@ class VotosMovimientoDto extends Equatable {
         movimiento: json["movimiento"],
         numeroMovimiento: json["numeroMovimiento"],
         colorMovimiento: json["colorMovimiento"],
+        nombreCandidato: json['nombreCandidato'],
         sumatoria: json["sumatoria"],
       );
 
@@ -43,6 +47,7 @@ class VotosMovimientoDto extends Equatable {
         "movimiento": movimiento,
         "numeroMovimiento": numeroMovimiento,
         "colorMovimiento": colorMovimiento,
+        "nombreCandidato": nombreCandidato,
         "sumatoria": sumatoria,
       };
 
@@ -52,5 +57,5 @@ class VotosMovimientoDto extends Equatable {
   }
 
   @override
-  List<Object?> get props => [idMovimiento, movimiento, numeroMovimiento, colorMovimiento, sumatoria];
+  List<Object?> get props => [idMovimiento, movimiento, numeroMovimiento, colorMovimiento, nombreCandidato, sumatoria];
 }
