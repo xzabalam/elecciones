@@ -18,7 +18,6 @@ export class HttpService {
     public httpError: HttpErrorService
   ) {
     var jsonDatosUsuario = localStorage.getItem('datosUsuario');
-    console.log(jsonDatosUsuario);
     this.usuario =
       jsonDatosUsuario == null
         ? undefined

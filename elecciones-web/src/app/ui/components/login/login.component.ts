@@ -55,11 +55,9 @@ export class LoginComponent {
 
     this.userService.login(user).subscribe({
       next: (data) => {
-        console.log(data);
         this.userService.authenticate(JSON.stringify(data));
       },
       error: (e) => {
-        console.log(e);
         this.errorMsg = e.message;
         this.userService.logout();
       },
