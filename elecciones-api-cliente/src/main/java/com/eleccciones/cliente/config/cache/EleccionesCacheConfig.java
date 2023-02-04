@@ -9,14 +9,10 @@ import org.redisson.config.Config;
 import org.redisson.spring.cache.CacheConfig;
 import org.redisson.spring.cache.RedissonSpringCacheManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,6 +55,7 @@ public class EleccionesCacheConfig {
         config.put(CandidatosCacheNameEnum.MOVIMIENTOS.name(), new CacheConfig());
         config.put(CandidatosCacheNameEnum.CANDIDATOS.name(), new CacheConfig());
         config.put(CandidatosCacheNameEnum.DIGNIDADES.name(), new CacheConfig());
+        config.put(CandidatosCacheNameEnum.DIGNIDADES_CONTRATO.name(), new CacheConfig());
         config.put(CandidatosCacheNameEnum.TIPO_UBICACION.name(), new CacheConfig());
         config.put(CandidatosCacheNameEnum.PROCESO.name(), new CacheConfig());
         config.put(CandidatosCacheNameEnum.TIPO_GRUPO.name(), new CacheConfig());

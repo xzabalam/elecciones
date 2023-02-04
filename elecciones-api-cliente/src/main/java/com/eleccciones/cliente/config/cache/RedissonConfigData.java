@@ -22,5 +22,5 @@ public class RedissonConfigData {
     private Integer connectionPoolSize;
     private Integer dnsMonitoringInterval;
     private String redisHostName;
-    private String redisPort;
+    private Integer redisPort;
 }

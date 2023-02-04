@@ -1,20 +1,17 @@
 package com.eleccciones.cliente.data.repositories.candidatos.dto;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
-@Data
-public class DignidadDTO {
-    @NotNull
+@Getter
+@Setter
+@AllArgsConstructor
+public class DignidadDTO implements Serializable {
+    private static final long serialVersionUID = -412218241272244619L;
+
     private Integer id;
-    @NotNull
     private String nombre;
-
-    public DignidadDTO(Integer id, String nombre) {
-        this.id = id;
-        this.nombre = nombre;
-    }
-
-
 }

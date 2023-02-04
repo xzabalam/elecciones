@@ -9,11 +9,14 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
-public class DignidadServicio {
+public class DignidadServicio implements Serializable {
+    private static final long serialVersionUID = -412218241272214619L;
+
     private final DignidadRepository dignidadRepository;
 
     public DignidadServicio(DignidadRepository dignidadRepository) {
@@ -35,7 +38,7 @@ public class DignidadServicio {
     }
 
     @Secured({"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})
-    @Cacheable(value = "DIGNIDADES")
+    @Cacheable(value = "DIGNIDADES_CONTRATO", key = "#idContrato")
     public List<DignidadDTO> obtenerPorContrato(Integer idContrato) {
         return dignidadRepository.obtenerPorContrato(idContrato);
     }
