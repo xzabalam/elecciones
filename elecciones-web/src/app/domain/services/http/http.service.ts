@@ -11,12 +11,16 @@ import { Injectable } from '@angular/core';
 })
 export class HttpService {
   usuario: UsuarioDto | undefined;
-  urlApiClient: String;
+  urlApiClient: String | undefined;
   constructor(
     private http: HttpClient,
     public router: Router,
     public httpError: HttpErrorService
   ) {
+    this.obtenerUsuario();
+  }
+
+  obtenerUsuario() {
     var jsonDatosUsuario = localStorage.getItem('datosUsuario');
     this.usuario =
       jsonDatosUsuario == null
@@ -25,12 +29,13 @@ export class HttpService {
     this.urlApiClient =
       this.usuario == undefined ? '' : this.usuario.contrato.url;
   }
-
   get(urlServicio: string): Observable<any>;
 
   get(urlServicio: string, token: string): Observable<any>;
 
   get(urlServicio: string, token?: string): Observable<any> {
+    this.obtenerUsuario();
+
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
