@@ -25,7 +25,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().cors().and().csrf().disable().headers().frameOptions().disable().and().authorizeRequests()
+        http.cors().and().csrf().disable().headers().frameOptions().disable().and().authorizeRequests()
                 // Configurar el acceso libre a swagger ui
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 // Configurar el a la página de autenticacaión
