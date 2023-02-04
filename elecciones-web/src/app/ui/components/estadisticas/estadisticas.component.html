@@ -39,7 +39,7 @@
           (selectionChange)="onDignidadChange($event)"
         >
           <mat-list-option
-            style="display: inline-block; text-align: center"
+            class="list"
             *ngFor="let dignidad of dignidadesDto"
             [value]="dignidad"
           >
@@ -56,7 +56,7 @@
       <h2>Ubicaciones</h2>
 
       <div>
-        <mat-form-field appearance="fill">
+        <mat-form-field class="inputs" appearance="fill">
           <mat-label>Provincia</mat-label>
           <mat-select
             [(ngModel)]="provinciaSeleccionada"
@@ -82,7 +82,7 @@
             seSeleccionoVocalesJuntasParroquiales)
         "
       >
-        <mat-form-field appearance="fill">
+        <mat-form-field class="inputs" appearance="fill">
           <mat-label>Cantón</mat-label>
           <mat-select
             [(ngModel)]="cantonSeleccionado"
@@ -103,7 +103,7 @@
           seSeleccionoVocalesJuntasParroquiales
         "
       >
-        <mat-form-field appearance="fill">
+        <mat-form-field class="inputs" appearance="fill">
           <mat-label>Parroquias</mat-label>
           <mat-select
             [(ngModel)]="parroquiaSeleccionada"

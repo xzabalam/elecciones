@@ -1,9 +1,5 @@
 import { HttpService } from './../http/http.service';
-import { environment } from './../../../../environments/environment.prod';
-import { Observable, catchError, throwError } from 'rxjs';
-import { HttpErrorService } from '../http/http-error.service';
-import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 @Injectable({

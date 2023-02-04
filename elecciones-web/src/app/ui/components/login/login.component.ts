@@ -1,11 +1,9 @@
-import { UsuarioDto } from './../../../domain/model/dto/usuario/usuario_dto';
 import {
   FormControl,
   Validators,
   FormGroupDirective,
   NgForm,
 } from '@angular/forms';
-import { catchError, of } from 'rxjs';
 import { UsersService } from './../../../domain/services/users/users.service';
 import { Component } from '@angular/core';
 import { ErrorStateMatcher } from '@angular/material/core';
@@ -60,6 +58,7 @@ export class LoginComponent {
         this.userService.authenticate(JSON.stringify(data));
       },
       error: (e) => {
+        console.log(e);
         this.errorMsg = e.message;
         this.userService.logout();
       },

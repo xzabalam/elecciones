@@ -1,4 +1,4 @@
-import { colors } from './../../../domain/util/color_util';
+import { CircunscripcionDto } from './../../../domain/model/dto/ubicacion/circunscripcion_dto';
 import { VotosMovimientoDto } from './../../../domain/model/dto/estaditicas/votos_movimiento_dto';
 import { ListadoVotosMovimientoService } from './../../../domain/services/votos_movimiento/listado-votos-movimiento.service';
 import { ParroquiaDto } from './../../../domain/model/dto/ubicacion/parroquia_dto';
@@ -34,6 +34,8 @@ export class EstadisticasComponent {
   cantonSeleccionado: CantonDto | undefined;
   parroquias: Array<ParroquiaDto> = [];
   parroquiaSeleccionada: ParroquiaDto | undefined;
+  circunscripciones: Array<CircunscripcionDto> = [];
+  circunscripcionSeleccionada: CircunscripcionDto | undefined;
   cantidadTotalElectores: number = 0;
   respuestaSumatoriaVotosPorMovimiento: Array<VotosMovimientoDto> = [];
   chart: any;
@@ -48,6 +50,7 @@ export class EstadisticasComponent {
   seSeleccionoProvincia: boolean = false;
   seSeleccionoCanton: boolean = false;
   seSeleccionoParroquia: boolean = false;
+  seSeleccionoCircunscripcion: boolean = false;
 
   constructor(
     private userService: UsersService,
@@ -106,6 +109,11 @@ export class EstadisticasComponent {
     if (this.posicionDignidadSeleccionada == 6) {
       // Se selecciono VOCALES DE JUNTAS PARROQUIALES
       this.vocalJuntasSeleccionado();
+    }
+
+    if (this.posicionDignidadSeleccionada == 7) {
+      // Se selecciono Concejales urbanos por circunscripcion
+      this.concejalUrbanoCircunscripcionSeleccionado();
     }
 
     this.provinciaSeleccionada = undefined;
@@ -425,19 +433,22 @@ export class EstadisticasComponent {
   }
 
   private prefectoSeleccionado() {
-    this.cambiarSeleccionDignidad(true, false, false, false, false);
+    this.cambiarSeleccionDignidad(true, false, false, false, false, false);
   }
   private alcaldeSeleccionado() {
-    this.cambiarSeleccionDignidad(false, true, false, false, false);
+    this.cambiarSeleccionDignidad(false, true, false, false, false, false);
   }
   private concejalUrbanoSeleccionado() {
-    this.cambiarSeleccionDignidad(false, false, true, false, false);
+    this.cambiarSeleccionDignidad(false, false, true, false, false, false);
   }
   private concejalRuralSeleccionado() {
-    this.cambiarSeleccionDignidad(false, false, false, true, false);
+    this.cambiarSeleccionDignidad(false, false, false, true, false, false);
   }
   private vocalJuntasSeleccionado() {
-    this.cambiarSeleccionDignidad(false, false, false, false, true);
+    this.cambiarSeleccionDignidad(false, false, false, false, true, false);
+  }
+  private concejalUrbanoCircunscripcionSeleccionado() {
+    this.cambiarSeleccionDignidad(false, false, false, false, false, true);
   }
 
   private cambiarSeleccionDignidad(
@@ -445,7 +456,8 @@ export class EstadisticasComponent {
     seSeleccionoAlcaldes: boolean,
     seSeleccionoConcejalesUrbanos: boolean,
     seSeleccionoConcejalesRurales: boolean,
-    seSeleccionoVocalesJuntasParroquiales: boolean
+    seSeleccionoVocalesJuntasParroquiales: boolean,
+    seSeleccionoCircunscripcion: boolean
   ) {
     this.seSeleccionoPrefectos = seSeleccionoPrefectos;
     this.seSeleccionoAlcaldes = seSeleccionoAlcaldes;
@@ -453,5 +465,6 @@ export class EstadisticasComponent {
     this.seSeleccionoConcejalesRurales = seSeleccionoConcejalesRurales;
     this.seSeleccionoVocalesJuntasParroquiales =
       seSeleccionoVocalesJuntasParroquiales;
+    this.seSeleccionoCircunscripcion = seSeleccionoCircunscripcion;
   }
 }

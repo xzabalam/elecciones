@@ -70,3 +70,18 @@
   justify-content: right;
   align-items: flex-end;
 }
+
+.inputs {
+  font-size: 11px;
+  line-height: 120%;
+  font-weight: 400;
+}
+
+.list {
+  font-size: 11px;
+  line-height: 120%;
+  font-weight: 400;
+  display: inline-block;
+  text-align: center;
+  height: 30px !important;
+}
