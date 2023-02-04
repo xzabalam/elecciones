@@ -1,192 +1,41 @@
 // Obtener el listado de dignidades
 import 'package:dio/dio.dart';
-import 'package:elecciones_app_movil/data/model/ubicacion/index.dart';
-import 'package:elecciones_app_movil/domain/providers/auth/token_provider.dart';
-import 'package:elecciones_app_movil/domain/providers/estadisticas/dto/dignidad_dto.dart';
-import 'package:elecciones_app_movil/domain/providers/estadisticas/dto/numero_electores_dto.dart';
-import 'package:elecciones_app_movil/domain/providers/estadisticas/dto/parametros_consulta_dto.dart';
-import 'package:elecciones_app_movil/domain/providers/estadisticas/dto/voto_movimiento_dto.dart';
-import 'package:elecciones_app_movil/domain/providers/model/estadisticas/estadistica_model.dart';
-import 'package:elecciones_app_movil/env/env.dart';
+import 'package:elecciones_app_movil/data/model/ubicacion/circunscripcion.dart';
+import 'package:elecciones_app_movil/domain/model/estadisticas/dignidad_dto.dart';
+import 'package:elecciones_app_movil/domain/model/estadisticas/numero_electores_dto.dart';
+import 'package:elecciones_app_movil/domain/model/estadisticas/parametros_circusncripcion.dart';
+import 'package:elecciones_app_movil/domain/model/estadisticas/parametros_consulta_dto.dart';
+import 'package:elecciones_app_movil/domain/model/estadisticas/voto_movimiento_dto.dart';
+import 'package:elecciones_app_movil/domain/notifiers/auth/token_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-class EstadisticaNotifier extends StateNotifier<EstadisticaModel> {
-  EstadisticaNotifier()
-      : super(EstadisticaModel(
-          numeroElectoresDto: NumeroElectoresDto(idUbicacion: -1, nombreUbicacion: "", cantidadElectores: 0),
-          respuestaSumatoriaVotosPorMovimiento: const [],
-          seGuardoEnProviderDignidades: false,
-          posicionDignidadSeleccionada: -1,
-          seSeleccionoPrefectos: false,
-          seSeleccionoAlcaldes: false,
-          seSeleccionoConcejalesUrbanos: false,
-          seSeleccionoConcejalesRurales: false,
-          seSeleccionoVocalesJuntasParroquiales: false,
-          seSeleccionoConcejalesUrbanosPorCircunscripcion: false,
-          seSeleccionoProvincia: false,
-          seSeleccionoCanton: false,
-          seSeleccionoParroquia: false,
-          provinciaSeleccionada: null,
-          cantonSeleccionado: null,
-          parroquiaSeleccionada: null,
-        ));
-
-  void resetState() {
-    state = EstadisticaModel(
-      numeroElectoresDto: NumeroElectoresDto(idUbicacion: -1, nombreUbicacion: "", cantidadElectores: 0),
-      respuestaSumatoriaVotosPorMovimiento: const [],
-      seGuardoEnProviderDignidades: false,
-      posicionDignidadSeleccionada: -1,
-      seSeleccionoPrefectos: false,
-      seSeleccionoAlcaldes: false,
-      seSeleccionoConcejalesUrbanos: false,
-      seSeleccionoConcejalesRurales: false,
-      seSeleccionoVocalesJuntasParroquiales: false,
-      seSeleccionoConcejalesUrbanosPorCircunscripcion: false,
-      seSeleccionoProvincia: false,
-      seSeleccionoCanton: false,
-      seSeleccionoParroquia: false,
-      provinciaSeleccionada: null,
-      cantonSeleccionado: null,
-      parroquiaSeleccionada: null,
-    );
-  }
-
-  void changeDignidadesDtoState(List<DignidadDto> dignidadesDto) {
-    state = state.copyWith(dignidadesDto: dignidadesDto);
-  }
-
-  void changeSeGuardoEnProviderDignidades(bool seGuardoEnProviderDignidades) {
-    state = state.copyWith(seGuardoEnProviderDignidades: seGuardoEnProviderDignidades);
-  }
-
-  void changePosicionDignidadSeleccionadaState(int posicionDignidadSeleccionada) {
-    print(posicionDignidadSeleccionada);
-    resetState();
-    state = state.copyWith(posicionDignidadSeleccionada: posicionDignidadSeleccionada);
-
-    if (posicionDignidadSeleccionada == 2) {
-      state = state.copyWith(seSeleccionoPrefectos: true);
-    }
-
-    // Se selecciono alcaldes
-    if (posicionDignidadSeleccionada == 3) {
-      state = state.copyWith(seSeleccionoAlcaldes: true);
-    }
-
-    // Se selecciono concejales urbanos
-    if (posicionDignidadSeleccionada == 4) {
-      state = state.copyWith(seSeleccionoConcejalesUrbanos: true);
-    }
-
-    // Se selecciono concejales rurales
-    if (posicionDignidadSeleccionada == 5) {
-      state = state.copyWith(seSeleccionoConcejalesRurales: true);
-    }
-
-    // Se selecciono vocales juntas parroquiales
-    if (posicionDignidadSeleccionada == 6) {
-      state = state.copyWith(seSeleccionoVocalesJuntasParroquiales: true);
-    }
-
-    // Se selecciono vocales CONCEJALES URBANOS POR CIRCUNSCRIPCION
-    if (posicionDignidadSeleccionada == 7) {
-      state = state.copyWith(seSeleccionoConcejalesUrbanosPorCircunscripcion: true);
-    }
-  }
-
-  void changeCantidadTotalElectoresState(int cantidadTotalElectores) {
-    state = state.copyWith(cantidadTotalElectores: cantidadTotalElectores);
-  }
-
-  void changeProvinciaSeleccionadaState(Provincia provinciaSeleccionada) {
-    int posicionDignidadSeleccionada = state.posicionDignidadSeleccionada!;
-    bool seSeleccionoPrefectos = state.seSeleccionoPrefectos!;
-    bool seSeleccionoAlcaldes = state.seSeleccionoAlcaldes!;
-    bool seSeleccionoConcejalesUrbanos = state.seSeleccionoConcejalesUrbanos!;
-    bool seSeleccionoConcejalesRurales = state.seSeleccionoConcejalesRurales!;
-    bool seSeleccionoVocalesJuntasParroquiales = state.seSeleccionoVocalesJuntasParroquiales!;
-    bool seSeleccionoConcejalesUrbanosPorCircunscripcion = state.seSeleccionoConcejalesUrbanosPorCircunscripcion!;
-
-    resetState();
-
-    state = state.copyWith(
-        posicionDignidadSeleccionada: posicionDignidadSeleccionada,
-        seSeleccionoPrefectos: seSeleccionoPrefectos,
-        seSeleccionoAlcaldes: seSeleccionoAlcaldes,
-        seSeleccionoConcejalesUrbanos: seSeleccionoConcejalesUrbanos,
-        seSeleccionoConcejalesRurales: seSeleccionoConcejalesRurales,
-        seSeleccionoVocalesJuntasParroquiales: seSeleccionoVocalesJuntasParroquiales,
-        seSeleccionoConcejalesUrbanosPorCircunscripcion: seSeleccionoConcejalesUrbanosPorCircunscripcion,
-        seSeleccionoProvincia: true,
-        provinciaSeleccionada: provinciaSeleccionada);
-  }
-
-  void changeCantonSeleccionadoState(Canton cantonSeleccionado) {
-    int posicionDignidadSeleccionada = state.posicionDignidadSeleccionada!;
-    bool seSeleccionoPrefectos = state.seSeleccionoPrefectos!;
-    bool seSeleccionoAlcaldes = state.seSeleccionoAlcaldes!;
-    bool seSeleccionoConcejalesUrbanos = state.seSeleccionoConcejalesUrbanos!;
-    bool seSeleccionoConcejalesRurales = state.seSeleccionoConcejalesRurales!;
-    bool seSeleccionoVocalesJuntasParroquiales = state.seSeleccionoVocalesJuntasParroquiales!;
-    bool seSeleccionoConcejalesUrbanosPorCircunscripcion = state.seSeleccionoConcejalesUrbanosPorCircunscripcion!;
-    bool seSeleccionoProvincia = state.seSeleccionoProvincia!;
-    Provincia provinciaSeleccionada = state.provinciaSeleccionada!;
-
-    resetState();
-
-    state = state.copyWith(
-        posicionDignidadSeleccionada: posicionDignidadSeleccionada,
-        seSeleccionoPrefectos: seSeleccionoPrefectos,
-        seSeleccionoAlcaldes: seSeleccionoAlcaldes,
-        seSeleccionoConcejalesUrbanos: seSeleccionoConcejalesUrbanos,
-        seSeleccionoConcejalesRurales: seSeleccionoConcejalesRurales,
-        seSeleccionoVocalesJuntasParroquiales: seSeleccionoVocalesJuntasParroquiales,
-        seSeleccionoConcejalesUrbanosPorCircunscripcion: seSeleccionoConcejalesUrbanosPorCircunscripcion,
-        seSeleccionoProvincia: seSeleccionoProvincia,
-        seSeleccionoCanton: true,
-        provinciaSeleccionada: provinciaSeleccionada,
-        cantonSeleccionado: cantonSeleccionado);
-  }
-
-  void changeParroquiaSeleccionadaState(Parroquia parroquiaSeleccionada) {
-    state = state.copyWith(parroquiaSeleccionada: parroquiaSeleccionada, seSeleccionoParroquia: true);
-  }
-
-  void changeNumeroElectoresState(NumeroElectoresDto numeroElectoresDto) {
-    state = state.copyWith(numeroElectoresDto: numeroElectoresDto);
-  }
-
-  void changeSumatoriaVotos(List<VotosMovimientoDto> respuestaSumatoriaVotosPorMovimiento) {
-    state = state.copyWith(respuestaSumatoriaVotosPorMovimiento: respuestaSumatoriaVotosPorMovimiento);
-  }
-}
-
-final estadisticaProvider = StateNotifierProvider<EstadisticaNotifier, EstadisticaModel>((ref) {
-  return EstadisticaNotifier();
-});
 
 // Obtiene el listado de dinidades configuradas
 final dignidadesFutureProvider = FutureProvider((ref) async {
   String token = ref.read(authTokenProvider).basicToken;
-
+  String urlApiCliente = ref.read(authTokenProvider).urlApiCliente!;
+  int idContrato = ref.read(authTokenProvider).usuario!.contrato!.id;
   try {
-    final response =
-        await Dio().get('${Env.clientApiUrl}/dignidad/all', options: Options(headers: {'Authorization': token}));
+    final response = await Dio()
+        .get('$urlApiCliente/dignidad/contrato/$idContrato', options: Options(headers: {'Authorization': token}));
 
     if (response.statusCode == 200) {
       List<DignidadDto> dignidades = (response.data as List).map((dignidad) {
         return DignidadDto.fromJson(dignidad);
       }).toList();
-
-      print(dignidades);
-
       return dignidades;
     } else {
       throw Exception('Error al obtener las dignidades configuradas.');
     }
-  } catch (e) {
-    throw Exception('Error al obtener las dignidades configuradas.');
+  } on DioError catch (e) {
+    if (e.response?.statusCode == 401) {
+      throw Exception("Usuario no autorizado.");
+    } else if (e.type == DioErrorType.connectTimeout ||
+        e.type == DioErrorType.receiveTimeout ||
+        e.type == DioErrorType.other) {
+      throw Exception("Error de conexión, intente de nuevo más tarde.");
+    } else {
+      throw Exception('Error al obtener las dignidades configuradas.');
+    }
   }
 });
 
@@ -194,9 +43,10 @@ final dignidadesFutureProvider = FutureProvider((ref) async {
 final numeroElectoresPorProvinciaFutureProvider =
     FutureProvider.autoDispose.family<NumeroElectoresDto, ParametrosConsultaDto>((ref, parametrosConsulta) async {
   String token = ref.read(authTokenProvider).basicToken;
+  String urlApiCliente = ref.read(authTokenProvider).urlApiCliente!;
 
   try {
-    final response = await Dio().get('${Env.clientApiUrl}/numero-electores/provincia/${parametrosConsulta.idProvincia}',
+    final response = await Dio().get('$urlApiCliente/numero-electores/provincia/${parametrosConsulta.idProvincia}',
         options: Options(headers: {'Authorization': token}));
 
     if (response.statusCode == 200) {
@@ -204,8 +54,16 @@ final numeroElectoresPorProvinciaFutureProvider =
     } else {
       throw Exception('Error al obtener las dignidades configuradas.');
     }
-  } catch (e) {
-    throw Exception('Error al obtener las dignidades configuradas.');
+  } on DioError catch (e) {
+    if (e.response?.statusCode == 401) {
+      throw Exception("Usuario no autorizado.");
+    } else if (e.type == DioErrorType.connectTimeout ||
+        e.type == DioErrorType.receiveTimeout ||
+        e.type == DioErrorType.other) {
+      throw Exception("Error de conexión, intente de nuevo más tarde.");
+    } else {
+      throw Exception('Error al obtener las dignidades configuradas.');
+    }
   }
 });
 
@@ -213,10 +71,11 @@ final numeroElectoresPorProvinciaFutureProvider =
 final numeroElectoresPorProvinciaYCantonFutureProvider =
     FutureProvider.autoDispose.family<NumeroElectoresDto, ParametrosConsultaDto>((ref, parametrosConsulta) async {
   String token = ref.read(authTokenProvider).basicToken;
+  String urlApiCliente = ref.read(authTokenProvider).urlApiCliente!;
 
   try {
     final response = await Dio().get(
-        '${Env.clientApiUrl}/numero-electores/provincia/${parametrosConsulta.idProvincia}/canton/${parametrosConsulta.idCanton}',
+        '$urlApiCliente/numero-electores/provincia/${parametrosConsulta.idProvincia}/canton/${parametrosConsulta.idCanton}',
         options: Options(headers: {'Authorization': token}));
 
     if (response.statusCode == 200) {
@@ -224,8 +83,16 @@ final numeroElectoresPorProvinciaYCantonFutureProvider =
     } else {
       throw Exception('Error al obtener las dignidades configuradas.');
     }
-  } catch (e) {
-    throw Exception('Error al obtener las dignidades configuradas.');
+  } on DioError catch (e) {
+    if (e.response?.statusCode == 401) {
+      throw Exception("Usuario no autorizado.");
+    } else if (e.type == DioErrorType.connectTimeout ||
+        e.type == DioErrorType.receiveTimeout ||
+        e.type == DioErrorType.other) {
+      throw Exception("Error de conexión, intente de nuevo más tarde.");
+    } else {
+      throw Exception('Error al obtener las dignidades configuradas.');
+    }
   }
 });
 
@@ -233,10 +100,11 @@ final numeroElectoresPorProvinciaYCantonFutureProvider =
 final numeroElectoresPorProvinciaYCantonYParroquiaFutureProvider =
     FutureProvider.autoDispose.family<NumeroElectoresDto, ParametrosConsultaDto>((ref, parametrosConsulta) async {
   String token = ref.read(authTokenProvider).basicToken;
+  String urlApiCliente = ref.read(authTokenProvider).urlApiCliente!;
 
   try {
     final response = await Dio().get(
-        '${Env.clientApiUrl}/numero-electores/provincia/${parametrosConsulta.idProvincia}/canton/${parametrosConsulta.idCanton}/parroquia/${parametrosConsulta.idParroquia}',
+        '$urlApiCliente/numero-electores/provincia/${parametrosConsulta.idProvincia}/canton/${parametrosConsulta.idCanton}/parroquia/${parametrosConsulta.idParroquia}',
         options: Options(headers: {'Authorization': token}));
 
     if (response.statusCode == 200) {
@@ -244,91 +112,119 @@ final numeroElectoresPorProvinciaYCantonYParroquiaFutureProvider =
     } else {
       throw Exception('Error al obtener las dignidades configuradas.');
     }
-  } catch (e) {
-    throw Exception('Error al obtener las dignidades configuradas.');
+  } on DioError catch (e) {
+    if (e.response?.statusCode == 401) {
+      throw Exception("Usuario no autorizado.");
+    } else if (e.type == DioErrorType.connectTimeout ||
+        e.type == DioErrorType.receiveTimeout ||
+        e.type == DioErrorType.other) {
+      throw Exception("Error de conexión, intente de nuevo más tarde.");
+    } else {
+      throw Exception('Error al obtener las dignidades configuradas.');
+    }
   }
 });
 
 // Obtener el conteo de votos para prefectos por provincia
 final numeroVotosParaPrefectoPorProvinciaFutureProvider =
     FutureProvider.autoDispose.family<List<VotosMovimientoDto>, ParametrosConsultaDto>((ref, parametrosConsulta) async {
-  String url = '${Env.clientApiUrl}/estadisticas/prefectos/provincia/${parametrosConsulta.idProvincia}';
+  String urlApiCliente = ref.read(authTokenProvider).urlApiCliente!;
+  String url = '$urlApiCliente/estadisticas/prefectos/provincia/${parametrosConsulta.idProvincia}';
   return await consumirServicioRest(ref, url);
 });
 
 // Obtener el conteo de votos para alcaldes por provincia
 final numeroVotosParaAlcaldesPorProvinciaFutureProvider =
     FutureProvider.autoDispose.family<List<VotosMovimientoDto>, ParametrosConsultaDto>((ref, parametrosConsulta) async {
-  String url = '${Env.clientApiUrl}/estadisticas/alcaldes/provincia/${parametrosConsulta.idProvincia}';
+  String urlApiCliente = ref.read(authTokenProvider).urlApiCliente!;
+  String url = '$urlApiCliente/estadisticas/alcaldes/provincia/${parametrosConsulta.idProvincia}';
   return await consumirServicioRest(ref, url);
 });
 
 // Obtener el conteo de votos para alcaldes por provincia y canton
 final numeroVotosParaAlcaldesPorProvinciaYCantonFutureProvider =
     FutureProvider.autoDispose.family<List<VotosMovimientoDto>, ParametrosConsultaDto>((ref, parametrosConsulta) async {
+  String urlApiCliente = ref.read(authTokenProvider).urlApiCliente!;
   String url =
-      '${Env.clientApiUrl}/estadisticas/alcaldes/provincia/${parametrosConsulta.idProvincia}/canton/${parametrosConsulta.idCanton}';
+      '$urlApiCliente/estadisticas/alcaldes/provincia/${parametrosConsulta.idProvincia}/canton/${parametrosConsulta.idCanton}';
   return await consumirServicioRest(ref, url);
 });
 
 // Obtener el conteo de votos para concejales urbanos por provincia
 final numeroVotosParaConcejalesUrbanosPorProvinciaFutureProvider =
     FutureProvider.autoDispose.family<List<VotosMovimientoDto>, ParametrosConsultaDto>((ref, parametrosConsulta) async {
-  String url = '${Env.clientApiUrl}/estadisticas/concejales/urbanos/provincia/${parametrosConsulta.idProvincia}';
+  String urlApiCliente = ref.read(authTokenProvider).urlApiCliente!;
+  String url = '$urlApiCliente/estadisticas/concejales/urbanos/provincia/${parametrosConsulta.idProvincia}';
   return await consumirServicioRest(ref, url);
 });
 
 // Obtener el conteo de votos para concejales urbanos por provincia y canton
 final numeroVotosParaConcejalesUrbanosPorProvinciaYCantonFutureProvider =
     FutureProvider.autoDispose.family<List<VotosMovimientoDto>, ParametrosConsultaDto>((ref, parametrosConsulta) async {
+  String urlApiCliente = ref.read(authTokenProvider).urlApiCliente!;
   String url =
-      '${Env.clientApiUrl}/estadisticas/concejales/urbanos/provincia/${parametrosConsulta.idProvincia}/canton/${parametrosConsulta.idCanton}';
+      '$urlApiCliente/estadisticas/concejales/urbanos/provincia/${parametrosConsulta.idProvincia}/canton/${parametrosConsulta.idCanton}';
+  return await consumirServicioRest(ref, url);
+});
+
+// Obtener el conteo de votos para concejales urbanos por provincia, canton, dignidad, circunscripcion
+final numeroVotosParaConcejalesUrbanosPorProvinciaCantonDignidadCircunscripcionFutureProvider =
+    FutureProvider.autoDispose.family<List<VotosMovimientoDto>, ParametrosConsultaDto>((ref, parametrosConsulta) async {
+  String urlApiCliente = ref.read(authTokenProvider).urlApiCliente!;
+  String url =
+      '$urlApiCliente/estadisticas/concejales/urbanos/provincia/${parametrosConsulta.idProvincia}/canton/${parametrosConsulta.idCanton}/dignidad/${parametrosConsulta.idDignidad}/circunscripcion/${parametrosConsulta.idCircunscripcion}';
   return await consumirServicioRest(ref, url);
 });
 
 // Obtener el conteo de votos para concejales urbanos circunscripcion por provincia y canton
 final numeroVotosParaConcejalesUrbanosCircunscripcionPorProvinciaYCantonFutureProvider =
     FutureProvider.autoDispose.family<List<VotosMovimientoDto>, ParametrosConsultaDto>((ref, parametrosConsulta) async {
+  String urlApiCliente = ref.read(authTokenProvider).urlApiCliente!;
   String url =
-      '${Env.clientApiUrl}/estadisticas/concejales/urbanos/circunscripcion/provincia/${parametrosConsulta.idProvincia}/canton/${parametrosConsulta.idCanton}';
+      '$urlApiCliente/estadisticas/concejales/urbanos/circunscripcion/provincia/${parametrosConsulta.idProvincia}/canton/${parametrosConsulta.idCanton}';
   return await consumirServicioRest(ref, url);
 });
 
 // Obtener el conteo de votos para concejales rurales por provincia
 final numeroVotosParaConcejalesRuralesPorProvinciaFutureProvider =
     FutureProvider.autoDispose.family<List<VotosMovimientoDto>, ParametrosConsultaDto>((ref, parametrosConsulta) async {
-  String url = '${Env.clientApiUrl}/estadisticas/concejales/rurales/provincia/${parametrosConsulta.idProvincia}';
+  String urlApiCliente = ref.read(authTokenProvider).urlApiCliente!;
+  String url = '$urlApiCliente/estadisticas/concejales/rurales/provincia/${parametrosConsulta.idProvincia}';
   return await consumirServicioRest(ref, url);
 });
 
 // Obtener el conteo de votos para concejales rurales por provincia y canton
 final numeroVotosParaConcejalesRuralesPorProvinciaYCantonFutureProvider =
     FutureProvider.autoDispose.family<List<VotosMovimientoDto>, ParametrosConsultaDto>((ref, parametrosConsulta) async {
+  String urlApiCliente = ref.read(authTokenProvider).urlApiCliente!;
   String url =
-      '${Env.clientApiUrl}/estadisticas/concejales/rurales/provincia/${parametrosConsulta.idProvincia}/canton/${parametrosConsulta.idCanton}';
+      '$urlApiCliente/estadisticas/concejales/rurales/provincia/${parametrosConsulta.idProvincia}/canton/${parametrosConsulta.idCanton}';
   return await consumirServicioRest(ref, url);
 });
 
 // Obtener el conteo de votos para vocales de juntas parroquiales por provincia
 final numeroVotosParaVocalesJuntasParroquialesPorProvinciaFutureProvider =
     FutureProvider.autoDispose.family<List<VotosMovimientoDto>, ParametrosConsultaDto>((ref, parametrosConsulta) async {
-  String url = '${Env.clientApiUrl}/estadisticas/vocales/juntas/provincia/${parametrosConsulta.idProvincia}';
+  String urlApiCliente = ref.read(authTokenProvider).urlApiCliente!;
+  String url = '$urlApiCliente/estadisticas/vocales/juntas/provincia/${parametrosConsulta.idProvincia}';
   return await consumirServicioRest(ref, url);
 });
 
 // Obtener el conteo de votos para vocales de juntas parroquiales por provincia y canton
 final numeroVotosParaVocalesJuntasParroquialesPorProvinciaYCantonFutureProvider =
     FutureProvider.autoDispose.family<List<VotosMovimientoDto>, ParametrosConsultaDto>((ref, parametrosConsulta) async {
+  String urlApiCliente = ref.read(authTokenProvider).urlApiCliente!;
   String url =
-      '${Env.clientApiUrl}/estadisticas/vocales/juntas/provincia/${parametrosConsulta.idProvincia}/canton/${parametrosConsulta.idCanton}';
+      '$urlApiCliente/estadisticas/vocales/juntas/provincia/${parametrosConsulta.idProvincia}/canton/${parametrosConsulta.idCanton}';
   return await consumirServicioRest(ref, url);
 });
 
 // Obtener el conteo de votos para vocales de juntas parroquiales por provincia y canton y parroquia
 final numeroVotosParaVocalesJuntasParroquialesPorProvinciaYCantonYParroquiaFutureProvider =
     FutureProvider.autoDispose.family<List<VotosMovimientoDto>, ParametrosConsultaDto>((ref, parametrosConsulta) async {
+  String urlApiCliente = ref.read(authTokenProvider).urlApiCliente!;
   String url =
-      '${Env.clientApiUrl}/estadisticas/vocales/juntas/provincia/${parametrosConsulta.idProvincia}/canton/${parametrosConsulta.idCanton}/parroquia/${parametrosConsulta.idParroquia}';
+      '$urlApiCliente/estadisticas/vocales/juntas/provincia/${parametrosConsulta.idProvincia}/canton/${parametrosConsulta.idCanton}/parroquia/${parametrosConsulta.idParroquia}';
   return await consumirServicioRest(ref, url);
 });
 
@@ -348,7 +244,46 @@ Future<List<VotosMovimientoDto>> consumirServicioRest(
     } else {
       throw Exception('Error al obtener las dignidades configuradas.');
     }
-  } catch (e) {
-    throw Exception('Error al obtener las dignidades configuradas.');
+  } on DioError catch (e) {
+    if (e.response?.statusCode == 401) {
+      throw Exception("Usuario no autorizado.");
+    } else if (e.type == DioErrorType.connectTimeout ||
+        e.type == DioErrorType.receiveTimeout ||
+        e.type == DioErrorType.other) {
+      throw Exception("Error de conexión, intente de nuevo más tarde.");
+    } else {
+      throw Exception('Error al obtener las dignidades configuradas.');
+    }
   }
 }
+
+//Obtener circunscripciones por contrato y por dignidad seleccionada
+final circunscripcionesContratoDignidadProvider =
+    FutureProvider.autoDispose.family<List<Circunscripcion>, ParametrosBusquedaCircunscripcion>((ref, parametro) async {
+  String token = ref.read(authTokenProvider).basicToken;
+  String urlApiCliente = ref.read(authTokenProvider).urlApiCliente!;
+  String url = '$urlApiCliente/circunscripcion/contrato/${parametro.idContrato}/dignidad/${parametro.idDignidad}';
+
+  try {
+    final response = await Dio().get(url, options: Options(headers: {'Authorization': token}));
+    if (response.statusCode == 200) {
+      List<Circunscripcion> circunscripciones = (response.data as List).map((circunscripcion) {
+        return Circunscripcion.fromJson(circunscripcion);
+      }).toList();
+
+      return circunscripciones;
+    } else {
+      throw Exception('Error al obtener las dignidades configuradas.');
+    }
+  } on DioError catch (e) {
+    if (e.response?.statusCode == 401) {
+      throw Exception("Usuario no autorizado.");
+    } else if (e.type == DioErrorType.connectTimeout ||
+        e.type == DioErrorType.receiveTimeout ||
+        e.type == DioErrorType.other) {
+      throw Exception("Error de conexión, intente de nuevo más tarde.");
+    } else {
+      throw Exception('Error al obtener las dignidades configuradas.');
+    }
+  }
+});

@@ -20,10 +20,15 @@ public interface VotoRepository extends JpaRepository<Voto, Integer> {
             "join fetch d.proceso p " +
             "join fetch d.tipoGrupo tg " +
             "join fetch v.grupoCandidato gc " +
+            "join fetch gc.contrato con " +
             "join fetch gc.movimiento m " +
             "join fetch gc.candidatos c " +
             "join ad.junta j " +
-            "where j.id = :idJunta and c.tipo = :tipoCandidato")
+            "where j.id = :idJunta and c.tipo = :tipoCandidato " +
+            " and v.estado != 'D' and ad.estado != 'D' and du.estado != 'D' and cir.estado != 'D' " +
+            " and tu.estado != 'D' and d.estado != 'D' and p.estado != 'D' and gc.estado != 'D' " +
+            " and tg.estado != 'D' and gc.estado != 'D' and j.estado != 'D' " +
+            " and con.estado != 'D' and m.estado != 'D' and c.estado != 'D' ")
     List<Voto> findByJunta(@Param("idJunta") Integer idJunta,
                            @Param("tipoCandidato") String tipoCandidato);
 }

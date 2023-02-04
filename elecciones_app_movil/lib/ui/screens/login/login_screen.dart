@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:adaptive_button/adaptive_button.dart';
 import 'package:elecciones_app_movil/data/model/auth/usuario.dart';
+import 'package:elecciones_app_movil/domain/model/auth/usuario_to.dart';
+import 'package:elecciones_app_movil/domain/notifiers/auth/token_notifier.dart';
 import 'package:elecciones_app_movil/domain/providers/auth/auth_provider.dart';
-import 'package:elecciones_app_movil/domain/providers/auth/token_provider.dart';
 import 'package:elecciones_app_movil/main.dart';
 import 'package:elecciones_app_movil/ui/widgets/commons/circular_progress_indicator_widget.dart';
 import 'package:flutter/material.dart';

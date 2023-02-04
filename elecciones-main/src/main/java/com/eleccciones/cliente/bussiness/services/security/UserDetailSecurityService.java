@@ -4,7 +4,6 @@ import com.eleccciones.cliente.data.entities.security.Permiso;
 import com.eleccciones.cliente.data.entities.security.Usuario;
 import com.eleccciones.cliente.data.repositories.security.UsuarioRepository;
 import com.eleccciones.cliente.data.repositories.security.UsuarioRolRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,11 +24,13 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class UserDetailSecurityService implements UserDetailsService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private UsuarioRolRepository userInRoleRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final UsuarioRolRepository userInRoleRepository;
+    
+    public UserDetailSecurityService(UsuarioRepository usuarioRepository, UsuarioRolRepository userInRoleRepository) {
+        this.usuarioRepository = usuarioRepository;
+        this.userInRoleRepository = userInRoleRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

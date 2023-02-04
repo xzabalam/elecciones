@@ -1,9 +1,10 @@
 import 'package:backdrop/backdrop.dart';
 import 'package:elecciones_app_movil/domain/extensions/hex_color_extension.dart';
-import 'package:elecciones_app_movil/domain/providers/estadisticas/dto/dignidad_dto.dart';
-import 'package:elecciones_app_movil/domain/providers/estadisticas/dto/voto_movimiento_dto.dart';
+import 'package:elecciones_app_movil/domain/model/estadisticas/dignidad_dto.dart';
+import 'package:elecciones_app_movil/domain/model/estadisticas/estadistica_model.dart';
+import 'package:elecciones_app_movil/domain/model/estadisticas/voto_movimiento_dto.dart';
+import 'package:elecciones_app_movil/domain/notifiers/estadisticas/estadisticas_notifier.dart';
 import 'package:elecciones_app_movil/domain/providers/estadisticas/estadisticas_provider.dart';
-import 'package:elecciones_app_movil/domain/providers/model/estadisticas/estadistica_model.dart';
 import 'package:elecciones_app_movil/ui/screens/estadisticas/widgets/alcaldes_ubicaciones_widget.dart';
 import 'package:elecciones_app_movil/ui/screens/estadisticas/widgets/concejales_rurales_ubicaciones_widget.dart';
 import 'package:elecciones_app_movil/ui/screens/estadisticas/widgets/concejales_urbanos_circunscripcion_ubicaciones_widget.dart';
@@ -73,18 +74,16 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                         shrinkWrap: true,
                         itemCount: dignidadesDto.length,
                         itemBuilder: (contextListView, index) {
-                          String? titulo = dignidadesDto[index].nombre;
-
                           return Card(
                             child: ListTile(
                               tileColor:
                                   posicionDignidadSeleccionada == index ? Theme.of(context).secondaryHeaderColor : null,
-                              leading: const Icon(Icons.people_alt_outlined),
-                              title: Text(titulo!, style: const TextStyle(fontSize: 16)),
+                              title: Text(dignidadesDto[index].nombre!, style: const TextStyle(fontSize: 16)),
                               onTap: () {
                                 ref
                                     .read(estadisticaProvider.notifier)
                                     .changePosicionDignidadSeleccionadaState(dignidadesDto[index].id!);
+
                                 setState(() {
                                   posicionDignidadSeleccionada = index;
                                 });
@@ -94,7 +93,7 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                         }),
                     const SizedBox(height: 20),
                     const Text("Ubicaciones", style: TextStyle(fontSize: 20)),
-                    if (estadisticasNotifier.seSeleccionoPrefectos!)
+                    if (posicionDignidadSeleccionada == 0)
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: Column(
@@ -103,7 +102,7 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                           ],
                         ),
                       ),
-                    if (estadisticasNotifier.seSeleccionoAlcaldes!)
+                    if (posicionDignidadSeleccionada == 1)
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: Column(
@@ -113,7 +112,7 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                           ],
                         ),
                       ),
-                    if (estadisticasNotifier.seSeleccionoConcejalesUrbanos!)
+                    if (posicionDignidadSeleccionada == 2)
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: Column(
@@ -123,7 +122,7 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                           ],
                         ),
                       ),
-                    if (estadisticasNotifier.seSeleccionoConcejalesRurales!)
+                    if (posicionDignidadSeleccionada == 3)
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: Column(
@@ -133,7 +132,7 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                           ],
                         ),
                       ),
-                    if (estadisticasNotifier.seSeleccionoVocalesJuntasParroquiales!)
+                    if (posicionDignidadSeleccionada == 4)
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: Column(
@@ -143,7 +142,7 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                           ],
                         ),
                       ),
-                    if (estadisticasNotifier.seSeleccionoConcejalesUrbanosPorCircunscripcion!)
+                    if (posicionDignidadSeleccionada == 5)
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: Column(
@@ -229,7 +228,7 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                     primaryXAxis: CategoryAxis(
                       maximumLabelWidth: 80,
                       title: AxisTitle(
-                          text: 'Votos por cada Movimiento',
+                          text: 'Movimiento',
                           textStyle: const TextStyle(
                             fontSize: 8,
                             color: Colors.black,
@@ -248,7 +247,7 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                       autoScrollingMode: AutoScrollingMode.start,
                       labelFormat: '{value}%',
                       title: AxisTitle(
-                          text: 'Cantidad de votos',
+                          text: '% de Votos',
                           textStyle: const TextStyle(
                             fontSize: 8,
                             color: Colors.black,
@@ -266,12 +265,12 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                             String tituloMovimiento;
 
                             if (dignidades.movimiento == 'NULO' || dignidades.movimiento == 'BLANCO') {
-                              tituloMovimiento = "${dignidades.movimiento} (Votos: ${dignidades.sumatoria})";
+                              tituloMovimiento = "${dignidades.movimiento} (${dignidades.sumatoria})";
                             } else {
                               String numeroMovimiento =
                                   (dignidades.numeroMovimiento == null) ? 'S/N' : dignidades.numeroMovimiento!;
                               tituloMovimiento =
-                                  "Lista $numeroMovimiento (Votos: ${dignidades.sumatoria}) ${dignidades.movimiento} \n ${dignidades.nombreCandidato}";
+                                  "Lista $numeroMovimiento (${dignidades.sumatoria}) ${dignidades.movimiento} \n ${dignidades.nombreCandidato}";
                             }
 
                             return tituloMovimiento;
@@ -280,7 +279,6 @@ class _EstadisticasPageState extends ConsumerState<EstadisticasPage> {
                               double.parse(((dignidades.sumatoria! * 100) / numeroVotos).toStringAsFixed(2)),
                           isVisibleInLegend: true,
                           isTrackVisible: true,
-                          sortingOrder: SortingOrder.ascending,
                           sortFieldValueMapper: (VotosMovimientoDto dignidades, _) => dignidades.sumatoria,
                           pointColorMapper: (VotosMovimientoDto dignidades, _) =>
                               HexColor.fromHex(dignidades.colorMovimiento!),

@@ -1,5 +1,5 @@
 import 'package:elecciones_app_movil/data/model/candidato/voto.dart';
-import 'package:elecciones_app_movil/domain/providers/model/voto/voto_seleccionado_model.dart';
+import 'package:elecciones_app_movil/domain/model/voto/voto_seleccionado_model.dart';
 import 'package:flutter/material.dart';
 
 class VotoModel {

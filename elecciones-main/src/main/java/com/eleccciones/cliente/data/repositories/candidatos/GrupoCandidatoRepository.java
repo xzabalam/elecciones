@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GrupoCandidatoRepository extends JpaRepository<GrupoCandidato, Integer> {
+
 }

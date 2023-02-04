@@ -1,5 +1,6 @@
 import 'package:elecciones_app_movil/data/model/candidato/dignidad.dart';
 import 'package:elecciones_app_movil/data/model/candidato/tipo_ubicacion.dart';
+import 'package:elecciones_app_movil/data/model/ubicacion/circunscripcion.dart';
 import 'package:equatable/equatable.dart';
 
 class DignidadUbicacion extends Equatable {
@@ -10,6 +11,7 @@ class DignidadUbicacion extends Equatable {
     required this.tablaUbicacion,
     required this.idTablaUbicacion,
     required this.cargo,
+    required this.circunscripcion,
     required this.siglaCircunscripcion,
   });
 
@@ -19,6 +21,7 @@ class DignidadUbicacion extends Equatable {
   String tablaUbicacion;
   int idTablaUbicacion;
   String cargo;
+  Circunscripcion circunscripcion;
   String siglaCircunscripcion;
 
   DignidadUbicacion copyWith({
@@ -28,6 +31,7 @@ class DignidadUbicacion extends Equatable {
     String? tablaUbicacion,
     int? idTablaUbicacion,
     String? cargo,
+    Circunscripcion? circunscripcion,
     String? siglaCircunscripcion,
   }) =>
       DignidadUbicacion(
@@ -37,6 +41,7 @@ class DignidadUbicacion extends Equatable {
         tablaUbicacion: tablaUbicacion ?? this.tablaUbicacion,
         idTablaUbicacion: idTablaUbicacion ?? this.idTablaUbicacion,
         cargo: cargo ?? this.cargo,
+        circunscripcion: circunscripcion ?? this.circunscripcion,
         siglaCircunscripcion: siglaCircunscripcion ?? this.siglaCircunscripcion,
       );
 
@@ -47,6 +52,7 @@ class DignidadUbicacion extends Equatable {
         tablaUbicacion: json["tablaUbicacion"],
         idTablaUbicacion: json["idTablaUbicacion"],
         cargo: json["cargo"],
+        circunscripcion: Circunscripcion.fromJson(json["circunscripcion"]),
         siglaCircunscripcion: json["siglaCircunscripcion"],
       );
 
@@ -57,6 +63,7 @@ class DignidadUbicacion extends Equatable {
         "tablaUbicacion": tablaUbicacion,
         "idTablaUbicacion": idTablaUbicacion,
         "cargo": cargo,
+        "circunscripcion": circunscripcion.toJson(),
         "siglaCircunscripcion": siglaCircunscripcion,
       };
 
@@ -65,6 +72,6 @@ class DignidadUbicacion extends Equatable {
 
   @override
   String toString() {
-    return 'DignidadUbicacion{id: $id, dignidad: $dignidad, tipoUbicacion: $tipoUbicacion, tablaUbicacion: $tablaUbicacion, idTablaUbicacion: $idTablaUbicacion, cargo: $cargo, siglaCircunscripcion: $siglaCircunscripcion}';
+    return 'DignidadUbicacion{id: $id, dignidad: $dignidad, tipoUbicacion: $tipoUbicacion, tablaUbicacion: $tablaUbicacion, idTablaUbicacion: $idTablaUbicacion, cargo: $cargo, circunscripcion: $circunscripcion, siglaCircunscripcion: $siglaCircunscripcion}';
   }
 }

@@ -1,16 +1,15 @@
 import 'package:adaptive_button/adaptive_button.dart';
 import 'package:elecciones_app_movil/data/model/candidato/candidato.dart';
 import 'package:elecciones_app_movil/data/model/candidato/voto.dart';
-import 'package:elecciones_app_movil/domain/providers/candidatos/acta_dignidad_provider.dart';
+import 'package:elecciones_app_movil/domain/model/voto/voto_seleccionado_model.dart';
+import 'package:elecciones_app_movil/domain/notifiers/candidatos/acta_dignidad_notifier.dart';
+import 'package:elecciones_app_movil/domain/notifiers/candidatos/voto_notifier.dart';
 import 'package:elecciones_app_movil/domain/providers/candidatos/voto_provider.dart';
-import 'package:elecciones_app_movil/domain/providers/model/voto/voto_seleccionado_model.dart';
-import 'package:elecciones_app_movil/domain/providers/ubicacion/ubicacion_provider.dart';
 import 'package:elecciones_app_movil/ui/screens/registro_votos/widgets/candidatos/widgets/escribir_texto_widget.dart';
+import 'package:elecciones_app_movil/ui/widgets/commons/circular_progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../../widgets/commons/circular_progress_indicator_widget.dart';
 
 class CandidatoWidget extends ConsumerWidget {
   const CandidatoWidget({
@@ -22,15 +21,15 @@ class CandidatoWidget extends ConsumerWidget {
     final ScrollController _scrollController = ScrollController();
 
     final dignidadNotifier = ref.watch(actaDignidadProvider);
-    final ubicacionNotifier = ref.watch(ubicacionProvider);
     final votoNotifier = ref.watch(votoProvider);
 
     List<Voto> votos = votoNotifier.votosFiltradosPorDignidad!;
-    List<TextEditingController> textEditingController = ref.read(votoProvider).textEditingController!;
 
     return Column(children: [
-      Text(dignidadNotifier.dignidadUbicacionSeleccionada!.dignidad!.nombre,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+      Center(
+        child: Text(dignidadNotifier.dignidadUbicacionSeleccionada!.dignidad!.nombre,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+      ),
       const SizedBox(height: 28),
       ListView.builder(
           controller: _scrollController,

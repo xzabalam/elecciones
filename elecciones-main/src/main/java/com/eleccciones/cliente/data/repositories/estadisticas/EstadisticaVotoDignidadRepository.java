@@ -143,4 +143,23 @@ public interface EstadisticaVotoDignidadRepository extends JpaRepository<Estadis
     List<EstadisticaDTO> getVocalesJuntasParroquialesPorProvinciaYCantonYParroquia(@Param("idProvincia") Integer idProvincia,
                                                                                    @Param("idCanton") Integer idCanton,
                                                                                    @Param("idParroquia") Integer idParroquia);
+
+    // Consulta de CONCEJALES URBANOS POR CIRCUNSCRIPCION y filtrado por provincia, canton, dignidad y circunscricpion
+    @Query("select" +
+            "   new  com.eleccciones.cliente.data.entities.estadisticas.dto.EstadisticaDTO(" +
+            "       e.idMovimiento, e.movimiento, e.numeroMovimiento, e.colorMovimiento, e.nombreCandidato, sum(e" +
+            ".cantidadVoto)" +
+            "   ) " +
+            "from EstadisticaVotoDignidad e " +
+            "where " +
+            "       e.idProvincia = :idProvincia " +
+            "   and e.idCanton = :idCanton " +
+            "   and e.idDignidad = :idDignidad " +
+            "   and e.idCircunscripcion = :idCircunscripcion " +
+            "   and e.estado != 'D' " +
+            "group by e.idMovimiento, e.movimiento, e.colorMovimiento, e.nombreCandidato, e.numeroMovimiento")
+    List<EstadisticaDTO> getConcejalesUrbanosPorProvinciaCantonDignidadCircunscripcion(@Param("idProvincia") Integer idProvincia,
+                                                                                       @Param("idCanton") Integer idCanton,
+                                                                                       @Param("idDignidad") Integer idDignidad,
+                                                                                       @Param("idCircunscripcion") Integer idCircunscripcion);
 }

@@ -10,14 +10,12 @@ public final class RestPreconditions {
     /**
      * Check if some value exist, otherwise throw exception.
      *
-     * @param resource
-     *            has value not null to be returned, otherwise throw exception
-     * @throws MyResourceNotFoundException
-     *             if resource is null, means value not found.
+     * @param resource has value not null to be returned, otherwise throw exception
+     * @throws MyResourceNotFoundException if resource is null, means value not found.
      */
     public static <T> T checkNull(final T resource) {
         if (resource == null) {
-            throw new MyResourceNotFoundException("El parametro de entrada no puede ser nulo.");
+            throw new MyResourceNotFoundException("El parámetro de entrada no puede ser nulo.");
         }
 
         return resource;

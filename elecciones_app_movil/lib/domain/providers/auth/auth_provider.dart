@@ -1,20 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:elecciones_app_movil/data/model/auth/usuario.dart';
+import 'package:elecciones_app_movil/domain/model/auth/usuario_to.dart';
 import 'package:elecciones_app_movil/env/env.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-class UsuarioTo {
-  String username;
-  String password;
-  String basicAuth;
-
-  UsuarioTo({required this.username, required this.password, required this.basicAuth});
-
-  @override
-  String toString() {
-    return 'UsuarioTo{username: $username, password: $password, basicAuth: $basicAuth}';
-  }
-}
 
 final loginProvider = FutureProvider.autoDispose.family<Usuario, UsuarioTo>((ref, usuarioTo) async {
   try {
@@ -27,7 +15,6 @@ final loginProvider = FutureProvider.autoDispose.family<Usuario, UsuarioTo>((ref
       throw Exception("Usuario no autorizado.");
     }
   } on DioError catch (e) {
-    print(e);
     if (e.response?.statusCode == 401) {
       throw Exception("Usuario no autorizado.");
     } else if (e.type == DioErrorType.connectTimeout ||

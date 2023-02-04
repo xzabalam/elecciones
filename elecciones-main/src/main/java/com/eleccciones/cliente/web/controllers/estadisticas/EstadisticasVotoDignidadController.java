@@ -137,4 +137,21 @@ public class EstadisticasVotoDignidadController {
         List<EstadisticaDTO> resultado = estadisticaVotoDignidadService.getVocalesJuntasParroquialesPorProvinciaYCantonYParroquia(idProvincia, idCanton, idParroquia);
         return new ResponseEntity<>(resultado, HttpStatus.OK);
     }
+
+    @GetMapping("/concejales/urbanos/provincia/{idProvincia}/canton/{idCanton}/dignidad/{idDignidad}/circunscripcion/{idCircunscripcion}")
+    @Operation(summary = "Obtener vocales de juntas parroquiales por provincia, canton y parroquia")
+    public ResponseEntity<List<EstadisticaDTO>> getConcejalesUrbanosPorProvinciaCantonDignidadCircunscripcion(
+            @Valid @NotNull @Positive @PathVariable("idProvincia") Integer idProvincia,
+            @Valid @NotNull @Positive @PathVariable("idCanton") Integer idCanton,
+            @Valid @NotNull @Positive @PathVariable("idDignidad") Integer idDignidad,
+            @Valid @NotNull @Positive @PathVariable("idCircunscripcion") Integer idCircunscripcion) {
+        ParametroEstadisticaUtil.validarProvincia(idProvincia);
+        ParametroEstadisticaUtil.validarCanton(idCanton);
+        ParametroEstadisticaUtil.validarDignidad(idDignidad);
+        ParametroEstadisticaUtil.validarCircunscripcion(idCircunscripcion);
+        List<EstadisticaDTO> resultado =
+                estadisticaVotoDignidadService.getConcejalesUrbanosPorProvinciaCantonDignidadCircunscripcion(idProvincia,
+                        idCanton, idDignidad, idCircunscripcion);
+        return new ResponseEntity<>(resultado, HttpStatus.OK);
+    }
 }

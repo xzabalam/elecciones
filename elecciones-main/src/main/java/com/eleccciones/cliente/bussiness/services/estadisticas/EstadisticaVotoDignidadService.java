@@ -3,6 +3,7 @@ package com.eleccciones.cliente.bussiness.services.estadisticas;
 import com.eleccciones.cliente.bussiness.services.estadisticas.util.ParametroEstadisticaUtil;
 import com.eleccciones.cliente.data.entities.estadisticas.dto.EstadisticaDTO;
 import com.eleccciones.cliente.data.repositories.estadisticas.EstadisticaVotoDignidadRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -90,6 +91,19 @@ public class EstadisticaVotoDignidadService {
         ParametroEstadisticaUtil.validarCanton(idCanton);
         ParametroEstadisticaUtil.validarParroquia(idParroquia);
         return estadisticaVotoDignidadRepository.getVocalesJuntasParroquialesPorProvinciaYCantonYParroquia(idProvincia, idCanton, idParroquia);
+    }
+
+    @Secured(value = {"ROLE_ADMINISTRADOR", "ROLE_ESTADISTICAS"})
+    public List<EstadisticaDTO> getConcejalesUrbanosPorProvinciaCantonDignidadCircunscripcion(
+            @Param("idProvincia") Integer idProvincia,
+            @Param("idCanton") Integer idCanton,
+            @Param("idDignidad") Integer idDignidad,
+            @Param("idCircunscripcion") Integer idCircunscripcion) {
+        ParametroEstadisticaUtil.validarProvincia(idProvincia);
+        ParametroEstadisticaUtil.validarCanton(idCanton);
+        ParametroEstadisticaUtil.validarDignidad(idDignidad);
+        ParametroEstadisticaUtil.validarCircunscripcion(idCircunscripcion);
+        return estadisticaVotoDignidadRepository.getConcejalesUrbanosPorProvinciaCantonDignidadCircunscripcion(idProvincia, idCanton, idDignidad, idCircunscripcion);
     }
 
 

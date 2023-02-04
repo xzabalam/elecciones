@@ -2,12 +2,14 @@ package com.eleccciones.cliente.bussiness.services.ubicacion;
 
 import com.eleccciones.cliente.common.exception.UbicacionException;
 import com.eleccciones.cliente.data.entities.ubicacion.Circunscripcion;
+import com.eleccciones.cliente.data.repositories.candidatos.dto.CircunscripcionDto;
 import com.eleccciones.cliente.data.repositories.ubicacion.CircunscripcionRepository;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,8 +27,8 @@ public class CircunscripcionService {
     public Circunscripcion findById(Integer idCircunscripcion) {
         Optional<Circunscripcion> circunscripcion = circunscripcionRepository.findById(idCircunscripcion);
 
-        if(circunscripcion.isEmpty()) {
-            throw  new UbicacionException("No existe la circunscripción con el id " +idCircunscripcion);
+        if (circunscripcion.isEmpty()) {
+            throw new UbicacionException("No existe la circunscripción con el id " + idCircunscripcion);
         }
 
         return circunscripcion.get();
@@ -37,10 +39,16 @@ public class CircunscripcionService {
     public Circunscripcion findBySigla(String sigla) {
         Optional<Circunscripcion> circunscripcion = circunscripcionRepository.findBySigla(sigla);
 
-        if(circunscripcion.isEmpty()) {
-            throw  new UbicacionException("No existe la circunscripción con la sigla " + sigla);
+        if (circunscripcion.isEmpty()) {
+            throw new UbicacionException("No existe la circunscripción con la sigla " + sigla);
         }
 
         return circunscripcion.get();
+    }
+
+    @Secured({"ROLE_ADMINISTRACION", "ROLE_USUARIO", "ROLE_ESTADISTICAS"})
+    public List<CircunscripcionDto> getCircunscripcionesPorContratoYDignidad(Integer idContrato,
+                                                                             Integer idDignidad) {
+        return circunscripcionRepository.getCircunscripcionesPorContratoYDignidad(idContrato, idDignidad);
     }
 }

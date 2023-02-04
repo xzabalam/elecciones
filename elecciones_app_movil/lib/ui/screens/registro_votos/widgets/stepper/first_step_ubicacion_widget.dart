@@ -1,4 +1,4 @@
-import 'package:elecciones_app_movil/domain/providers/ubicacion/ubicacion_provider.dart';
+import 'package:elecciones_app_movil/domain/notifiers/ubicacion/ubicacion_notifier.dart';
 import 'package:elecciones_app_movil/ui/screens/registro_votos/widgets/dropdown_buttons/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

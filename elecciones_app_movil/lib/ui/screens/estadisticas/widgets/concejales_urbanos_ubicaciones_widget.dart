@@ -1,8 +1,9 @@
 import 'package:adaptive_button/adaptive_button.dart';
 import 'package:backdrop/backdrop.dart';
 import 'package:elecciones_app_movil/data/model/ubicacion/index.dart';
-import 'package:elecciones_app_movil/domain/providers/estadisticas/dto/parametros_consulta_dto.dart';
-import 'package:elecciones_app_movil/domain/providers/estadisticas/dto/voto_movimiento_dto.dart';
+import 'package:elecciones_app_movil/domain/model/estadisticas/parametros_consulta_dto.dart';
+import 'package:elecciones_app_movil/domain/model/estadisticas/voto_movimiento_dto.dart';
+import 'package:elecciones_app_movil/domain/notifiers/estadisticas/estadisticas_notifier.dart';
 import 'package:elecciones_app_movil/domain/providers/estadisticas/estadisticas_provider.dart';
 import 'package:elecciones_app_movil/ui/screens/estadisticas/widgets/ubicacion/canton_widget.dart';
 import 'package:elecciones_app_movil/ui/screens/estadisticas/widgets/ubicacion/provincia_widget.dart';

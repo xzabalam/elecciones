@@ -23,4 +23,16 @@ public final class ParametroEstadisticaUtil {
             throw new EstadisticaException("El idParroquia es obligatorio para las estadísticas.");
         }
     }
+
+    public static void validarDignidad(Integer idDignidad) {
+        if (idDignidad == null) {
+            throw new EstadisticaException("El idDignidad es obligatorio para las estadísticas.");
+        }
+    }
+
+    public static void validarCircunscripcion(Integer idCircunscripcion) {
+        if (idCircunscripcion == null) {
+            throw new EstadisticaException("El idCircunscripcion es obligatorio para las estadísticas.");
+        }
+    }
 }

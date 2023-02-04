@@ -5,7 +5,6 @@ import com.eleccciones.cliente.data.enums.EntityStateEnum;
 import com.eleccciones.cliente.data.repositories.security.UsuarioRepository;
 import com.eleccciones.cliente.data.repositories.security.UsuarioRolRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
@@ -92,7 +91,6 @@ public class UsuarioService {
      * @return
      */
     @Secured("ROLE_ADMINISTRADOR")
-    @Cacheable(value = "USUARIOS", key = "#userId")
     public Usuario getUserById(int userId) {
         return usuarioRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                 String.format(messageSource.getMessage(
@@ -108,7 +106,6 @@ public class UsuarioService {
      * @return
      */
     @Secured({"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})
-    @Cacheable(value = "USUARIOS", key = "#username")
     public Usuario getUserByUsername(String username) {
         return usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,

@@ -27,6 +27,11 @@ public class GrupoCandidato extends AbstractNamed {
     @JoinColumn(name = "id_movimiento", referencedColumnName = "id")
     private Movimiento movimiento;
 
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "id_dignidad_ubicacion", referencedColumnName = "id")
+    private DignidadUbicacion dignidadUbicacion;
+
     @Lob
     @Type(type = "org.hibernate.type.ImageType")
     @Column(name = "foto_archivo")

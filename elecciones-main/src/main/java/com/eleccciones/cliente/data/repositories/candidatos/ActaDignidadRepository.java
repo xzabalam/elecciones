@@ -18,6 +18,8 @@ public interface ActaDignidadRepository extends JpaRepository<ActaDignidad, Inte
             "join fetch du.dignidad d " +
             "join fetch d.tipoGrupo tg " +
             "join fetch d.proceso p " +
-            "where j.id = :idJunta and ad.estado = :estado")
+            "where j.id = :idJunta and ad.estado = :estado " +
+            "   and j.estado != 'D' and du.estado != 'D' and tu.estado != 'D' " +
+            "   and d.estado != 'D' and tg.estado != 'D' and p.estado != 'D' ")
     List<ActaDignidad> findAllByJuntaAndEstado(@Param("idJunta") Integer idJunta, @Param("estado") String estado);
 }

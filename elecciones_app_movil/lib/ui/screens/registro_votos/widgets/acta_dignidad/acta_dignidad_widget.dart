@@ -1,8 +1,9 @@
 import 'package:elecciones_app_movil/data/model/candidato/dignidad_ubicacion.dart';
 import 'package:elecciones_app_movil/data/model/candidato/voto.dart';
-import 'package:elecciones_app_movil/domain/providers/candidatos/acta_dignidad_provider.dart';
+import 'package:elecciones_app_movil/domain/notifiers/candidatos/acta_dignidad_notifier.dart';
+import 'package:elecciones_app_movil/domain/notifiers/candidatos/voto_notifier.dart';
+import 'package:elecciones_app_movil/domain/notifiers/ubicacion/ubicacion_notifier.dart';
 import 'package:elecciones_app_movil/domain/providers/candidatos/voto_provider.dart';
-import 'package:elecciones_app_movil/domain/providers/ubicacion/ubicacion_provider.dart';
 import 'package:elecciones_app_movil/ui/widgets/commons/circular_progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

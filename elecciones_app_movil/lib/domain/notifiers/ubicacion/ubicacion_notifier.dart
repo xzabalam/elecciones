@@ -1,5 +1,5 @@
 import 'package:elecciones_app_movil/data/model/ubicacion/index.dart';
-import 'package:elecciones_app_movil/domain/providers/model/ubicacion/ubicacion_model.dart';
+import 'package:elecciones_app_movil/domain/model/ubicacion/ubicacion_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UbicacionNotifier extends StateNotifier<UbicacionModel> {

@@ -1,5 +1,5 @@
 import 'package:elecciones_app_movil/data/model/ubicacion/index.dart';
-import 'package:elecciones_app_movil/domain/providers/estadisticas/estadisticas_provider.dart';
+import 'package:elecciones_app_movil/domain/notifiers/estadisticas/estadisticas_notifier.dart';
 import 'package:elecciones_app_movil/domain/providers/ubicacion/provincia_provider.dart';
 import 'package:elecciones_app_movil/ui/widgets/commons/circular_progress_indicator_widget.dart';
 import 'package:flutter/material.dart';

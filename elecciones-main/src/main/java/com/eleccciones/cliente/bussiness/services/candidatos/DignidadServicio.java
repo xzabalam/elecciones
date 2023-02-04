@@ -33,4 +33,10 @@ public class DignidadServicio {
     public List<DignidadDTO> getAll() {
         return dignidadRepository.obtenerTodas();
     }
+
+    @Secured({"ROLE_ADMINISTRADOR", "ROLE_USUARIO"})
+    @Cacheable(value = "DIGNIDADES")
+    public List<DignidadDTO> obtenerPorContrato(Integer idContrato) {
+        return dignidadRepository.obtenerPorContrato(idContrato);
+    }
 }

@@ -1,5 +1,5 @@
 import 'package:elecciones_app_movil/data/model/auth/usuario.dart';
-import 'package:elecciones_app_movil/domain/providers/model/auth/auth_token_model.dart';
+import 'package:elecciones_app_movil/domain/model/auth/auth_token_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AuthTokenNotifier extends StateNotifier<AuthTokenModel> {
@@ -14,7 +14,7 @@ class AuthTokenNotifier extends StateNotifier<AuthTokenModel> {
   }
 
   void changeAuthUsuarioState(Usuario usuario) {
-    state = state.copyWith(usuario: usuario);
+    state = state.copyWith(usuario: usuario, urlApiCliente: usuario.contrato!.url!);
   }
 
   void resetState() {

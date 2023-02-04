@@ -14,7 +14,7 @@ public interface JuntaRepository extends JpaRepository<Junta, Integer> {
 
     @Query("select junta from Junta junta " +
             "join fetch junta.sexo s " +
-            "where junta.id = :idJunta")
+            "where junta.id = :idJunta and junta.estado != 'D'")
     Optional<Junta> findById(Integer idJunta);
 
     @Query("select junta from Junta junta " +

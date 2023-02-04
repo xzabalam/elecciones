@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:elecciones_app_movil/data/model/auth/usuario.dart';
-import 'package:elecciones_app_movil/domain/providers/auth/token_provider.dart';
-import 'package:elecciones_app_movil/domain/providers/estadisticas/estadisticas_provider.dart';
-import 'package:elecciones_app_movil/domain/providers/ubicacion/ubicacion_provider.dart';
+import 'package:elecciones_app_movil/domain/notifiers/auth/token_notifier.dart';
+import 'package:elecciones_app_movil/domain/notifiers/estadisticas/estadisticas_notifier.dart';
+import 'package:elecciones_app_movil/domain/notifiers/ubicacion/ubicacion_notifier.dart';
 import 'package:elecciones_app_movil/ui/screens/estadisticas/estadisticas_screen.dart';
 import 'package:elecciones_app_movil/ui/screens/registro_votos/registro_votos_screen.dart';
 import 'package:flutter/material.dart';
