@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class HttpService {
-  usuario: UsuarioDto;
+  usuario: UsuarioDto | undefined;
   urlApiClient: String;
   constructor(
     private http: HttpClient,
@@ -18,8 +18,13 @@ export class HttpService {
     public httpError: HttpErrorService
   ) {
     var jsonDatosUsuario = localStorage.getItem('datosUsuario');
-    this.usuario = UsuarioMapper.toUsuarioDto(jsonDatosUsuario ?? '');
-    this.urlApiClient = this.usuario.contrato.url;
+    console.log(jsonDatosUsuario);
+    this.usuario =
+      jsonDatosUsuario == null
+        ? undefined
+        : UsuarioMapper.toUsuarioDto(jsonDatosUsuario ?? '');
+    this.urlApiClient =
+      this.usuario == undefined ? '' : this.usuario.contrato.url;
   }
 
   get(urlServicio: string): Observable<any>;

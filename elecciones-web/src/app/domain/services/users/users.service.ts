@@ -1,19 +1,46 @@
+import { HttpErrorService } from './../http/http-error.service';
+import { environment } from './../../../../environments/environment';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { HttpService } from './../http/http.service';
 import { UsuarioMapper } from './../../../domain/model/mapper/usuario_mapper';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
-  constructor(private httpService: HttpService, private router: Router) {}
+  constructor(
+    private httpService: HttpService,
+    private router: Router,
+    private http: HttpClient,
+    public httpError: HttpErrorService
+  ) {}
 
   public login(user: any): Observable<any> {
     var token = window.btoa(`${user.username}:${user.password}`);
     localStorage.setItem('token', token);
-    return this.httpService.get('/auth', token);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Basic ${token ?? localStorage.getItem('token')}`,
+      }),
+    };
+
+    return this.http.get(environment.urlApi + '/auth', httpOptions).pipe(
+      catchError((error) => {
+        let errorMsg: string;
+        if (error.error instanceof ErrorEvent) {
+          errorMsg = `Error: ${error.error.message}`;
+        } else {
+          errorMsg = this.httpError.getServerErrorMessage(error);
+        }
+
+        return throwError(() => new Error(errorMsg));
+      })
+    );
   }
 
   public isAuthenticated(): boolean {

@@ -1,5 +1,7 @@
 import { UsuarioDto } from './../dto/usuario/usuario_dto';
 
+// Converts JSON strings to/from your types
+// and asserts the results of JSON.parse at runtime
 export class UsuarioMapper {
   public static toUsuarioDto(json: string): UsuarioDto {
     return cast(JSON.parse(json), r('UsuarioDto'));
