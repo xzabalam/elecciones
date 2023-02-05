@@ -11,4 +11,8 @@ export class DignidadService {
   obtenerDignidades(): Observable<any> {
     return this.httpService.get('/dignidad/all');
   }
+
+  obtenerDignidadesPorContrato(idContrato: number): Observable<any> {
+    return this.httpService.get(`/dignidad/contrato/${idContrato}`);
+  }
 }

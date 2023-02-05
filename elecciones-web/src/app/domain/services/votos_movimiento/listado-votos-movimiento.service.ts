@@ -53,4 +53,15 @@ export class ListadoVotosMovimientoService {
       `/estadisticas/vocales/juntas/provincia/${idProvincia}/canton/${idCanton}/parroquia/${idParroquia}`
     );
   }
+
+  numeroVotosParaConcejalesUrbanosPorProvinciaCantonDignidadCircunscripcion(
+    idProvincia: number,
+    idCanton: number,
+    idDignidad: number,
+    idCircunscripcion: number
+  ): Observable<Array<VotosMovimientoDto>> {
+    return this.httpService.get(
+      `/estadisticas/concejales/urbanos/provincia/${idProvincia}/canton/${idCanton}/dignidad/${idDignidad}/circunscripcion/${idCircunscripcion}`
+    );
+  }
 }

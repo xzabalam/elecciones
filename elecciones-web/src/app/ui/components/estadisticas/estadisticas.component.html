@@ -79,6 +79,7 @@
           (seSeleccionoAlcaldes ||
             seSeleccionoConcejalesUrbanos ||
             seSeleccionoConcejalesRurales ||
+            seSeleccionoConcejalesUrbanoCircunscripcion ||
             seSeleccionoVocalesJuntasParroquiales)
         "
       >
@@ -114,6 +115,29 @@
               [value]="parroquia"
             >
               {{ parroquia.nombre }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- {Circunscripcion} -->
+      <div
+        *ngIf="
+          seSeleccionoConcejalesUrbanoCircunscripcion &&
+          circunscripciones.length > 0
+        "
+      >
+        <mat-form-field class="inputs" appearance="fill">
+          <mat-label>Circunscricpiones</mat-label>
+          <mat-select
+            [(ngModel)]="circunscripcionSeleccionada"
+            (selectionChange)="onChangeSelectCircunscripcion()"
+          >
+            <mat-option
+              *ngFor="let circunscripcion of circunscripciones"
+              [value]="circunscripcion"
+            >
+              {{ circunscripcion.nombre }}
             </mat-option>
           </mat-select>
         </mat-form-field>

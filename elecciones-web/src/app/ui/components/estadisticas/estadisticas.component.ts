@@ -1,3 +1,4 @@
+import { CircunscripcionService } from './../../../domain/services/ubicaciones/circunscripcion/circunscripcion.service';
 import { CircunscripcionDto } from './../../../domain/model/dto/ubicacion/circunscripcion_dto';
 import { VotosMovimientoDto } from './../../../domain/model/dto/estaditicas/votos_movimiento_dto';
 import { ListadoVotosMovimientoService } from './../../../domain/services/votos_movimiento/listado-votos-movimiento.service';
@@ -14,6 +15,7 @@ import { Component } from '@angular/core';
 import { DignidadesDto } from 'src/app/domain/model/dto/dignidad/dignidad_dto';
 import { MatSelectionListChange } from '@angular/material/list';
 import Chart from 'chart.js/auto';
+import { ChartType } from 'angular-google-charts/lib/types/chart-type';
 
 @Component({
   selector: 'app-estadisticas',
@@ -45,8 +47,10 @@ export class EstadisticasComponent {
   seSeleccionoAlcaldes: boolean = false;
   seSeleccionoConcejalesUrbanos: boolean = false;
   seSeleccionoConcejalesRurales: boolean = false;
+  seSeleccionoConcejalesUrbanoCircunscripcion: boolean = false;
   seSeleccionoVocalesJuntasParroquiales: boolean = false;
   seSeleccionoTodosLosFiltros: boolean = false;
+
   seSeleccionoProvincia: boolean = false;
   seSeleccionoCanton: boolean = false;
   seSeleccionoParroquia: boolean = false;
@@ -58,21 +62,24 @@ export class EstadisticasComponent {
     private provinciaService: ProvinciaService,
     private cantonService: CantonService,
     private parroquiaService: ParroquiaService,
+    private circunscripcionService: CircunscripcionService,
     private listadoVotosMovimientoService: ListadoVotosMovimientoService
   ) {
     this.datosUsuarioDto = userService.getDatosUsuario();
 
-    this.dignidadService.obtenerDignidades().subscribe({
-      next: (data) => {
-        this.dignidadesDto = data;
-        this.dignidadesDto = this.dignidadesDto.filter(
-          (dignidad) => dignidad.id != 1
-        );
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+    this.dignidadService
+      .obtenerDignidadesPorContrato(this.datosUsuarioDto.contrato.id)
+      .subscribe({
+        next: (data) => {
+          this.dignidadesDto = data;
+          this.dignidadesDto = this.dignidadesDto.filter(
+            (dignidad) => dignidad.id != 1
+          );
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 
   logout() {
@@ -119,10 +126,12 @@ export class EstadisticasComponent {
     this.provinciaSeleccionada = undefined;
     this.cantonSeleccionado = undefined;
     this.parroquiaSeleccionada = undefined;
+    this.circunscripcionSeleccionada = undefined;
 
     this.seSeleccionoProvincia = false;
     this.seSeleccionoCanton = false;
     this.seSeleccionoParroquia = false;
+    this.seSeleccionoCircunscripcion = false;
 
     if (this.chart) {
       this.chart.destroy();
@@ -136,6 +145,7 @@ export class EstadisticasComponent {
     this.seSeleccionoProvincia = true;
     this.seSeleccionoCanton = false;
     this.seSeleccionoParroquia = false;
+    this.seSeleccionoCircunscripcion = false;
     this.cantidadTotalElectores = 0;
     this.seSeleccionoTodosLosFiltros = false;
 
@@ -172,6 +182,11 @@ export class EstadisticasComponent {
         this.provinciaSeleccionada!.id,
         this.cantonSeleccionado!.id
       );
+    } else if (this.seSeleccionoConcejalesUrbanoCircunscripcion) {
+      this.obtenerCircunscripciones(
+        this.datosUsuarioDto.contrato.id,
+        this.posicionDignidadSeleccionada
+      );
     } else {
       this.obtenerParroquias(this.cantonSeleccionado!.id);
     }
@@ -189,6 +204,35 @@ export class EstadisticasComponent {
       this.cantonSeleccionado!.id,
       this.parroquiaSeleccionada!.id
     );
+  }
+
+  onChangeSelectCircunscripcion() {
+    this.seSeleccionoCircunscripcion = true;
+    this.cantidadTotalElectores = 0;
+    this.seSeleccionoTodosLosFiltros = true;
+
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    this.respuestaSumatoriaVotosPorMovimiento = [];
+
+    this.listadoVotosMovimientoService
+      .numeroVotosParaConcejalesUrbanosPorProvinciaCantonDignidadCircunscripcion(
+        this.provinciaSeleccionada!.id,
+        this.cantonSeleccionado!.id,
+        this.dignidadSeleccionada!.id,
+        this.circunscripcionSeleccionada!.id
+      )
+      .subscribe({
+        next: (data) => {
+          this.respuestaSumatoriaVotosPorMovimiento = data;
+          this.createChart(this.respuestaSumatoriaVotosPorMovimiento);
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 
   onClickActualizarGrafico() {
@@ -359,14 +403,16 @@ export class EstadisticasComponent {
           x: {
             display: true,
             beginAtZero: true,
-
+            stacked: true,
             ticks: {
-              display: false,
+              display: true,
+              showLabelBackdrop: true,
             },
           },
           y: {
             display: true,
             beginAtZero: true,
+            stacked: true,
           },
         },
 
@@ -389,7 +435,11 @@ export class EstadisticasComponent {
         },
       },
     });
+
     this.chart.update();
+    // Get the chart's base64 image string
+    //var image = this.chart.toBase64Image();
+    //console.log(image);
   }
 
   private obtenerProvincia(idPais: number) {
@@ -432,6 +482,19 @@ export class EstadisticasComponent {
     });
   }
 
+  private obtenerCircunscripciones(idContrato: number, idDignidad: number) {
+    this.circunscripcionService
+      .obtenerPorContratoDignidad(idContrato, idDignidad)
+      .subscribe({
+        next: (data) => {
+          this.circunscripciones = data;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+  }
+
   private prefectoSeleccionado() {
     this.cambiarSeleccionDignidad(true, false, false, false, false, false);
   }
@@ -457,7 +520,7 @@ export class EstadisticasComponent {
     seSeleccionoConcejalesUrbanos: boolean,
     seSeleccionoConcejalesRurales: boolean,
     seSeleccionoVocalesJuntasParroquiales: boolean,
-    seSeleccionoCircunscripcion: boolean
+    seSeleccionoConcejalesUrbanoCircunscripcion: boolean
   ) {
     this.seSeleccionoPrefectos = seSeleccionoPrefectos;
     this.seSeleccionoAlcaldes = seSeleccionoAlcaldes;
@@ -465,6 +528,7 @@ export class EstadisticasComponent {
     this.seSeleccionoConcejalesRurales = seSeleccionoConcejalesRurales;
     this.seSeleccionoVocalesJuntasParroquiales =
       seSeleccionoVocalesJuntasParroquiales;
-    this.seSeleccionoCircunscripcion = seSeleccionoCircunscripcion;
+    this.seSeleccionoConcejalesUrbanoCircunscripcion =
+      seSeleccionoConcejalesUrbanoCircunscripcion;
   }
 }
