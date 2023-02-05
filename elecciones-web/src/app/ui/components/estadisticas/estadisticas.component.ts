@@ -15,7 +15,6 @@ import { Component } from '@angular/core';
 import { DignidadesDto } from 'src/app/domain/model/dto/dignidad/dignidad_dto';
 import { MatSelectionListChange } from '@angular/material/list';
 import Chart from 'chart.js/auto';
-import { ChartType } from 'angular-google-charts/lib/types/chart-type';
 
 @Component({
   selector: 'app-estadisticas',
